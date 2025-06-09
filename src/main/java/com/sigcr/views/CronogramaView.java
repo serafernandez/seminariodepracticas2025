@@ -42,6 +42,7 @@ public class CronogramaView {
     
     // Panel de plan de tratamiento
     private Label lblPlanActual;
+    private TextArea textAreaPlan;
     private VBox panelPlan;
     
     // Panel de nueva sesión
@@ -138,16 +139,23 @@ public class CronogramaView {
      * Crea el panel que muestra el plan de tratamiento actual
      */
     private VBox crearPanelPlan() {
-        VBox panel = new VBox(10);
-        panel.setStyle("-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
+        VBox panel = new VBox(15);
+        panel.setStyle("-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #bdc3c7; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);");
 
-        Label lblTitulo = new Label("Plan de Tratamiento Activo");
-        lblTitulo.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        Label lblTitulo = new Label("📋 Plan de Tratamiento Activo");
+        lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        lblPlanActual = new Label("Seleccione un paciente para ver su plan");
-        lblPlanActual.setStyle("-fx-text-fill: #7f8c8d; -fx-font-style: italic;");
-
-        panel.getChildren().addAll(lblTitulo, lblPlanActual);
+        // Usar TextArea para mejor visualización
+        textAreaPlan = new TextArea("Seleccione un paciente para ver su plan");
+        textAreaPlan.setEditable(false);
+        textAreaPlan.setPrefRowCount(8);
+        textAreaPlan.setWrapText(true);
+        textAreaPlan.setStyle("-fx-font-size: 13px; -fx-font-family: 'Courier New'; -fx-text-fill: #2c3e50; -fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5px;");
+        
+        lblPlanActual = new Label(); // Mantenemos para compatibilidad
+        lblPlanActual.setVisible(false);
+        
+        panel.getChildren().addAll(lblTitulo, textAreaPlan, lblPlanActual);
         panel.setVisible(false);
 
         return panel;
@@ -297,26 +305,31 @@ public class CronogramaView {
      * Crea el panel de resumen y alertas
      */
     private VBox crearPanelResumen() {
-        VBox panel = new VBox(10);
-        panel.setStyle("-fx-background-color: #ffffff; -fx-padding: 15; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
+        VBox panel = new VBox(15);
+        panel.setStyle("-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #bdc3c7; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);");
 
-        Label lblTitulo = new Label("Resumen y Validación");
-        lblTitulo.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        Label lblTitulo = new Label("📊 Resumen y Validación del Cronograma");
+        lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
+        // Área de alertas más grande y con mejor estilo
         areaAlertas = new TextArea();
-        areaAlertas.setPrefRowCount(4);
+        areaAlertas.setPrefRowCount(10);
         areaAlertas.setEditable(false);
-        areaAlertas.setPromptText("Las alertas de validación aparecerán aquí...");
+        areaAlertas.setWrapText(true);
+        areaAlertas.setPromptText("🔍 Las validaciones del cronograma aparecerán aquí...\n\nPresione 'Validar' para analizar el cronograma actual.");
+        areaAlertas.setStyle("-fx-font-size: 13px; -fx-font-family: 'Courier New'; -fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5px;");
 
-        Button btnValidar = new Button("Validar Cronograma");
-        btnValidar.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white;");
+        // Botones mejorados
+        Button btnValidar = new Button("🔍 Validar Cronograma");
+        btnValidar.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8px;");
         btnValidar.setOnAction(e -> validarCronograma());
 
-        Button btnGuardar = new Button("Guardar Cronograma");
-        btnGuardar.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;");
+        Button btnGuardar = new Button("💾 Guardar Cronograma");
+        btnGuardar.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8px;");
         btnGuardar.setOnAction(e -> guardarCronograma());
 
-        HBox panelBotones = new HBox(10, btnValidar, btnGuardar);
+        HBox panelBotones = new HBox(15, btnValidar, btnGuardar);
+        panelBotones.setAlignment(javafx.geometry.Pos.CENTER);
 
         panel.getChildren().addAll(lblTitulo, areaAlertas, panelBotones);
         return panel;
@@ -383,18 +396,27 @@ public class CronogramaView {
     private void mostrarPlanActual() {
         if (planActual != null) {
             StringBuilder texto = new StringBuilder();
-            texto.append(String.format("Paciente: %s\n", planActual.getNombrePaciente()));
-            texto.append(String.format("Período: %s al %s\n", 
+            texto.append("=== PLAN DE TRATAMIENTO ===\n\n");
+            texto.append(String.format("📋 Paciente: %s\n", planActual.getNombrePaciente()));
+            texto.append(String.format("📅 Período: %s al %s\n", 
                 planActual.getFechaInicio(), planActual.getFechaFin()));
-            texto.append(String.format("Total horas semanales: %d\n\n", planActual.getTotalHorasSemanales()));
-            texto.append("Horas por tipo de terapia:\n");
+            texto.append(String.format("⏱️ Total horas semanales: %d horas\n\n", planActual.getTotalHorasSemanales()));
+            
+            texto.append("=== DISTRIBUCIÓN POR TIPO DE TERAPIA ===\n");
+            texto.append("----------------------------------------\n");
             
             for (Map.Entry<String, Integer> entry : planActual.getHorasSemanalesPorTipo().entrySet()) {
-                texto.append(String.format("• %s: %d horas\n", entry.getKey(), entry.getValue()));
+                texto.append(String.format("🔸 %-20s: %2d horas semanales\n", 
+                    entry.getKey(), entry.getValue()));
             }
+            
+            texto.append("\n=== OBJETIVOS DEL TRATAMIENTO ===\n");
+            texto.append("• Cumplir con todas las horas asignadas por tipo\n");
+            texto.append("• Distribuir las sesiones a lo largo de la semana\n");
+            texto.append("• Respetar disponibilidad de terapeutas\n");
+            texto.append("• Evitar sobrecarga en un solo día\n");
 
-            lblPlanActual.setText(texto.toString());
-            lblPlanActual.setStyle("-fx-text-fill: #2c3e50;");
+            textAreaPlan.setText(texto.toString());
         }
     }
 

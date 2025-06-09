@@ -127,7 +127,7 @@
             'Alta'
         );
 
-    -- Sesiones de ejemplo
+    -- Sesiones de ejemplo con fechas dinámicas
     INSERT INTO
         sesion (
             paciente_id,
@@ -143,7 +143,7 @@
             1,
             'luz.terapeuta',
             'Fisioterapia',
-            '2025-06-10 10:00:00',
+            CONCAT(CURDATE(), ' 09:00:00'),
             60,
             'Ejercicios de fortalecimiento miembro superior derecho',
             'Programada'
@@ -152,7 +152,7 @@
             1,
             'luz.terapeuta',
             'Terapia Ocupacional',
-            '2025-06-11 11:00:00',
+            CONCAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), ' 11:00:00'),
             45,
             'Actividades de vida diaria, coordinación motora fina',
             'Programada'
@@ -161,19 +161,55 @@
             2,
             'luz.terapeuta',
             'Psicología',
-            '2025-06-10 14:00:00',
+            CONCAT(CURDATE(), ' 14:00:00'),
             30,
             'Sesión de adaptación psicológica',
-            'Realizada'
+            'Programada'
         ),
         (
             3,
             'luz.terapeuta',
             'Fisioterapia',
-            '2025-06-12 09:00:00',
+            CONCAT(DATE_ADD(CURDATE(), INTERVAL 2 DAY), ' 09:00:00'),
             60,
             'Fortalecimiento de miembros inferiores',
             'Programada'
+        ),
+        (
+            2,
+            'pablo.enfermero',
+            'Enfermería',
+            CONCAT(CURDATE(), ' 16:00:00'),
+            30,
+            'Control de signos vitales y medicación',
+            'Programada'
+        ),
+        (
+            3,
+            'pablo.enfermero',
+            'Enfermería',
+            CONCAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), ' 15:30:00'),
+            30,
+            'Curaciones y cuidados generales',
+            'Programada'
+        ),
+        (
+            1,
+            'luz.terapeuta',
+            'Hidroterapia',
+            CONCAT(DATE_ADD(CURDATE(), INTERVAL 3 DAY), ' 10:00:00'),
+            45,
+            'Ejercicios en piscina terapéutica',
+            'Programada'
+        ),
+        (
+            2,
+            'luz.terapeuta',
+            'Terapia Ocupacional',
+            CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), ' 10:00:00'),
+            45,
+            'Sesión completada exitosamente',
+            'Realizada'
         );
 
     -- Planes de tratamiento de ejemplo (para CU-02)

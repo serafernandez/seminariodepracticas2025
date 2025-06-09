@@ -3,6 +3,7 @@ package com.sigcr.views;
 import com.sigcr.controllers.PacienteController;
 import com.sigcr.models.Paciente;
 import com.sigcr.models.User;
+import com.sigcr.components.ToastNotification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -24,7 +25,8 @@ public class PacienteView {
     
     private PacienteController pacienteController;
     private User usuarioActual;
-    private VBox mainLayout;
+    private StackPane mainLayout;
+    private VBox contentLayout;
     private TableView<Paciente> tablaPacientes;
     private ObservableList<Paciente> listaPacientes;
     
@@ -54,29 +56,37 @@ public class PacienteView {
     }
 
     /**
-     * Inicializa todos los componentes de la vista
+     * Inicializa todos los componentes de la vista con UX mejorada
      */
     private void inicializarVista() {
-        mainLayout = new VBox(10);
-        mainLayout.setPadding(new Insets(20));
+        // Layout principal para notificaciones toast
+        mainLayout = new StackPane();
+        
+        // Layout de contenido
+        contentLayout = new VBox(15);
+        contentLayout.setPadding(new Insets(20));
 
-        // Título
+        // Título mejorado
         Label titulo = new Label("Gestión de Pacientes");
-        titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        titulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        // Panel de búsqueda
+        // Panel de búsqueda mejorado
         HBox panelBusqueda = crearPanelBusqueda();
 
-        // Formulario de paciente
+        // Formulario de paciente mejorado
         VBox formulario = crearFormularioPaciente();
 
         // Tabla de pacientes
         tablaPacientes = crearTablaPacientes();
 
-        // Panel de botones
+        // Panel de botones mejorado
         HBox panelBotones = crearPanelBotones();
 
-        mainLayout.getChildren().addAll(titulo, panelBusqueda, formulario, tablaPacientes, panelBotones);
+        contentLayout.getChildren().addAll(titulo, panelBusqueda, formulario, tablaPacientes, panelBotones);
+        mainLayout.getChildren().add(contentLayout);
+        
+        // Aplicar estilo de fondo
+        mainLayout.setStyle("-fx-background-color: #ecf0f1;");
     }
 
     /**
@@ -299,19 +309,19 @@ public class PacienteView {
     }
 
     /**
-     * Guarda un nuevo paciente
+     * Guarda un nuevo paciente con feedback visual mejorado
      */
     private void guardarPaciente() {
         try {
             Paciente paciente = crearPacienteDesdeFormulario();
             
             if (pacienteController.crearPaciente(paciente)) {
-                mostrarInformacion("Éxito", "Paciente creado correctamente");
+                ToastNotification.showSuccess(mainLayout, "✅ Paciente creado correctamente");
                 limpiarFormulario();
                 cargarPacientes();
             }
         } catch (Exception e) {
-            mostrarError("Error al crear paciente", e.getMessage());
+            ToastNotification.showError(mainLayout, "❌ Error al crear paciente: " + e.getMessage());
         }
     }
 
@@ -417,7 +427,7 @@ public class PacienteView {
      * Obtiene la vista principal
      * @return Componente principal de la vista
      */
-    public VBox getView() {
+    public StackPane getView() {
         return mainLayout;
     }
 }

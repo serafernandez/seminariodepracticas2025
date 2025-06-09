@@ -2,6 +2,7 @@ package com.sigcr.views;
 
 import com.sigcr.controllers.AuthController;
 import com.sigcr.models.User;
+import com.sigcr.views.MainApplicationView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -197,76 +198,21 @@ public class LoginView {
             // Obtener conexión para las vistas
             Connection conn = new com.sigcr.repositories.UserRepository().getConnection();
             
-            switch (usuario.getRole()) {
-                case "ADMIN":
-                    mostrarPanelAdmin(conn, usuario);
-                    break;
-                case "MEDICO":
-                    mostrarPanelMedico(conn, usuario);
-                    break;
-                case "TERAPEUTA":
-                    mostrarPanelTerapeuta(conn, usuario);
-                    break;
-                case "ENFERMERIA":
-                    mostrarPanelEnfermeria(conn, usuario);
-                    break;
-                default:
-                    mostrarError("Rol no reconocido: " + usuario.getRole());
-            }
+            // Crear la vista principal unificada
+            MainApplicationView mainApp = new MainApplicationView(conn, usuario, authController, primaryStage);
+            
+            // Cambiar a la vista principal
+            primaryStage.getScene().setRoot(mainApp.getView());
+            primaryStage.setTitle("SIGCR - Sistema Integral Gestión Clínica - " + usuario.getUsername());
+            primaryStage.setResizable(true);
+            primaryStage.setMaximized(true);
+            
         } catch (Exception e) {
-            mostrarError("Error al cargar panel: " + e.getMessage());
+            mostrarError("Error al cargar aplicación principal: " + e.getMessage());
         }
     }
 
-    /**
-     * Muestra el panel de administrador con gestión de usuarios y pacientes
-     */
-    private void mostrarPanelAdmin(Connection conn, User usuario) {
-        // Los administradores tienen acceso principal a gestión de usuarios
-        GestionUsuariosView gestionView = new GestionUsuariosView(conn, authController);
-        Scene scene = new Scene(gestionView.getView(), 1200, 800);
-        
-        primaryStage.setTitle("SIGCR - Panel Administrador - " + usuario.getUsername());
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-    }
 
-    /**
-     * Muestra el panel de médico con acceso a cronogramas terapéuticos
-     */
-    private void mostrarPanelMedico(Connection conn, User usuario) {
-        // Los médicos tienen acceso principal a planificación de cronogramas
-        CronogramaView cronogramaView = new CronogramaView(conn, usuario);
-        Scene scene = new Scene(cronogramaView.getView(), 1200, 800);
-        
-        primaryStage.setTitle("SIGCR - Panel Médico Fisiatra - " + usuario.getUsername());
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-    }
-
-    /**
-     * Muestra el panel de terapeuta (solo lectura de pacientes)
-     */
-    private void mostrarPanelTerapeuta(Connection conn, User usuario) {
-        PacienteView pacienteView = new PacienteView(conn, usuario);
-        Scene scene = new Scene(pacienteView.getView(), 1000, 700);
-        
-        primaryStage.setTitle("SIGCR - Panel Terapeuta - " + usuario.getUsername());
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-    }
-
-    /**
-     * Muestra el panel de enfermería (solo lectura de pacientes)
-     */
-    private void mostrarPanelEnfermeria(Connection conn, User usuario) {
-        PacienteView pacienteView = new PacienteView(conn, usuario);
-        Scene scene = new Scene(pacienteView.getView(), 1000, 700);
-        
-        primaryStage.setTitle("SIGCR - Panel Enfermería - " + usuario.getUsername());
-        primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
-    }
 
     /**
      * Muestra un error en dialog
