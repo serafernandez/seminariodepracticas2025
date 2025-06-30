@@ -1,8 +1,6 @@
 package com.sigcr.controllers;
 
-import com.sigcr.dao.NotificacionDAO;
 import com.sigcr.dao.PacienteDAO;
-import com.sigcr.models.Notificacion;
 import com.sigcr.models.Paciente;
 import com.sigcr.models.User;
 import java.sql.Connection;
@@ -17,7 +15,7 @@ import java.util.List;
 public class PacienteController {
     
     private PacienteDAO pacienteDAO;
-    private NotificacionDAO notificacionDAO;
+    private NotificacionController notificacionController;
     private User usuarioActual;
 
     /**
@@ -27,7 +25,7 @@ public class PacienteController {
      */
     public PacienteController(Connection conn, User usuarioActual) {
         this.pacienteDAO = new PacienteDAO(conn);
-        this.notificacionDAO = new NotificacionDAO(conn);
+        this.notificacionController = new NotificacionController(conn, usuarioActual);
         this.usuarioActual = usuarioActual;
     }
 
@@ -183,10 +181,7 @@ public class PacienteController {
      */
     private void generarEventoPacienteCreado(Paciente paciente) {
         try {
-            String mensaje = String.format("Nuevo paciente registrado: %s (Doc: %s). Requiere asignacion de plan terapeutico.", 
-                                         paciente.getNombre(), paciente.getDocumento());
-            Notificacion notificacion = new Notificacion(paciente.getId(), mensaje);
-            notificacionDAO.crearNotificacion(notificacion);
+            notificacionController.notificarPacienteCreado(paciente.getId(), paciente.getNombre());
         } catch (SQLException e) {
             System.err.println("Error al generar notificacion de paciente creado: " + e.getMessage());
         }
@@ -209,10 +204,11 @@ public class PacienteController {
             }
 
             if (cambios.length() > 0) {
-                String mensaje = String.format("Paciente %s actualizado: %s", 
-                                             pacienteNuevo.getNombre(), cambios.toString());
-                Notificacion notificacion = new Notificacion(pacienteNuevo.getId(), mensaje);
-                notificacionDAO.crearNotificacion(notificacion);
+                notificacionController.notificarPacienteActualizado(
+                    pacienteNuevo.getId(), 
+                    pacienteNuevo.getNombre(), 
+                    cambios.toString()
+                );
             }
         } catch (SQLException e) {
             System.err.println("Error al generar notificacion de paciente actualizado: " + e.getMessage());
@@ -225,10 +221,7 @@ public class PacienteController {
      */
     private void generarEventoPacienteDadoDeBaja(Paciente paciente) {
         try {
-            String mensaje = String.format("Paciente %s dado de baja. Cancelar sesiones pendientes.", 
-                                         paciente.getNombre());
-            Notificacion notificacion = new Notificacion(paciente.getId(), mensaje);
-            notificacionDAO.crearNotificacion(notificacion);
+            notificacionController.notificarPacienteDadoDeBaja(paciente.getId(), paciente.getNombre());
         } catch (SQLException e) {
             System.err.println("Error al generar notificacion de paciente dado de baja: " + e.getMessage());
         }

@@ -1,9 +1,7 @@
 package com.sigcr.controllers;
 
-import com.sigcr.dao.NotificacionDAO;
 import com.sigcr.dao.PlanTratamientoDAO;
 import com.sigcr.dao.SesionDAO;
-import com.sigcr.models.Notificacion;
 import com.sigcr.models.PlanTratamiento;
 import com.sigcr.models.Sesion;
 import com.sigcr.models.User;
@@ -25,7 +23,7 @@ public class CronogramaController {
     
     private PlanTratamientoDAO planTratamientoDAO;
     private SesionDAO sesionDAO;
-    private NotificacionDAO notificacionDAO;
+    private NotificacionController notificacionController;
     private User usuarioActual;
 
     // Tipos de terapia disponibles en el sistema
@@ -48,7 +46,7 @@ public class CronogramaController {
     public CronogramaController(Connection conn, User usuarioActual) {
         this.planTratamientoDAO = new PlanTratamientoDAO(conn);
         this.sesionDAO = new SesionDAO(conn);
-        this.notificacionDAO = new NotificacionDAO(conn);
+        this.notificacionController = new NotificacionController(conn, usuarioActual);
         this.usuarioActual = usuarioActual;
     }
 
@@ -263,14 +261,11 @@ public class CronogramaController {
      */
     private void generarNotificacionPlanCreado(PlanTratamiento plan) {
         try {
-            String mensaje = String.format("Nuevo plan de tratamiento creado para %s. " +
-                                         "Total: %d horas semanales. Tipos: %s", 
-                                         plan.getNombrePaciente(),
-                                         plan.getTotalHorasSemanales(),
-                                         String.join(", ", plan.getTiposTerapia()));
-            
-            Notificacion notificacion = new Notificacion(plan.getPacienteId(), mensaje);
-            notificacionDAO.crearNotificacion(notificacion);
+            notificacionController.notificarPlanCreado(
+                plan.getPacienteId(), 
+                plan.getNombrePaciente(), 
+                plan.getTotalHorasSemanales()
+            );
         } catch (SQLException e) {
             System.err.println("Error al generar notificacion de plan creado: " + e.getMessage());
         }
@@ -281,12 +276,12 @@ public class CronogramaController {
      */
     private void generarNotificacionPlanActualizado(PlanTratamiento plan) {
         try {
-            String mensaje = String.format("Plan de tratamiento actualizado para %s. " +
-                                         "Revisar nuevas asignaciones de cronograma.", 
-                                         plan.getNombrePaciente());
-            
-            Notificacion notificacion = new Notificacion(plan.getPacienteId(), mensaje);
-            notificacionDAO.crearNotificacion(notificacion);
+            String cambios = "Plan de tratamiento actualizado. Revisar nuevas asignaciones de cronograma.";
+            notificacionController.notificarPacienteActualizado(
+                plan.getPacienteId(), 
+                plan.getNombrePaciente(), 
+                cambios
+            );
         } catch (SQLException e) {
             System.err.println("Error al generar notificacion de plan actualizado: " + e.getMessage());
         }
@@ -297,22 +292,17 @@ public class CronogramaController {
      */
     private void generarNotificacionesCronograma(PlanTratamiento plan, List<Sesion> sesiones, LocalDate fechaSemana) {
         try {
-            // Agrupar sesiones por terapeuta
-            Map<String, List<Sesion>> sesionesPorTerapeuta = sesiones.stream()
-                .collect(Collectors.groupingBy(Sesion::getTerapeuta));
+            // Obtener lista de terapeutas afectados
+            List<String> terapeutasAfectados = sesiones.stream()
+                .map(Sesion::getTerapeuta)
+                .distinct()
+                .collect(Collectors.toList());
             
-            for (Map.Entry<String, List<Sesion>> entry : sesionesPorTerapeuta.entrySet()) {
-                String terapeuta = entry.getKey();
-                List<Sesion> sesionesDelTerapeuta = entry.getValue();
-                
-                String mensaje = String.format("Cronograma actualizado para %s (semana del %s). " +
-                                             "Sesiones asignadas: %d. Paciente: %s",
-                                             terapeuta, fechaSemana, 
-                                             sesionesDelTerapeuta.size(), plan.getNombrePaciente());
-                
-                Notificacion notificacion = new Notificacion(plan.getPacienteId(), mensaje);
-                notificacionDAO.crearNotificacion(notificacion);
-            }
+            notificacionController.notificarCambioCronograma(
+                plan.getPacienteId(), 
+                plan.getNombrePaciente(), 
+                terapeutasAfectados
+            );
         } catch (SQLException e) {
             System.err.println("Error al generar notificaciones de cronograma: " + e.getMessage());
         }

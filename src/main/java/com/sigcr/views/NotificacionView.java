@@ -270,11 +270,33 @@ public class NotificacionView {
                 if (newItem == null) {
                     row.setStyle("");
                 } else if (!newItem.isLeida()) {
-                    row.setStyle("-fx-background-color: #fff3cd; -fx-font-weight: bold;");
+                    row.setStyle("-fx-background-color: #fff3cd; -fx-font-weight: bold; -fx-text-fill: black;");
                 } else {
-                    row.setStyle("-fx-background-color: #f8f9fa;");
+                    row.setStyle("-fx-background-color: #f8f9fa; -fx-text-fill: black;");
                 }
             });
+            
+            // Manejar el estilo cuando la fila es seleccionada
+            row.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (row.getItem() != null) {
+                    if (isSelected) {
+                        // Estilo para fila seleccionada manteniendo texto negro
+                        if (!row.getItem().isLeida()) {
+                            row.setStyle("-fx-background-color: #e6cc00; -fx-font-weight: bold; -fx-text-fill: black;");
+                        } else {
+                            row.setStyle("-fx-background-color: #d0d0d0; -fx-text-fill: black;");
+                        }
+                    } else {
+                        // Restaurar estilo normal
+                        if (!row.getItem().isLeida()) {
+                            row.setStyle("-fx-background-color: #fff3cd; -fx-font-weight: bold; -fx-text-fill: black;");
+                        } else {
+                            row.setStyle("-fx-background-color: #f8f9fa; -fx-text-fill: black;");
+                        }
+                    }
+                }
+            });
+            
             return row;
         });
 
