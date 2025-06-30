@@ -22,9 +22,9 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 /**
- * Vista completa para la planificación de cronogramas terapéuticos (CU-02).
- * Permite a los médicos fisiatras crear planes de tratamiento y asignar
- * sesiones semanales a pacientes con validación de horas requeridas.
+ * Vista completa para la planificacion de cronogramas terapeuticos (CU-02).
+ * Permite a los medicos fisiatras crear planes de tratamiento y asignar
+ * sesiones semanales a pacientes con validacion de horas requeridas.
  */
 public class CronogramaView {
     
@@ -45,7 +45,7 @@ public class CronogramaView {
     private TextArea textAreaPlan;
     private VBox panelPlan;
     
-    // Panel de nueva sesión
+    // Panel de nueva sesion
     private ComboBox<String> comboTipoTerapia;
     private ComboBox<String> comboTerapeuta;
     private ComboBox<String> comboDiaSemana;
@@ -73,11 +73,11 @@ public class CronogramaView {
         mainLayout = new VBox(15);
         mainLayout.setPadding(new Insets(20));
 
-        // Título
-        Label titulo = new Label("Planificación de Cronogramas Terapéuticos");
+        // Titulo
+        Label titulo = new Label("Planificacion de Cronogramas Terapeuticos");
         titulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        // Panel de selección
+        // Panel de seleccion
         VBox panelSeleccion = crearPanelSeleccion();
         
         // Panel del plan de tratamiento
@@ -93,13 +93,13 @@ public class CronogramaView {
     }
 
     /**
-     * Crea el panel de selección de paciente y semana
+     * Crea el panel de seleccion de paciente y semana
      */
     private VBox crearPanelSeleccion() {
         VBox panel = new VBox(10);
         panel.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;");
 
-        Label lblSeleccion = new Label("Selección de Paciente y Semana");
+        Label lblSeleccion = new Label("Seleccion de Paciente y Semana");
         lblSeleccion.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
         HBox filaSeleccion = new HBox(15);
@@ -124,7 +124,7 @@ public class CronogramaView {
         fechaSemanaPicker = new DatePicker(LocalDate.now().with(java.time.DayOfWeek.MONDAY));
         fechaSemanaPicker.setPrefWidth(150);
 
-        // Botón cargar
+        // Boton cargar
         Button btnCargar = new Button("Cargar Cronograma");
         btnCargar.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
         btnCargar.setOnAction(e -> cargarCronograma());
@@ -145,7 +145,7 @@ public class CronogramaView {
         Label lblTitulo = new Label("📋 Plan de Tratamiento Activo");
         lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        // Usar TextArea para mejor visualización
+        // Usar TextArea para mejor visualizacion
         textAreaPlan = new TextArea("Seleccione un paciente para ver su plan");
         textAreaPlan.setEditable(false);
         textAreaPlan.setPrefRowCount(8);
@@ -162,7 +162,7 @@ public class CronogramaView {
     }
 
     /**
-     * Crea el panel de gestión de sesiones
+     * Crea el panel de gestion de sesiones
      */
     private VBox crearPanelSesiones() {
         VBox panel = new VBox(15);
@@ -170,13 +170,13 @@ public class CronogramaView {
         Label lblTitulo = new Label("Sesiones de la Semana");
         lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-        // Panel para agregar nueva sesión
+        // Panel para agregar nueva sesion
         VBox panelNuevaSesion = crearPanelNuevaSesion();
 
         // Tabla de sesiones
         tablaSesiones = crearTablaSesiones();
 
-        // Botones de acción
+        // Botones de accion
         HBox panelBotones = crearPanelBotonesSesiones();
 
         panel.getChildren().addAll(lblTitulo, panelNuevaSesion, tablaSesiones, panelBotones);
@@ -184,13 +184,13 @@ public class CronogramaView {
     }
 
     /**
-     * Crea el panel para agregar nueva sesión
+     * Crea el panel para agregar nueva sesion
      */
     private VBox crearPanelNuevaSesion() {
         VBox panel = new VBox(10);
         panel.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-background-radius: 5;");
 
-        Label lblTitulo = new Label("Agregar Nueva Sesión");
+        Label lblTitulo = new Label("Agregar Nueva Sesion");
         lblTitulo.setStyle("-fx-font-weight: bold;");
 
         GridPane grid = new GridPane();
@@ -211,10 +211,10 @@ public class CronogramaView {
         comboTerapeuta.setPrefWidth(150);
         grid.add(comboTerapeuta, 3, 0);
 
-        // Día de la semana
-        grid.add(new Label("Día:"), 0, 1);
+        // Dia de la semana
+        grid.add(new Label("Dia:"), 0, 1);
         comboDiaSemana = new ComboBox<>();
-        comboDiaSemana.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+        comboDiaSemana.getItems().addAll("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado");
         comboDiaSemana.setPrefWidth(120);
         grid.add(comboDiaSemana, 1, 1);
 
@@ -228,14 +228,14 @@ public class CronogramaView {
         horaBox.getChildren().addAll(spinnerHora, new Label(":"), spinnerMinuto);
         grid.add(horaBox, 3, 1);
 
-        // Duración
-        grid.add(new Label("Duración (min):"), 0, 2);
+        // Duracion
+        grid.add(new Label("Duracion (min):"), 0, 2);
         spinnerDuracion = new Spinner<>(15, 180, 60, 15);
         spinnerDuracion.setPrefWidth(100);
         grid.add(spinnerDuracion, 1, 2);
 
-        // Botón agregar
-        Button btnAgregar = new Button("Agregar Sesión");
+        // Boton agregar
+        Button btnAgregar = new Button("Agregar Sesion");
         btnAgregar.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
         btnAgregar.setOnAction(e -> agregarSesion());
         grid.add(btnAgregar, 2, 2);
@@ -252,7 +252,7 @@ public class CronogramaView {
         tabla.setItems(listaSesiones);
         tabla.setPrefHeight(200);
 
-        TableColumn<Sesion, String> colDia = new TableColumn<>("Día");
+        TableColumn<Sesion, String> colDia = new TableColumn<>("Dia");
         colDia.setCellValueFactory(cellData -> {
             LocalDate fecha = cellData.getValue().getFechaHora().toLocalDate();
             String dia = fecha.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es"));
@@ -276,7 +276,7 @@ public class CronogramaView {
         colTerapeuta.setCellValueFactory(new PropertyValueFactory<>("terapeuta"));
         colTerapeuta.setPrefWidth(130);
 
-        TableColumn<Sesion, Integer> colDuracion = new TableColumn<>("Duración (min)");
+        TableColumn<Sesion, Integer> colDuracion = new TableColumn<>("Duracion (min)");
         colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracion"));
         colDuracion.setPrefWidth(100);
 
@@ -285,12 +285,12 @@ public class CronogramaView {
     }
 
     /**
-     * Crea los botones de acción para sesiones
+     * Crea los botones de accion para sesiones
      */
     private HBox crearPanelBotonesSesiones() {
         HBox panel = new HBox(10);
 
-        Button btnEliminar = new Button("Eliminar Sesión");
+        Button btnEliminar = new Button("Eliminar Sesion");
         btnEliminar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
         btnEliminar.setOnAction(e -> eliminarSesionSeleccionada());
 
@@ -308,15 +308,15 @@ public class CronogramaView {
         VBox panel = new VBox(15);
         panel.setStyle("-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #bdc3c7; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);");
 
-        Label lblTitulo = new Label("📊 Resumen y Validación del Cronograma");
+        Label lblTitulo = new Label("📊 Resumen y Validacion del Cronograma");
         lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        // Área de alertas más grande y con mejor estilo
+        // Area de alertas mas grande y con mejor estilo
         areaAlertas = new TextArea();
         areaAlertas.setPrefRowCount(10);
         areaAlertas.setEditable(false);
         areaAlertas.setWrapText(true);
-        areaAlertas.setPromptText("🔍 Las validaciones del cronograma aparecerán aquí...\n\nPresione 'Validar' para analizar el cronograma actual.");
+        areaAlertas.setPromptText("🔍 Las validaciones del cronograma apareceran aqui...\n\nPresione 'Validar' para analizar el cronograma actual.");
         areaAlertas.setStyle("-fx-font-size: 13px; -fx-font-family: 'Courier New'; -fx-background-color: #f8f9fa; -fx-border-color: #e9ecef; -fx-border-radius: 5px;");
 
         // Botones mejorados
@@ -398,11 +398,11 @@ public class CronogramaView {
             StringBuilder texto = new StringBuilder();
             texto.append("=== PLAN DE TRATAMIENTO ===\n\n");
             texto.append(String.format("📋 Paciente: %s\n", planActual.getNombrePaciente()));
-            texto.append(String.format("📅 Período: %s al %s\n", 
+            texto.append(String.format("📅 Periodo: %s al %s\n", 
                 planActual.getFechaInicio(), planActual.getFechaFin()));
             texto.append(String.format("⏱️ Total horas semanales: %d horas\n\n", planActual.getTotalHorasSemanales()));
             
-            texto.append("=== DISTRIBUCIÓN POR TIPO DE TERAPIA ===\n");
+            texto.append("=== DISTRIBUCION POR TIPO DE TERAPIA ===\n");
             texto.append("----------------------------------------\n");
             
             for (Map.Entry<String, Integer> entry : planActual.getHorasSemanalesPorTipo().entrySet()) {
@@ -414,14 +414,14 @@ public class CronogramaView {
             texto.append("• Cumplir con todas las horas asignadas por tipo\n");
             texto.append("• Distribuir las sesiones a lo largo de la semana\n");
             texto.append("• Respetar disponibilidad de terapeutas\n");
-            texto.append("• Evitar sobrecarga en un solo día\n");
+            texto.append("• Evitar sobrecarga en un solo dia\n");
 
             textAreaPlan.setText(texto.toString());
         }
     }
 
     /**
-     * Agrega una nueva sesión a la lista
+     * Agrega una nueva sesion a la lista
      */
     private void agregarSesion() {
         if (planActual == null) {
@@ -436,7 +436,7 @@ public class CronogramaView {
             String diaSemana = comboDiaSemana.getValue();
             
             if (tipoTerapia == null || terapeuta == null || diaSemana == null) {
-                mostrarAdvertencia("Campos incompletos", "Complete todos los campos para agregar la sesión");
+                mostrarAdvertencia("Campos incompletos", "Complete todos los campos para agregar la sesion");
                 return;
             }
 
@@ -446,7 +446,7 @@ public class CronogramaView {
             LocalTime horaSesion = LocalTime.of(spinnerHora.getValue(), spinnerMinuto.getValue());
             LocalDateTime fechaHoraSesion = LocalDateTime.of(fechaSesion, horaSesion);
 
-            // Crear sesión
+            // Crear sesion
             Sesion nuevaSesion = new Sesion(
                 planActual.getPacienteId(),
                 terapeuta,
@@ -461,34 +461,34 @@ public class CronogramaView {
             limpiarCamposNuevaSesion();
 
         } catch (Exception e) {
-            mostrarError("Error al agregar sesión", e.getMessage());
+            mostrarError("Error al agregar sesion", e.getMessage());
         }
     }
 
     /**
-     * Calcula la fecha específica basada en el día de la semana
+     * Calcula la fecha especifica basada en el dia de la semana
      */
     private LocalDate calcularFechaPorDia(LocalDate fechaSemana, String diaSemana) {
         Map<String, Integer> diasMap = new HashMap<>();
         diasMap.put("Lunes", 0);
         diasMap.put("Martes", 1);
-        diasMap.put("Miércoles", 2);
+        diasMap.put("Miercoles", 2);
         diasMap.put("Jueves", 3);
         diasMap.put("Viernes", 4);
-        diasMap.put("Sábado", 5);
+        diasMap.put("Sabado", 5);
 
         return fechaSemana.plusDays(diasMap.get(diaSemana));
     }
 
     /**
-     * Elimina la sesión seleccionada
+     * Elimina la sesion seleccionada
      */
     private void eliminarSesionSeleccionada() {
         Sesion sesionSeleccionada = tablaSesiones.getSelectionModel().getSelectedItem();
         if (sesionSeleccionada != null) {
             listaSesiones.remove(sesionSeleccionada);
         } else {
-            mostrarAdvertencia("Sin selección", "Seleccione una sesión para eliminar");
+            mostrarAdvertencia("Sin seleccion", "Seleccione una sesion para eliminar");
         }
     }
 
@@ -501,7 +501,7 @@ public class CronogramaView {
     }
 
     /**
-     * Limpia los campos de nueva sesión
+     * Limpia los campos de nueva sesion
      */
     private void limpiarCamposNuevaSesion() {
         comboTipoTerapia.getSelectionModel().clearSelection();
@@ -551,11 +551,11 @@ public class CronogramaView {
                 );
 
             if (resultado.isGuardadoExitoso()) {
-                mostrarInformacion("Éxito", "Cronograma guardado correctamente. Se han enviado notificaciones a los terapeutas.");
+                mostrarInformacion("Exito", "Cronograma guardado correctamente. Se han enviado notificaciones a los terapeutas.");
                 mostrarResultadoValidacion(resultado);
             } else {
                 mostrarResultadoValidacion(resultado);
-                mostrarAdvertencia("No guardado", "El cronograma tiene alertas críticas. Corrija los problemas antes de guardar.");
+                mostrarAdvertencia("No guardado", "El cronograma tiene alertas criticas. Corrija los problemas antes de guardar.");
             }
 
         } catch (Exception e) {
@@ -564,7 +564,7 @@ public class CronogramaView {
     }
 
     /**
-     * Muestra el resultado de la validación
+     * Muestra el resultado de la validacion
      */
     private void mostrarResultadoValidacion(CronogramaController.ResultadoPlanificacion resultado) {
         StringBuilder texto = new StringBuilder();
@@ -583,12 +583,12 @@ public class CronogramaView {
                 texto.append(alerta).append("\n");
             }
         } else {
-            texto.append("\n✓ Cronograma válido - Cumple todas las horas requeridas");
+            texto.append("\n✓ Cronograma valido - Cumple todas las horas requeridas");
         }
 
         areaAlertas.setText(texto.toString());
 
-        // Cambiar color según el tipo de alertas
+        // Cambiar color segun el tipo de alertas
         if (resultado.tieneAlertasCriticas()) {
             areaAlertas.setStyle("-fx-text-fill: #e74c3c;");
         } else if (resultado.tieneAlertas()) {
@@ -599,7 +599,7 @@ public class CronogramaView {
     }
 
     /**
-     * Métodos de utilidad para mostrar mensajes
+     * Metodos de utilidad para mostrar mensajes
      */
     private void mostrarError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

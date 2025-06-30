@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 
 /**
- * Vista para autenticación de usuarios (CU-03).
- * Maneja el login y redirección según roles del sistema SIGCR.
+ * Vista para autenticacion de usuarios (CU-03).
+ * Maneja el login y redireccion segun roles del sistema SIGCR.
  */
 public class LoginView {
 
@@ -38,11 +38,11 @@ public class LoginView {
         view.setPadding(new Insets(40));
         view.setStyle("-fx-background-color: #f5f5f5;");
 
-        // Título del sistema
+        // Titulo del sistema
         Label lblTitulo = new Label("SIGCR");
         lblTitulo.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        Label lblSubtitulo = new Label("Sistema Integral de Gestión para Clínicas de Rehabilitación");
+        Label lblSubtitulo = new Label("Sistema Integral de Gestion para Clinicas de Rehabilitacion");
         lblSubtitulo.setStyle("-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-font-style: italic;");
 
         // Panel de login
@@ -63,7 +63,7 @@ public class LoginView {
         panel.setStyle("-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 10; " +
                       "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);");
 
-        Label lblLogin = new Label("Iniciar Sesión");
+        Label lblLogin = new Label("Iniciar Sesion");
         lblLogin.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         // Formulario
@@ -91,7 +91,7 @@ public class LoginView {
         grid.add(lblPassword, 0, 1);
         grid.add(txtPassword, 1, 1);
 
-        // Botón de login
+        // Boton de login
         Button btnLogin = new Button("Ingresar");
         btnLogin.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; " +
                          "-fx-font-size: 14px; -fx-font-weight: bold; -fx-pref-width: 200; -fx-pref-height: 40;");
@@ -110,7 +110,7 @@ public class LoginView {
                 return;
             }
 
-            // Deshabilitar botón durante el proceso
+            // Deshabilitar boton durante el proceso
             btnLogin.setDisable(true);
             
             AuthController.ResultadoAutenticacion resultado = authController.autenticar(user, pass);
@@ -134,7 +134,7 @@ public class LoginView {
                 mostrarMensaje(lblMessage, resultado.getMensaje(), "error");
                 txtPassword.clear();
                 
-                // Re-habilitar botón después de un delay
+                // Re-habilitar boton despues de un delay
                 new Thread(() -> {
                     try {
                         Thread.sleep(1000);
@@ -168,9 +168,9 @@ public class LoginView {
 
         Label lblCredenciales = new Label(
             "• Admin: admin / admin123\n" +
-            "• Médico: dr.juarez / medico123\n" +
+            "• Medico: dr.juarez / medico123\n" +
             "• Terapeuta: luz.terapeuta / terapia123\n" +
-            "• Enfermería: pablo.enfermero / enfermeria123"
+            "• Enfermeria: pablo.enfermero / enfermeria123"
         );
         lblCredenciales.setStyle("-fx-font-size: 11px; -fx-text-fill: #7f8c8d;");
 
@@ -179,7 +179,7 @@ public class LoginView {
     }
 
     /**
-     * Muestra mensaje con estilo según tipo
+     * Muestra mensaje con estilo segun tipo
      */
     private void mostrarMensaje(Label label, String mensaje, String tipo) {
         label.setText(mensaje);
@@ -191,11 +191,11 @@ public class LoginView {
     }
 
     /**
-     * Redirige al usuario según su rol después del login exitoso
+     * Redirige al usuario segun su rol despues del login exitoso
      */
     private void redirigirSegunRol(User usuario) {
         try {
-            // Obtener conexión para las vistas
+            // Obtener conexion para las vistas
             Connection conn = new com.sigcr.repositories.UserRepository().getConnection();
             
             // Crear la vista principal unificada
@@ -203,12 +203,12 @@ public class LoginView {
             
             // Cambiar a la vista principal
             primaryStage.getScene().setRoot(mainApp.getView());
-            primaryStage.setTitle("SIGCR - Sistema Integral Gestión Clínica - " + usuario.getUsername());
+            primaryStage.setTitle("SIGCR - Sistema Integral Gestion Clinica - " + usuario.getUsername());
             primaryStage.setResizable(true);
             primaryStage.setMaximized(true);
             
         } catch (Exception e) {
-            mostrarError("Error al cargar aplicación principal: " + e.getMessage());
+            mostrarError("Error al cargar aplicacion principal: " + e.getMessage());
         }
     }
 

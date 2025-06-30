@@ -63,14 +63,14 @@ public class ToastNotification extends StackPane {
      * Inicializa los componentes del toast con diseño moderno
      */
     private void inicializarComponentes(String message, ToastType type) {
-        // Ícono con mejor tamaño y estilo
+        // icono con mejor tamaño y estilo
         iconLabel = new Label(type.getIcon());
         iconLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
         iconLabel.setStyle(String.format("-fx-text-fill: %s; -fx-font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji';", type.getTextColor()));
         iconLabel.setPrefWidth(35);
         iconLabel.setAlignment(Pos.CENTER);
         
-        // Mensaje con mejor tipografía
+        // Mensaje con mejor tipografia
         messageLabel = new Label(message);
         messageLabel.setFont(Font.font("Segoe UI", FontWeight.MEDIUM, 15));
         messageLabel.setStyle(String.format("-fx-text-fill: %s; -fx-font-smoothing-type: lcd;", type.getTextColor()));
@@ -90,7 +90,7 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Aplica estilos modernos según el tipo de toast
+     * Aplica estilos modernos segun el tipo de toast
      */
     private void aplicarEstilos(ToastType type) {
         // Estilo base moderno con gradiente y sombra mejorada
@@ -108,10 +108,10 @@ public class ToastNotification extends StackPane {
         
         this.setStyle(baseStyle);
         
-        // Animación de hover más suave
+        // Animacion de hover mas suave
         this.setOnMouseEntered(e -> {
             this.setStyle(baseStyle + " -fx-scale-x: 1.02; -fx-scale-y: 1.02;");
-            // Animación suave de escala
+            // Animacion suave de escala
             javafx.animation.ScaleTransition scaleIn = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(150), this);
             scaleIn.setFromX(1.0);
             scaleIn.setFromY(1.0);
@@ -122,7 +122,7 @@ public class ToastNotification extends StackPane {
         
         this.setOnMouseExited(e -> {
             this.setStyle(baseStyle);
-            // Animación suave de vuelta
+            // Animacion suave de vuelta
             javafx.animation.ScaleTransition scaleOut = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(150), this);
             scaleOut.setFromX(1.02);
             scaleOut.setFromY(1.02);
@@ -133,7 +133,7 @@ public class ToastNotification extends StackPane {
         
         // Click para cerrar con feedback visual
         this.setOnMouseClicked(e -> {
-            // Pequeña animación de click
+            // Pequeña animacion de click
             javafx.animation.ScaleTransition clickScale = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(100), this);
             clickScale.setFromX(1.0);
             clickScale.setFromY(1.0);
@@ -150,7 +150,7 @@ public class ToastNotification extends StackPane {
      * Configura animaciones suaves y modernas
      */
     private void configurarAnimaciones() {
-        // Animación de entrada más suave con curva ease-out
+        // Animacion de entrada mas suave con curva ease-out
         fadeIn = new FadeTransition(Duration.millis(400), this);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
@@ -162,7 +162,7 @@ public class ToastNotification extends StackPane {
         slideIn.setToY(0);
         slideIn.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
         
-        // Animación de salida más rápida pero suave
+        // Animacion de salida mas rapida pero suave
         fadeOut = new FadeTransition(Duration.millis(300), this);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
@@ -183,7 +183,7 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Muestra el toast con animación
+     * Muestra el toast con animacion
      */
     public void show() {
         Platform.runLater(() -> {
@@ -196,7 +196,7 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Oculta el toast con animación
+     * Oculta el toast con animacion
      */
     public void hide() {
         Platform.runLater(() -> {
@@ -206,12 +206,12 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Muestra el toast y lo oculta automáticamente después del tiempo especificado
+     * Muestra el toast y lo oculta automaticamente despues del tiempo especificado
      */
     public void showAndHide(Duration duration) {
         show();
         
-        // Auto-hide después del tiempo especificado
+        // Auto-hide despues del tiempo especificado
         new Thread(() -> {
             try {
                 Thread.sleep((long) duration.toMillis());
@@ -223,7 +223,7 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Métodos de conveniencia para crear toasts rápidamente
+     * Metodos de conveniencia para crear toasts rapidamente
      */
     public static ToastNotification success(String message) {
         return new ToastNotification(message, ToastType.SUCCESS);
@@ -242,7 +242,7 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Muestra un toast en un contenedor específico
+     * Muestra un toast en un contenedor especifico
      */
     public static void showToast(StackPane container, String message, ToastType type) {
         showToast(container, message, type, Duration.seconds(3));
@@ -252,12 +252,12 @@ public class ToastNotification extends StackPane {
         Platform.runLater(() -> {
             ToastNotification toast = new ToastNotification(message, type);
             
-            // Calcular posición para apilar toasts
+            // Calcular posicion para apilar toasts
             long existingToasts = container.getChildren().stream()
                 .filter(node -> node instanceof ToastNotification)
                 .count();
             
-            double topMargin = 20 + (existingToasts * 80); // 80px de separación entre toasts
+            double topMargin = 20 + (existingToasts * 80); // 80px de separacion entre toasts
             
             // Posicionar en la parte superior derecha para mejor visibilidad
             StackPane.setAlignment(toast, Pos.TOP_RIGHT);
@@ -269,7 +269,7 @@ public class ToastNotification extends StackPane {
     }
 
     /**
-     * Métodos de conveniencia para mostrar directamente en un contenedor
+     * Metodos de conveniencia para mostrar directamente en un contenedor
      */
     public static void showSuccess(StackPane container, String message) {
         showToast(container, message, ToastType.SUCCESS);

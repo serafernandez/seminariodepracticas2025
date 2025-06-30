@@ -8,9 +8,9 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 /**
- * Controlador mejorado que maneja la autenticación y autorización de usuarios (CU-03).
- * Implementa seguridad robusta con gestión de sesiones, control de intentos fallidos
- * y verificación de permisos en tiempo real.
+ * Controlador mejorado que maneja la autenticacion y autorizacion de usuarios (CU-03).
+ * Implementa seguridad robusta con gestion de sesiones, control de intentos fallidos
+ * y verificacion de permisos en tiempo real.
  */
 public class AuthController {
 
@@ -26,10 +26,10 @@ public class AuthController {
      * Autentica un usuario con validaciones de seguridad completas
      * @param username Nombre de usuario
      * @param password Contraseña
-     * @return Resultado de la autenticación con detalles
+     * @return Resultado de la autenticacion con detalles
      */
     public ResultadoAutenticacion autenticar(String username, String password) {
-        // Validación básica de entrada
+        // Validacion basica de entrada
         if (username == null || username.trim().isEmpty() || 
             password == null || password.trim().isEmpty()) {
             return new ResultadoAutenticacion(false, "Debe completar todos los campos");
@@ -37,7 +37,7 @@ public class AuthController {
 
         username = username.trim().toLowerCase();
 
-        // Verificar si el usuario está bloqueado
+        // Verificar si el usuario esta bloqueado
         if (sessionManager.estaUsuarioBloqueado(username)) {
             long minutosRestantes = sessionManager.getMinutosBloqueoRestantes(username);
             return new ResultadoAutenticacion(false, 
@@ -77,19 +77,19 @@ public class AuthController {
                 }
             }
 
-            // Autenticación exitosa - iniciar sesión
+            // Autenticacion exitosa - iniciar sesion
             sessionManager.iniciarSesion(user);
-            return new ResultadoAutenticacion(true, "Autenticación exitosa", user);
+            return new ResultadoAutenticacion(true, "Autenticacion exitosa", user);
 
         } catch (Exception e) {
-            System.err.println("Error en autenticación: " + e.getMessage());
+            System.err.println("Error en autenticacion: " + e.getMessage());
             return new ResultadoAutenticacion(false, "Error interno del sistema");
         }
     }
 
     /**
-     * Cierra la sesión del usuario actual
-     * @return true si se cerró exitosamente
+     * Cierra la sesion del usuario actual
+     * @return true si se cerro exitosamente
      */
     public boolean cerrarSesion() {
         sessionManager.cerrarSesion();
@@ -98,14 +98,14 @@ public class AuthController {
 
     /**
      * Obtiene el usuario actualmente autenticado
-     * @return Usuario actual o null si no hay sesión activa
+     * @return Usuario actual o null si no hay sesion activa
      */
     public User getUsuarioActual() {
         return sessionManager.getUsuarioActual();
     }
 
     /**
-     * Verifica si hay un usuario autenticado con sesión válida
+     * Verifica si hay un usuario autenticado con sesion valida
      * @return true si hay usuario autenticado
      */
     public boolean estaAutenticado() {
@@ -113,7 +113,7 @@ public class AuthController {
     }
 
     /**
-     * Verifica si el usuario actual tiene un rol específico
+     * Verifica si el usuario actual tiene un rol especifico
      * @param rol Rol a verificar
      * @return true si el usuario tiene el rol especificado
      */
@@ -130,8 +130,8 @@ public class AuthController {
     }
 
     /**
-     * Verifica si el usuario actual es médico
-     * @return true si es médico
+     * Verifica si el usuario actual es medico
+     * @return true si es medico
      */
     public boolean esMedico() {
         return sessionManager.esMedico();
@@ -146,15 +146,15 @@ public class AuthController {
     }
 
     /**
-     * Verifica si el usuario actual es personal de enfermería
-     * @return true si es enfermería
+     * Verifica si el usuario actual es personal de enfermeria
+     * @return true si es enfermeria
      */
     public boolean esEnfermeria() {
         return sessionManager.esEnfermeria();
     }
 
     /**
-     * Requiere que el usuario tenga un rol específico
+     * Requiere que el usuario tenga un rol especifico
      * @param rol Rol requerido
      * @throws SecurityException si el usuario no tiene el rol
      */
@@ -177,8 +177,8 @@ public class AuthController {
     }
 
     /**
-     * Requiere que el usuario sea médico
-     * @throws SecurityException si no es médico
+     * Requiere que el usuario sea medico
+     * @throws SecurityException si no es medico
      */
     public void requireMedico() throws SecurityException {
         requireRol("MEDICO");
@@ -192,8 +192,8 @@ public class AuthController {
     }
 
     /**
-     * Obtiene información detallada de la sesión actual
-     * @return String con información de la sesión
+     * Obtiene informacion detallada de la sesion actual
+     * @return String con informacion de la sesion
      */
     public String getInfoSesion() {
         return sessionManager.getInfoSesion();
@@ -254,9 +254,9 @@ public class AuthController {
     }
 
     /**
-     * Verifica si una contraseña está hasheada (contiene ":")
+     * Verifica si una contraseña esta hasheada (contiene ":")
      * @param password Contraseña a verificar
-     * @return true si está hasheada
+     * @return true si esta hasheada
      */
     private boolean esPasswordHasheada(String password) {
         return password != null && password.contains(":");
@@ -274,15 +274,15 @@ public class AuthController {
     }
 
     /**
-     * Obtiene estadísticas de intentos de login
-     * @return String con estadísticas
+     * Obtiene estadisticas de intentos de login
+     * @return String con estadisticas
      * @throws SecurityException si no es administrador
      */
     public String getEstadisticasLogin() throws SecurityException {
         requireAdmin();
         
         StringBuilder stats = new StringBuilder();
-        stats.append("=== Estadísticas de Login ===\n");
+        stats.append("=== Estadisticas de Login ===\n");
         stats.append("Usuarios con intentos fallidos: ").append(sessionManager.getNumeroUsuariosConIntentosFallidos()).append("\n");
         stats.append("Usuarios bloqueados: ").append(sessionManager.getNumeroUsuariosBloqueados()).append("\n");
         
@@ -296,7 +296,7 @@ public class AuthController {
     }
 
     /**
-     * Clase interna para encapsular el resultado de la autenticación
+     * Clase interna para encapsular el resultado de la autenticacion
      */
     public static class ResultadoAutenticacion {
         private boolean exitoso;

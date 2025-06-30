@@ -11,9 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Componente reutilizable que muestra información de la sesión actual.
- * Incluye datos del usuario, tiempo de sesión y botón de logout.
- * Implementa actualización automática de la información de sesión (CU-03).
+ * Componente reutilizable que muestra informacion de la sesion actual.
+ * Incluye datos del usuario, tiempo de sesion y boton de logout.
+ * Implementa actualizacion automatica de la informacion de sesion (CU-03).
  */
 public class SessionInfoPanel extends VBox {
     
@@ -27,9 +27,9 @@ public class SessionInfoPanel extends VBox {
     private Runnable onLogout;
 
     /**
-     * Constructor del panel de información de sesión
-     * @param authController Controlador de autenticación
-     * @param onLogout Acción a ejecutar al hacer logout
+     * Constructor del panel de informacion de sesion
+     * @param authController Controlador de autenticacion
+     * @param onLogout Accion a ejecutar al hacer logout
      */
     public SessionInfoPanel(AuthController authController, Runnable onLogout) {
         this.authController = authController;
@@ -48,22 +48,22 @@ public class SessionInfoPanel extends VBox {
         this.setStyle("-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 5;");
         this.setAlignment(Pos.CENTER_LEFT);
 
-        // Información del usuario
+        // Informacion del usuario
         lblUsuario = new Label();
         lblUsuario.setStyle("-fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         lblRol = new Label();
         lblRol.setStyle("-fx-text-fill: #6c757d; -fx-font-size: 11px;");
 
-        // Información de la sesión
+        // Informacion de la sesion
         lblTiempoSesion = new Label();
         lblTiempoSesion.setStyle("-fx-text-fill: #6c757d; -fx-font-size: 10px;");
 
         lblEstadoSesion = new Label();
         lblEstadoSesion.setStyle("-fx-text-fill: #28a745; -fx-font-size: 10px;");
 
-        // Botón de logout
-        btnLogout = new Button("Cerrar Sesión");
+        // Boton de logout
+        btnLogout = new Button("Cerrar Sesion");
         btnLogout.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 11px;");
         btnLogout.setOnAction(e -> {
             if (onLogout != null) {
@@ -83,7 +83,7 @@ public class SessionInfoPanel extends VBox {
     }
 
     /**
-     * Actualiza la información mostrada en el panel
+     * Actualiza la informacion mostrada en el panel
      */
     private void actualizarInformacion() {
         if (!authController.estaAutenticado()) {
@@ -97,18 +97,18 @@ public class SessionInfoPanel extends VBox {
             lblRol.setText("Rol: " + usuario.getRole());
             
             String infoSesion = authController.getInfoSesion();
-            // Extraer información específica del string de sesión
-            if (infoSesion.contains("Sesión:")) {
+            // Extraer informacion especifica del string de sesion
+            if (infoSesion.contains("Sesion:")) {
                 String[] partes = infoSesion.split("\\|");
                 for (String parte : partes) {
                     parte = parte.trim();
-                    if (parte.startsWith("Sesión:")) {
-                        lblTiempoSesion.setText("Tiempo de sesión: " + parte.substring(8));
+                    if (parte.startsWith("Sesion:")) {
+                        lblTiempoSesion.setText("Tiempo de sesion: " + parte.substring(8));
                     } else if (parte.startsWith("Inactividad:")) {
                         String inactividad = parte.substring(13);
-                        lblEstadoSesion.setText("Última actividad: hace " + inactividad);
+                        lblEstadoSesion.setText("Ultima actividad: hace " + inactividad);
                         
-                        // Cambiar color según inactividad
+                        // Cambiar color segun inactividad
                         if (inactividad.contains("0 min")) {
                             lblEstadoSesion.setStyle("-fx-text-fill: #28a745; -fx-font-size: 10px;"); // Verde
                         } else if (inactividad.contains("1") || inactividad.contains("2")) {
@@ -119,7 +119,7 @@ public class SessionInfoPanel extends VBox {
                     }
                 }
             } else {
-                lblTiempoSesion.setText("Información de sesión no disponible");
+                lblTiempoSesion.setText("Informacion de sesion no disponible");
                 lblEstadoSesion.setText("Estado: Activa");
             }
         } else {
@@ -133,14 +133,14 @@ public class SessionInfoPanel extends VBox {
     private void mostrarNoAutenticado() {
         lblUsuario.setText("No autenticado");
         lblRol.setText("Sin rol asignado");
-        lblTiempoSesion.setText("Sin sesión activa");
+        lblTiempoSesion.setText("Sin sesion activa");
         lblEstadoSesion.setText("Inactivo");
         lblEstadoSesion.setStyle("-fx-text-fill: #dc3545; -fx-font-size: 10px;");
         btnLogout.setDisable(true);
     }
 
     /**
-     * Inicia la actualización automática de la información
+     * Inicia la actualizacion automatica de la informacion
      */
     private void iniciarActualizacionAutomatica() {
         actualizadorHilo = new Thread(() -> {
@@ -169,7 +169,7 @@ public class SessionInfoPanel extends VBox {
     }
 
     /**
-     * Detiene la actualización automática
+     * Detiene la actualizacion automatica
      */
     public void detenerActualizacion() {
         if (actualizadorHilo != null && !actualizadorHilo.isInterrupted()) {
@@ -178,23 +178,23 @@ public class SessionInfoPanel extends VBox {
     }
 
     /**
-     * Establece la acción a ejecutar al hacer logout
-     * @param onLogout Acción de logout
+     * Establece la accion a ejecutar al hacer logout
+     * @param onLogout Accion de logout
      */
     public void setOnLogout(Runnable onLogout) {
         this.onLogout = onLogout;
     }
 
     /**
-     * Obtiene el botón de logout para configuración adicional
-     * @return Botón de logout
+     * Obtiene el boton de logout para configuracion adicional
+     * @return Boton de logout
      */
     public Button getLogoutButton() {
         return btnLogout;
     }
 
     /**
-     * Establece la visibilidad del botón de logout
+     * Establece la visibilidad del boton de logout
      * @param visible true para mostrar, false para ocultar
      */
     public void setLogoutButtonVisible(boolean visible) {
@@ -202,7 +202,7 @@ public class SessionInfoPanel extends VBox {
     }
 
     /**
-     * Actualiza manualmente la información (útil después de cambios)
+     * Actualiza manualmente la informacion (util despues de cambios)
      */
     public void refrescar() {
         Platform.runLater(this::actualizarInformacion);

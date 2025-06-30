@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Data Access Object para la gestión de planes de tratamiento.
- * Maneja la persistencia de los planes terapéuticos y sus horas semanales
+ * Data Access Object para la gestion de planes de tratamiento.
+ * Maneja la persistencia de los planes terapeuticos y sus horas semanales
  * requeridas por tipo de terapia para el CU-02.
  */
 public class PlanTratamientoDAO {
@@ -23,7 +23,7 @@ public class PlanTratamientoDAO {
     /**
      * Crea un nuevo plan de tratamiento en la base de datos
      * @param plan Plan de tratamiento a crear
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void crearPlanTratamiento(PlanTratamiento plan) throws SQLException {
         conn.setAutoCommit(false);
@@ -59,7 +59,7 @@ public class PlanTratamientoDAO {
     /**
      * Actualiza un plan de tratamiento existente
      * @param plan Plan de tratamiento con datos actualizados
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void actualizarPlanTratamiento(PlanTratamiento plan) throws SQLException {
         conn.setAutoCommit(false);
@@ -188,7 +188,7 @@ public class PlanTratamientoDAO {
     }
 
     /**
-     * Obtiene todos los planes de un paciente específico
+     * Obtiene todos los planes de un paciente especifico
      * @param pacienteId ID del paciente
      * @return Lista de planes del paciente
      * @throws SQLException si ocurre error en la consulta
@@ -224,7 +224,7 @@ public class PlanTratamientoDAO {
     /**
      * Inserta los detalles de horas por tipo de terapia
      * @param plan Plan de tratamiento
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     private void insertarDetallesHoras(PlanTratamiento plan) throws SQLException {
         String sql = "INSERT INTO plan_detalle (plan_id, tipo_terapia, horas_semanales) VALUES (?, ?, ?)";
@@ -243,7 +243,7 @@ public class PlanTratamientoDAO {
     /**
      * Elimina los detalles de horas de un plan
      * @param planId ID del plan
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     private void eliminarDetallesHoras(int planId) throws SQLException {
         String sql = "DELETE FROM plan_detalle WHERE plan_id = ?";
@@ -277,7 +277,7 @@ public class PlanTratamientoDAO {
     /**
      * Elimina un plan de tratamiento
      * @param id ID del plan a eliminar
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void eliminarPlanTratamiento(int id) throws SQLException {
         conn.setAutoCommit(false);

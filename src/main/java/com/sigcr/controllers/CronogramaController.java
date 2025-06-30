@@ -17,9 +17,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Controlador que maneja la planificación de cronogramas terapéuticos (CU-02).
- * Coordina la asignación de sesiones, validación de horas requeridas y
- * generación de notificaciones para profesionales afectados.
+ * Controlador que maneja la planificacion de cronogramas terapeuticos (CU-02).
+ * Coordina la asignacion de sesiones, validacion de horas requeridas y
+ * generacion de notificaciones para profesionales afectados.
  */
 public class CronogramaController {
     
@@ -30,11 +30,11 @@ public class CronogramaController {
 
     // Tipos de terapia disponibles en el sistema
     public static final List<String> TIPOS_TERAPIA = Arrays.asList(
-        "Fisioterapia", "Terapia Ocupacional", "Psicología", 
-        "Fonoaudiología", "Terapia Respiratoria", "Hidroterapia"
+        "Fisioterapia", "Terapia Ocupacional", "Psicologia", 
+        "Fonoaudiologia", "Terapia Respiratoria", "Hidroterapia"
     );
 
-    // Terapeutas disponibles (en un sistema real vendría de la BD)
+    // Terapeutas disponibles (en un sistema real vendria de la BD)
     public static final List<String> TERAPEUTAS = Arrays.asList(
         "luz.terapeuta", "ana.fisio", "carlos.psico", 
         "maria.fono", "jose.respiratorio", "sofia.hidro"
@@ -42,8 +42,8 @@ public class CronogramaController {
 
     /**
      * Constructor del controlador de cronogramas
-     * @param conn Conexión a la base de datos
-     * @param usuarioActual Usuario que está realizando las operaciones
+     * @param conn Conexion a la base de datos
+     * @param usuarioActual Usuario que esta realizando las operaciones
      */
     public CronogramaController(Connection conn, User usuarioActual) {
         this.planTratamientoDAO = new PlanTratamientoDAO(conn);
@@ -55,36 +55,36 @@ public class CronogramaController {
     /**
      * Crea un nuevo plan de tratamiento para un paciente
      * @param plan Plan de tratamiento a crear
-     * @return true si se creó exitosamente
+     * @return true si se creo exitosamente
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
     public boolean crearPlanTratamiento(PlanTratamiento plan) throws SQLException, SecurityException {
         // Verificar permisos (solo MEDICO puede crear planes)
         if (!usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("Solo los médicos pueden crear planes de tratamiento");
+            throw new SecurityException("Solo los medicos pueden crear planes de tratamiento");
         }
 
         // Validar el plan
         if (!plan.isValido()) {
-            throw new IllegalArgumentException("El plan de tratamiento no es válido");
+            throw new IllegalArgumentException("El plan de tratamiento no es valido");
         }
 
         // Crear el plan
         planTratamientoDAO.crearPlanTratamiento(plan);
 
-        // Generar notificación
+        // Generar notificacion
         generarNotificacionPlanCreado(plan);
 
         return true;
     }
 
     /**
-     * Planifica las sesiones de una semana específica para un paciente
+     * Planifica las sesiones de una semana especifica para un paciente
      * @param pacienteId ID del paciente
      * @param fechaInicioDeSemana Fecha del lunes de la semana a planificar
      * @param sesionesPropuestas Lista de sesiones propuestas
-     * @return Resultado de la planificación con alertas si las hay
+     * @return Resultado de la planificacion con alertas si las hay
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
@@ -93,7 +93,7 @@ public class CronogramaController {
         
         // Verificar permisos (solo MEDICO puede planificar)
         if (!usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("Solo los médicos pueden planificar cronogramas");
+            throw new SecurityException("Solo los medicos pueden planificar cronogramas");
         }
 
         // Obtener plan de tratamiento activo
@@ -102,7 +102,7 @@ public class CronogramaController {
             throw new IllegalArgumentException("No existe un plan de tratamiento activo para el paciente");
         }
 
-        // Validar que las sesiones estén en la semana correcta
+        // Validar que las sesiones esten en la semana correcta
         validarSesionesEnSemana(sesionesPropuestas, fechaInicioDeSemana);
 
         // Calcular cumplimiento de horas
@@ -118,8 +118,8 @@ public class CronogramaController {
         List<String> alertas = verificarCumplimientoHoras(horasRequeridas, horasAsignadas);
         resultado.setAlertas(alertas);
 
-        // Si no hay alertas críticas, guardar las sesiones
-        if (alertas.stream().noneMatch(alerta -> alerta.contains("CRÍTICO"))) {
+        // Si no hay alertas criticas, guardar las sesiones
+        if (alertas.stream().noneMatch(alerta -> alerta.contains("CRiTICO"))) {
             guardarSesiones(sesionesPropuestas, pacienteId, fechaInicioDeSemana);
             resultado.setGuardadoExitoso(true);
             
@@ -133,7 +133,7 @@ public class CronogramaController {
     }
 
     /**
-     * Obtiene las sesiones programadas para una semana específica de un paciente
+     * Obtiene las sesiones programadas para una semana especifica de un paciente
      * @param pacienteId ID del paciente
      * @param fechaInicioDeSemana Fecha del lunes de la semana
      * @return Lista de sesiones de la semana
@@ -166,17 +166,17 @@ public class CronogramaController {
     /**
      * Actualiza un plan de tratamiento existente
      * @param plan Plan con datos actualizados
-     * @return true si se actualizó exitosamente
+     * @return true si se actualizo exitosamente
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
     public boolean actualizarPlanTratamiento(PlanTratamiento plan) throws SQLException, SecurityException {
         if (!usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("Solo los médicos pueden actualizar planes de tratamiento");
+            throw new SecurityException("Solo los medicos pueden actualizar planes de tratamiento");
         }
 
         if (!plan.isValido()) {
-            throw new IllegalArgumentException("El plan de tratamiento no es válido");
+            throw new IllegalArgumentException("El plan de tratamiento no es valido");
         }
 
         planTratamientoDAO.actualizarPlanTratamiento(plan);
@@ -186,7 +186,7 @@ public class CronogramaController {
     }
 
     /**
-     * Valida que todas las sesiones estén dentro de la semana especificada
+     * Valida que todas las sesiones esten dentro de la semana especificada
      */
     private void validarSesionesEnSemana(List<Sesion> sesiones, LocalDate fechaInicioDeSemana) {
         LocalDate fechaFin = fechaInicioDeSemana.plusDays(6);
@@ -194,8 +194,8 @@ public class CronogramaController {
         for (Sesion sesion : sesiones) {
             LocalDate fechaSesion = sesion.getFechaHora().toLocalDate();
             if (fechaSesion.isBefore(fechaInicioDeSemana) || fechaSesion.isAfter(fechaFin)) {
-                throw new IllegalArgumentException("La sesión del " + fechaSesion + 
-                    " no está dentro de la semana del " + fechaInicioDeSemana);
+                throw new IllegalArgumentException("La sesion del " + fechaSesion + 
+                    " no esta dentro de la semana del " + fechaInicioDeSemana);
             }
         }
     }
@@ -229,15 +229,15 @@ public class CronogramaController {
             
             if (asignadas < requeridas) {
                 if (asignadas == 0) {
-                    alertas.add("CRÍTICO: No se asignaron sesiones de " + tipo + 
+                    alertas.add("CRiTICO: No se asignaron sesiones de " + tipo + 
                                " (requeridas: " + requeridas + " horas)");
                 } else {
                     alertas.add("ADVERTENCIA: " + tipo + " tiene " + asignadas + 
                                " horas asignadas de " + requeridas + " requeridas");
                 }
             } else if (asignadas > requeridas) {
-                alertas.add("INFORMACIÓN: " + tipo + " tiene " + asignadas + 
-                           " horas asignadas, " + (asignadas - requeridas) + " más de las requeridas");
+                alertas.add("INFORMACION: " + tipo + " tiene " + asignadas + 
+                           " horas asignadas, " + (asignadas - requeridas) + " mas de las requeridas");
             }
         }
         
@@ -259,7 +259,7 @@ public class CronogramaController {
     }
 
     /**
-     * Genera notificación cuando se crea un plan
+     * Genera notificacion cuando se crea un plan
      */
     private void generarNotificacionPlanCreado(PlanTratamiento plan) {
         try {
@@ -272,7 +272,7 @@ public class CronogramaController {
             Notificacion notificacion = new Notificacion(plan.getPacienteId(), mensaje);
             notificacionDAO.crearNotificacion(notificacion);
         } catch (SQLException e) {
-            System.err.println("Error al generar notificación de plan creado: " + e.getMessage());
+            System.err.println("Error al generar notificacion de plan creado: " + e.getMessage());
         }
     }
 
@@ -288,7 +288,7 @@ public class CronogramaController {
             Notificacion notificacion = new Notificacion(plan.getPacienteId(), mensaje);
             notificacionDAO.crearNotificacion(notificacion);
         } catch (SQLException e) {
-            System.err.println("Error al generar notificación de plan actualizado: " + e.getMessage());
+            System.err.println("Error al generar notificacion de plan actualizado: " + e.getMessage());
         }
     }
 
@@ -319,7 +319,7 @@ public class CronogramaController {
     }
 
     /**
-     * Clase interna para encapsular el resultado de una planificación
+     * Clase interna para encapsular el resultado de una planificacion
      */
     public static class ResultadoPlanificacion {
         private Map<String, Integer> horasRequeridas;
@@ -346,7 +346,7 @@ public class CronogramaController {
         
         public boolean tieneAlertas() { return alertas != null && !alertas.isEmpty(); }
         public boolean tieneAlertasCriticas() { 
-            return alertas != null && alertas.stream().anyMatch(a -> a.contains("CRÍTICO"));
+            return alertas != null && alertas.stream().anyMatch(a -> a.contains("CRiTICO"));
         }
     }
 } 

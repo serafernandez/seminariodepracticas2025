@@ -7,12 +7,12 @@ import java.util.Map;
 /**
  * Modelo que representa el plan de tratamiento de un paciente.
  * Define las horas semanales requeridas por cada tipo de terapia,
- * estableciendo la base para la planificación de cronogramas (CU-02).
+ * estableciendo la base para la planificacion de cronogramas (CU-02).
  */
 public class PlanTratamiento {
     private int id;
     private int pacienteId;
-    private String nombrePaciente; // Para facilitar visualización
+    private String nombrePaciente; // Para facilitar visualizacion
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String estado; // 'Activo', 'Completado', 'Suspendido'
@@ -34,13 +34,13 @@ public class PlanTratamiento {
         this.horasSemanalesPorTipo = new HashMap<>();
     }
     
-    // Constructor para creación (sin ID)
+    // Constructor para creacion (sin ID)
     public PlanTratamiento(int pacienteId, String nombrePaciente, 
                           LocalDate fechaInicio, LocalDate fechaFin, String observaciones) {
         this(-1, pacienteId, nombrePaciente, fechaInicio, fechaFin, "Activo", observaciones);
     }
     
-    // Constructor mínimo
+    // Constructor minimo
     public PlanTratamiento(int pacienteId, String nombrePaciente) {
         this(pacienteId, nombrePaciente, LocalDate.now(), LocalDate.now().plusMonths(3), "");
     }
@@ -111,9 +111,9 @@ public class PlanTratamiento {
     }
 
     /**
-     * Establece las horas semanales para un tipo específico de terapia
+     * Establece las horas semanales para un tipo especifico de terapia
      * @param tipoTerapia Tipo de terapia (ej: "Fisioterapia", "Terapia Ocupacional")
-     * @param horasSemanales Número de horas semanales requeridas
+     * @param horasSemanales Numero de horas semanales requeridas
      */
     public void setHorasSemanales(String tipoTerapia, int horasSemanales) {
         if (horasSemanales >= 0) {
@@ -124,7 +124,7 @@ public class PlanTratamiento {
     /**
      * Obtiene las horas semanales requeridas para un tipo de terapia
      * @param tipoTerapia Tipo de terapia
-     * @return Horas semanales requeridas (0 si no está definido)
+     * @return Horas semanales requeridas (0 si no esta definido)
      */
     public int getHorasSemanales(String tipoTerapia) {
         return horasSemanalesPorTipo.getOrDefault(tipoTerapia, 0);
@@ -147,8 +147,8 @@ public class PlanTratamiento {
     }
 
     /**
-     * Verifica si el plan está activo y vigente
-     * @return true si está activo y en fechas válidas
+     * Verifica si el plan esta activo y vigente
+     * @return true si esta activo y en fechas validas
      */
     public boolean isActivo() {
         LocalDate hoy = LocalDate.now();
@@ -167,7 +167,7 @@ public class PlanTratamiento {
 
     /**
      * Valida que el plan tenga al menos un tipo de terapia definido
-     * @return true si es válido
+     * @return true si es valido
      */
     public boolean isValido() {
         return !horasSemanalesPorTipo.isEmpty() && 

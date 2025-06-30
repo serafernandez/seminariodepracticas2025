@@ -2,8 +2,8 @@ package com.sigcr.views;
 
 import com.sigcr.controllers.NotificacionController;
 import com.sigcr.models.Notificacion;
-import com.sigcr.models.Notificacion.TipoNotificacion;
-import com.sigcr.models.Notificacion.RolDestinatario;
+import com.sigcr.models.Notification.TipoNotificacion;
+import com.sigcr.models.Notification.RolDestinatario;
 import com.sigcr.models.User;
 
 
@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Vista completa para la gestión de notificaciones del sistema (CU-04).
- * Permite consultar, filtrar, marcar como leídas y administrar notificaciones
- * con diferentes funcionalidades según el rol del usuario.
+ * Vista completa para la gestion de notificaciones del sistema (CU-04).
+ * Permite consultar, filtrar, marcar como leidas y administrar notificaciones
+ * con diferentes funcionalidades segun el rol del usuario.
  */
 public class NotificacionView {
     
@@ -45,12 +45,12 @@ public class NotificacionView {
     private DatePicker filtroFechaHasta;
     private TextField filtroPacienteField;
     
-    // Componentes de información
+    // Componentes de informacion
     private Label lblResumen;
     private Label lblNoLeidas;
     private TextArea areaDetalleNotificacion;
     
-    // Componentes de administración (solo para ADMIN)
+    // Componentes de administracion (solo para ADMIN)
     private VBox panelAdmin;
     private TextArea areaNuevaNotificacion;
     private ComboBox<TipoNotificacion> comboTipoNueva;
@@ -62,7 +62,7 @@ public class NotificacionView {
 
     /**
      * Constructor de la vista de notificaciones
-     * @param conn Conexión a la base de datos
+     * @param conn Conexion a la base de datos
      * @param usuarioActual Usuario autenticado
      */
     public NotificacionView(Connection conn, User usuarioActual) {
@@ -81,7 +81,7 @@ public class NotificacionView {
         mainLayout = new VBox(10);
         mainLayout.setPadding(new Insets(20));
 
-        // Título y información de sesión
+        // Titulo y informacion de sesion
         HBox headerBox = new HBox(10);
         headerBox.setAlignment(Pos.CENTER_LEFT);
         
@@ -92,7 +92,7 @@ public class NotificacionView {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        // TODO: Agregar SessionInfoPanel cuando esté disponible el AuthController
+        // TODO: Agregar SessionInfoPanel cuando este disponible el AuthController
         headerBox.getChildren().addAll(titulo, spacer);
 
         // Panel de resumen
@@ -107,7 +107,7 @@ public class NotificacionView {
         // Panel de detalles
         crearPanelDetalles();
 
-        // Panel de administración (solo para ADMIN)
+        // Panel de administracion (solo para ADMIN)
         if (usuarioActual.getRole().equals("ADMIN")) {
             crearPanelAdministracion();
         }
@@ -154,7 +154,7 @@ public class NotificacionView {
         panel.setPadding(new Insets(10));
         panel.setStyle("-fx-background-color: #f9f9f9; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;");
 
-        Label tituloFiltros = new Label("Filtros de Búsqueda");
+        Label tituloFiltros = new Label("Filtros de Busqueda");
         tituloFiltros.setFont(Font.font("System", FontWeight.BOLD, 14));
 
         // Primera fila de filtros
@@ -168,7 +168,7 @@ public class NotificacionView {
         filtroTipoCombo.setValue("Todos");
 
         filtroEstadoCombo = new ComboBox<>();
-        filtroEstadoCombo.getItems().addAll("Todas", "No Leídas", "Leídas");
+        filtroEstadoCombo.getItems().addAll("Todas", "No Leidas", "Leidas");
         filtroEstadoCombo.setValue("Todas");
 
         filtroTextoField = new TextField();
@@ -220,7 +220,7 @@ public class NotificacionView {
         tablaNotificaciones.setItems(listaNotificaciones);
         tablaNotificaciones.setPrefHeight(300);
 
-        // Columna de ícono
+        // Columna de icono
         TableColumn<Notificacion, String> colIcono = new TableColumn<>("📱");
         colIcono.setCellValueFactory(data -> 
             new javafx.beans.property.SimpleStringProperty(data.getValue().getIconoTipo()));
@@ -250,7 +250,7 @@ public class NotificacionView {
         TableColumn<Notificacion, String> colEstado = new TableColumn<>("Estado");
         colEstado.setCellValueFactory(data -> 
             new javafx.beans.property.SimpleStringProperty(
-                data.getValue().isLeida() ? "Leída" : "No Leída"));
+                data.getValue().isLeida() ? "Leida" : "No Leida"));
         colEstado.setPrefWidth(80);
 
         // Columna de destinatario
@@ -263,7 +263,7 @@ public class NotificacionView {
         tablaNotificaciones.getColumns().addAll(colIcono, colTipo, colMensaje, 
                                               colFecha, colEstado, colDestinatario);
 
-        // Personalizar filas según estado de lectura
+        // Personalizar filas segun estado de lectura
         tablaNotificaciones.setRowFactory(tv -> {
             TableRow<Notificacion> row = new TableRow<>();
             row.itemProperty().addListener((obs, oldItem, newItem) -> {
@@ -278,7 +278,7 @@ public class NotificacionView {
             return row;
         });
 
-        // Manejar selección
+        // Manejar seleccion
         tablaNotificaciones.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldSelection, newSelection) -> {
                 notificacionSeleccionada = newSelection;
@@ -286,7 +286,7 @@ public class NotificacionView {
             }
         );
 
-        // Doble clic para marcar como leída
+        // Doble clic para marcar como leida
         tablaNotificaciones.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && notificacionSeleccionada != null) {
                 marcarComoLeida();
@@ -297,14 +297,14 @@ public class NotificacionView {
     }
 
     /**
-     * Crea el panel de detalles de la notificación seleccionada
+     * Crea el panel de detalles de la notificacion seleccionada
      */
     private VBox crearPanelDetalles() {
         VBox panel = new VBox(5);
         panel.setPadding(new Insets(10));
         panel.setStyle("-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5;");
 
-        Label tituloDetalle = new Label("Detalles de la Notificación");
+        Label tituloDetalle = new Label("Detalles de la Notificacion");
         tituloDetalle.setFont(Font.font("System", FontWeight.BOLD, 14));
 
         areaDetalleNotificacion = new TextArea();
@@ -317,23 +317,23 @@ public class NotificacionView {
     }
 
     /**
-     * Crea el panel de administración (solo para ADMIN)
+     * Crea el panel de administracion (solo para ADMIN)
      */
     private VBox crearPanelAdministracion() {
         panelAdmin = new VBox(10);
         panelAdmin.setPadding(new Insets(10));
         panelAdmin.setStyle("-fx-background-color: #fff9c4; -fx-border-color: #fbc02d; -fx-border-radius: 5; -fx-background-radius: 5;");
 
-        Label tituloAdmin = new Label("Panel de Administración");
+        Label tituloAdmin = new Label("Panel de Administracion");
         tituloAdmin.setFont(Font.font("System", FontWeight.BOLD, 14));
         tituloAdmin.setTextFill(Color.DARKORANGE);
 
-        // Sección para crear nueva notificación
-        Label lblNueva = new Label("Crear Nueva Notificación:");
+        // Seccion para crear nueva notificacion
+        Label lblNueva = new Label("Crear Nueva Notificacion:");
         lblNueva.setFont(Font.font("System", FontWeight.BOLD, 12));
 
         areaNuevaNotificacion = new TextArea();
-        areaNuevaNotificacion.setPromptText("Mensaje de la notificación...");
+        areaNuevaNotificacion.setPromptText("Mensaje de la notificacion...");
         areaNuevaNotificacion.setPrefRowCount(2);
 
         HBox filaNueva = new HBox(10);
@@ -351,7 +351,7 @@ public class NotificacionView {
         campoPacienteIdNueva.setPromptText("ID Paciente (opcional)");
         campoPacienteIdNueva.setPrefWidth(120);
 
-        Button btnCrearNotificacion = new Button("Crear Notificación");
+        Button btnCrearNotificacion = new Button("Crear Notificacion");
         btnCrearNotificacion.setOnAction(e -> crearNotificacion());
         btnCrearNotificacion.setStyle("-fx-background-color: #4caf50; -fx-text-fill: white;");
 
@@ -362,7 +362,7 @@ public class NotificacionView {
             btnCrearNotificacion
         );
 
-        // Sección para limpieza de notificaciones
+        // Seccion para limpieza de notificaciones
         Label lblLimpieza = new Label("Limpieza de Notificaciones:");
         lblLimpieza.setFont(Font.font("System", FontWeight.BOLD, 12));
 
@@ -377,8 +377,8 @@ public class NotificacionView {
         btnLimpiar.setStyle("-fx-background-color: #ff5722; -fx-text-fill: white;");
 
         filaLimpieza.getChildren().addAll(
-            new Label("Eliminar notificaciones de más de"), spinnerDiasLimpieza,
-            new Label("días"), btnLimpiar
+            new Label("Eliminar notificaciones de mas de"), spinnerDiasLimpieza,
+            new Label("dias"), btnLimpiar
         );
 
         panelAdmin.getChildren().addAll(tituloAdmin, lblNueva, areaNuevaNotificacion, 
@@ -394,11 +394,11 @@ public class NotificacionView {
         botones.setAlignment(Pos.CENTER);
         botones.setPadding(new Insets(10));
 
-        Button btnMarcarLeida = new Button("Marcar como Leída");
+        Button btnMarcarLeida = new Button("Marcar como Leida");
         btnMarcarLeida.setOnAction(e -> marcarComoLeida());
         btnMarcarLeida.setStyle("-fx-background-color: #2196f3; -fx-text-fill: white;");
 
-        Button btnMarcarTodasLeidas = new Button("Marcar Todas como Leídas");
+        Button btnMarcarTodasLeidas = new Button("Marcar Todas como Leidas");
         btnMarcarTodasLeidas.setOnAction(e -> marcarTodasComoLeidas());
         btnMarcarTodasLeidas.setStyle("-fx-background-color: #ff9800; -fx-text-fill: white;");
 
@@ -417,7 +417,7 @@ public class NotificacionView {
     }
 
     /**
-     * Carga las notificaciones según el rol del usuario
+     * Carga las notificaciones segun el rol del usuario
      */
     private void cargarNotificaciones() {
         try {
@@ -437,7 +437,7 @@ public class NotificacionView {
             NotificacionController.ResumenNotificaciones resumen = notificacionController.obtenerResumen();
             
             lblResumen.setText(String.format("Total de notificaciones: %d", listaNotificaciones.size()));
-            lblNoLeidas.setText(String.format("⚠️ Notificaciones no leídas: %d", resumen.getNoLeidas()));
+            lblNoLeidas.setText(String.format("⚠️ Notificaciones no leidas: %d", resumen.getNoLeidas()));
             
         } catch (Exception e) {
             lblResumen.setText("Error al cargar resumen");
@@ -452,9 +452,9 @@ public class NotificacionView {
         try {
             List<Notificacion> notificacionesFiltradas;
             
-            // Determinar qué filtros aplicar según los valores seleccionados
+            // Determinar que filtros aplicar segun los valores seleccionados
             if (!filtroEstadoCombo.getValue().equals("Todas") && 
-                filtroEstadoCombo.getValue().equals("No Leídas")) {
+                filtroEstadoCombo.getValue().equals("No Leidas")) {
                 notificacionesFiltradas = notificacionController.obtenerNotificacionesParaUsuarioActual(true);
             } else {
                 notificacionesFiltradas = notificacionController.obtenerNotificacionesParaUsuarioActual(false);
@@ -488,7 +488,7 @@ public class NotificacionView {
                         .filter(n -> n.getPacienteId() != null && n.getPacienteId() == id)
                         .collect(java.util.stream.Collectors.toList());
                 } catch (NumberFormatException e) {
-                    mostrarAdvertencia("Filtro inválido", "El ID del paciente debe ser un número");
+                    mostrarAdvertencia("Filtro invalido", "El ID del paciente debe ser un numero");
                     return;
                 }
             }
@@ -515,7 +515,7 @@ public class NotificacionView {
     }
 
     /**
-     * Muestra los detalles de la notificación seleccionada
+     * Muestra los detalles de la notificacion seleccionada
      */
     private void mostrarDetalleNotificacion() {
         if (notificacionSeleccionada == null) {
@@ -526,7 +526,7 @@ public class NotificacionView {
         StringBuilder detalle = new StringBuilder();
         detalle.append("ID: ").append(notificacionSeleccionada.getId()).append("\n");
         detalle.append("Tipo: ").append(notificacionSeleccionada.getDescripcionTipo()).append("\n");
-        detalle.append("Estado: ").append(notificacionSeleccionada.isLeida() ? "Leída" : "No Leída").append("\n");
+        detalle.append("Estado: ").append(notificacionSeleccionada.isLeida() ? "Leida" : "No Leida").append("\n");
         detalle.append("Destinatario: ").append(notificacionSeleccionada.getDestinatarioRol()).append("\n");
         
         if (notificacionSeleccionada.getPacienteId() != null) {
@@ -541,16 +541,16 @@ public class NotificacionView {
     }
 
     /**
-     * Marca la notificación seleccionada como leída
+     * Marca la notificacion seleccionada como leida
      */
     private void marcarComoLeida() {
         if (notificacionSeleccionada == null) {
-            mostrarAdvertencia("Sin selección", "Seleccione una notificación para marcar como leída");
+            mostrarAdvertencia("Sin seleccion", "Seleccione una notificacion para marcar como leida");
             return;
         }
 
         if (notificacionSeleccionada.isLeida()) {
-            mostrarInformacion("Ya leída", "Esta notificación ya está marcada como leída");
+            mostrarInformacion("Ya leida", "Esta notificacion ya esta marcada como leida");
             return;
         }
 
@@ -559,20 +559,20 @@ public class NotificacionView {
             notificacionSeleccionada.setLeida(true);
             tablaNotificaciones.refresh();
             actualizarResumen();
-            mostrarInformacion("Éxito", "Notificación marcada como leída");
+            mostrarInformacion("Exito", "Notificacion marcada como leida");
         } catch (Exception e) {
             mostrarError("Error", e.getMessage());
         }
     }
 
     /**
-     * Marca todas las notificaciones como leídas
+     * Marca todas las notificaciones como leidas
      */
     private void marcarTodasComoLeidas() {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar");
-        confirmacion.setHeaderText("¿Marcar todas las notificaciones como leídas?");
-        confirmacion.setContentText("Esta acción no se puede deshacer");
+        confirmacion.setHeaderText("¿Marcar todas las notificaciones como leidas?");
+        confirmacion.setContentText("Esta accion no se puede deshacer");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
@@ -586,7 +586,7 @@ public class NotificacionView {
                 tablaNotificaciones.refresh();
                 actualizarResumen();
                 
-                mostrarInformacion("Éxito", "Todas las notificaciones marcadas como leídas");
+                mostrarInformacion("Exito", "Todas las notificaciones marcadas como leidas");
             } catch (Exception e) {
                 mostrarError("Error", e.getMessage());
             }
@@ -594,12 +594,12 @@ public class NotificacionView {
     }
 
     /**
-     * Crea una nueva notificación (solo ADMIN)
+     * Crea una nueva notificacion (solo ADMIN)
      */
     private void crearNotificacion() {
         String mensaje = areaNuevaNotificacion.getText().trim();
         if (mensaje.isEmpty()) {
-            mostrarAdvertencia("Mensaje vacío", "Ingrese un mensaje para la notificación");
+            mostrarAdvertencia("Mensaje vacio", "Ingrese un mensaje para la notificacion");
             return;
         }
 
@@ -628,12 +628,12 @@ public class NotificacionView {
             cargarNotificaciones();
             actualizarResumen();
             
-            mostrarInformacion("Éxito", "Notificación creada exitosamente");
+            mostrarInformacion("Exito", "Notificacion creada exitosamente");
             
         } catch (NumberFormatException e) {
-            mostrarAdvertencia("ID inválido", "El ID del paciente debe ser un número");
+            mostrarAdvertencia("ID invalido", "El ID del paciente debe ser un numero");
         } catch (Exception e) {
-            mostrarError("Error al crear notificación", e.getMessage());
+            mostrarError("Error al crear notificacion", e.getMessage());
         }
     }
 
@@ -645,8 +645,8 @@ public class NotificacionView {
         
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar limpieza");
-        confirmacion.setHeaderText(String.format("¿Eliminar notificaciones de más de %d días?", dias));
-        confirmacion.setContentText("Esta acción no se puede deshacer");
+        confirmacion.setHeaderText(String.format("¿Eliminar notificaciones de mas de %d dias?", dias));
+        confirmacion.setContentText("Esta accion no se puede deshacer");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
@@ -684,7 +684,7 @@ public class NotificacionView {
             export.append("Tipo: ").append(notif.getDescripcionTipo()).append("\n");
             export.append("Fecha: ").append(notif.getFechaHora().format(
                 DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))).append("\n");
-            export.append("Estado: ").append(notif.isLeida() ? "Leída" : "No Leída").append("\n");
+            export.append("Estado: ").append(notif.isLeida() ? "Leida" : "No Leida").append("\n");
             export.append("Para: ").append(notif.getDestinatarioRol()).append("\n");
             if (notif.getPacienteId() != null) {
                 export.append("Paciente ID: ").append(notif.getPacienteId()).append("\n");
@@ -699,7 +699,7 @@ public class NotificacionView {
         areaExport.setPrefSize(800, 600);
 
         Alert dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.setTitle("Exportación de Notificaciones");
+        dialog.setTitle("Exportacion de Notificaciones");
         dialog.setHeaderText("Reporte generado exitosamente");
         dialog.getDialogPane().setContent(areaExport);
         dialog.getDialogPane().setPrefSize(850, 650);
@@ -707,7 +707,7 @@ public class NotificacionView {
     }
 
     /**
-     * Convierte texto del combo a tipo de notificación
+     * Convierte texto del combo a tipo de notificacion
      */
     private TipoNotificacion convertirTextoATipo(String texto) {
         switch (texto) {
@@ -730,7 +730,7 @@ public class NotificacionView {
     }
 
     /**
-     * Métodos de utilidad para mostrar mensajes
+     * Metodos de utilidad para mostrar mensajes
      */
     private void mostrarError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

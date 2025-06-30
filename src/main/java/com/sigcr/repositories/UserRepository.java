@@ -5,7 +5,7 @@ import java.sql.*;
 
 /**
  * Repositorio para acceso a datos de usuarios.
- * Maneja la autenticación y gestión de usuarios del sistema SIGCR (CU-03).
+ * Maneja la autenticacion y gestion de usuarios del sistema SIGCR (CU-03).
  */
 public class UserRepository {
 
@@ -65,10 +65,10 @@ public class UserRepository {
 
     /**
      * Valida credenciales de usuario sin hashear (para testing)
-     * En producción debería usar contraseñas hasheadas
+     * En produccion deberia usar contraseñas hasheadas
      * @param username Nombre de usuario
      * @param password Contraseña en texto plano
-     * @return Usuario si las credenciales son válidas, null en caso contrario
+     * @return Usuario si las credenciales son validas, null en caso contrario
      */
     public User validateCredentials(String username, String password) {
         try (Connection conn = DriverManager.getConnection(url, userDB, passwordDB)) {
@@ -92,9 +92,9 @@ public class UserRepository {
     }
 
     /**
-     * Obtiene una conexión a la base de datos
-     * @return Conexión activa
-     * @throws SQLException si hay error de conexión
+     * Obtiene una conexion a la base de datos
+     * @return Conexion activa
+     * @throws SQLException si hay error de conexion
      */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, userDB, passwordDB);

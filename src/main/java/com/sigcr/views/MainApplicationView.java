@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 
 /**
- * Vista principal unificada de la aplicación SIGCR.
- * Proporciona navegación centralizada y UX mejorada con diseño moderno.
+ * Vista principal unificada de la aplicacion SIGCR.
+ * Proporciona navegacion centralizada y UX mejorada con diseño moderno.
  */
 public class MainApplicationView {
     
@@ -70,12 +70,12 @@ public class MainApplicationView {
         mainLayout.setCenter(contentArea);
         mainLayout.setBottom(crearStatusBar());
         
-        // Cargar vista inicial según el rol
+        // Cargar vista inicial segun el rol
         cargarVistaInicial();
     }
 
     /**
-     * Crea la barra superior con información de sesión y acciones rápidas
+     * Crea la barra superior con informacion de sesion y acciones rapidas
      */
     private void crearTopBar() {
         topBar = new HBox(20);
@@ -83,12 +83,12 @@ public class MainApplicationView {
         topBar.setAlignment(Pos.CENTER_LEFT);
         topBar.setStyle("-fx-background-color: #2c3e50; -fx-border-color: #34495e; -fx-border-width: 0 0 1 0;");
         
-        // Logo y título
+        // Logo y titulo
         Label logo = new Label("SIGCR");
         logo.setFont(Font.font("System", FontWeight.BOLD, 18));
         logo.setTextFill(Color.WHITE);
         
-        Label subtitulo = new Label("Sistema Integral de Gestión Clínica");
+        Label subtitulo = new Label("Sistema Integral de Gestion Clinica");
         subtitulo.setFont(Font.font("System", 12));
         subtitulo.setTextFill(Color.web("#bdc3c7"));
         
@@ -99,11 +99,11 @@ public class MainApplicationView {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        // Panel de sesión con botón de logout
+        // Panel de sesion con boton de logout
         SessionInfoPanel sessionPanel = new SessionInfoPanel(authController, this::cerrarSesion);
         sessionPanel.setCustomStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         
-        // Botón de notificaciones (si hay notificaciones)
+        // Boton de notificaciones (si hay notificaciones)
         Button btnNotificaciones = new Button("🔔");
         btnNotificaciones.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 15; -fx-min-width: 30; -fx-min-height: 30;");
         btnNotificaciones.setOnAction(e -> mostrarNotificaciones());
@@ -112,7 +112,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Crea la barra lateral de navegación
+     * Crea la barra lateral de navegacion
      */
     private void crearSidebar() {
         sidebar = new VBox(5);
@@ -120,19 +120,19 @@ public class MainApplicationView {
         sidebar.setPadding(new Insets(20, 10, 20, 10));
         sidebar.setStyle("-fx-background-color: #34495e; -fx-border-color: #2c3e50; -fx-border-width: 0 1 0 0;");
         
-        Label menuLabel = new Label("MENÚ PRINCIPAL");
+        Label menuLabel = new Label("MENU PRINCIPAL");
         menuLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
         menuLabel.setTextFill(Color.web("#bdc3c7"));
         menuLabel.setPadding(new Insets(0, 0, 10, 10));
         
         sidebar.getChildren().add(menuLabel);
         
-        // Crear botones de navegación según el rol
+        // Crear botones de navegacion segun el rol
         crearBotonesNavegacion();
     }
 
     /**
-     * Crea los botones de navegación según el rol del usuario
+     * Crea los botones de navegacion segun el rol del usuario
      */
     private void crearBotonesNavegacion() {
         // Siempre disponible: Panel principal
@@ -143,16 +143,16 @@ public class MainApplicationView {
         switch (usuarioActual.getRole()) {
             case "ADMIN":
                 // Admin tiene acceso a todo
-                agregarBotonNavegacion("👥 Gestión Usuarios", "usuarios", e -> mostrarGestionUsuarios());
-                agregarBotonNavegacion("🏥 Gestión Pacientes", "pacientes", e -> mostrarPacientes());
+                agregarBotonNavegacion("👥 Gestion Usuarios", "usuarios", e -> mostrarGestionUsuarios());
+                agregarBotonNavegacion("🏥 Gestion Pacientes", "pacientes", e -> mostrarPacientes());
                 agregarBotonNavegacion("📅 Cronogramas", "cronogramas", e -> mostrarCronogramas());
                 agregarBotonNavegacion("🔔 Notificaciones", "notificaciones", e -> mostrarNotificaciones());
                 agregarBotonNavegacion("📋 Reportes", "reportes", e -> mostrarReportes());
                 break;
                 
             case "MEDICO":
-                // Médico: pacientes, cronogramas, reportes
-                agregarBotonNavegacion("🏥 Gestión Pacientes", "pacientes", e -> mostrarPacientes());
+                // Medico: pacientes, cronogramas, reportes
+                agregarBotonNavegacion("🏥 Gestion Pacientes", "pacientes", e -> mostrarPacientes());
                 agregarBotonNavegacion("📅 Cronogramas", "cronogramas", e -> mostrarCronogramas());
                 agregarBotonNavegacion("📋 Reportes", "reportes", e -> mostrarReportes());
                 agregarBotonNavegacion("🔔 Notificaciones", "notificaciones", e -> mostrarNotificaciones());
@@ -173,12 +173,12 @@ public class MainApplicationView {
         sidebar.getChildren().add(separator);
         
         // Acciones del sistema
-        agregarBotonNavegacion("⚙️ Configuración", "config", e -> mostrarConfiguracion());
+        agregarBotonNavegacion("⚙️ Configuracion", "config", e -> mostrarConfiguracion());
         agregarBotonNavegacion("❓ Ayuda", "ayuda", e -> mostrarAyuda());
     }
 
     /**
-     * Agrega un botón de navegación al sidebar
+     * Agrega un boton de navegacion al sidebar
      */
     private void agregarBotonNavegacion(String texto, String id, javafx.event.EventHandler<javafx.event.ActionEvent> action) {
         Button btn = crearBotonNavegacion(texto, id);
@@ -187,7 +187,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Crea un botón de navegación con estilo consistente
+     * Crea un boton de navegacion con estilo consistente
      */
     private Button crearBotonNavegacion(String texto, String id) {
         Button btn = new Button(texto);
@@ -227,7 +227,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Crea el área de contenido principal
+     * Crea el area de contenido principal
      */
     private void crearContentArea() {
         contentArea = new StackPane();
@@ -267,7 +267,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Carga la vista inicial según el rol del usuario
+     * Carga la vista inicial segun el rol del usuario
      */
     private void cargarVistaInicial() {
         mostrarDashboard();
@@ -288,7 +288,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Cambia el contenido del área principal con feedback visual mejorado
+     * Cambia el contenido del area principal con feedback visual mejorado
      */
     private void cambiarContenido(Pane nuevaVista, String titulo) {
         mostrarCarga(true);
@@ -303,7 +303,7 @@ public class MainApplicationView {
                     primaryStage.setTitle("SIGCR - " + titulo + " - " + usuarioActual.getUsername());
                     mostrarCarga(false);
                     
-                    // Mostrar notificación de navegación exitosa
+                    // Mostrar notificacion de navegacion exitosa
                     ToastNotification.showInfo(contentArea, "Vista cargada: " + titulo);
                 });
             } catch (InterruptedException e) {
@@ -316,7 +316,7 @@ public class MainApplicationView {
         }).start();
     }
 
-    // Métodos de navegación
+    // Metodos de navegacion
     private void mostrarDashboard() {
         VBox dashboard = crearDashboard();
         cambiarContenido(dashboard, "Dashboard");
@@ -326,14 +326,14 @@ public class MainApplicationView {
         if (pacienteView == null) {
             pacienteView = new PacienteView(conn, usuarioActual);
         }
-        cambiarContenido(pacienteView.getView(), "Gestión de Pacientes");
+        cambiarContenido(pacienteView.getView(), "Gestion de Pacientes");
     }
 
     private void mostrarCronogramas() {
         if (cronogramaView == null) {
             cronogramaView = new CronogramaView(conn, usuarioActual);
         }
-        cambiarContenido(cronogramaView.getView(), "Cronogramas Terapéuticos");
+        cambiarContenido(cronogramaView.getView(), "Cronogramas Terapeuticos");
     }
 
     private void mostrarNotificaciones() {
@@ -347,7 +347,7 @@ public class MainApplicationView {
         if (gestionUsuariosView == null) {
             gestionUsuariosView = new GestionUsuariosView(conn, authController);
         }
-        cambiarContenido(gestionUsuariosView.getView(), "Gestión de Usuarios");
+        cambiarContenido(gestionUsuariosView.getView(), "Gestion de Usuarios");
     }
 
     private void mostrarReportes() {
@@ -362,7 +362,7 @@ public class MainApplicationView {
 
     private void mostrarConfiguracion() {
         VBox config = crearVistaConfiguracion();
-        cambiarContenido(config, "Configuración");
+        cambiarContenido(config, "Configuracion");
     }
 
     private void mostrarAyuda() {
@@ -393,8 +393,8 @@ public class MainApplicationView {
             crearCardConDatos("🔔 Notificaciones", obtenerNotificacionesNoLeidas(), "#f39c12")
         );
         
-        // Acciones rápidas funcionales
-        Label accionesLabel = new Label("Acciones Rápidas");
+        // Acciones rapidas funcionales
+        Label accionesLabel = new Label("Acciones Rapidas");
         accionesLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
         accionesLabel.setTextFill(Color.web("#2c3e50"));
         
@@ -403,7 +403,7 @@ public class MainApplicationView {
         Button btnVerAgenda = new Button("📅 Ver Agenda");
         Button btnReportes = new Button("📋 Ver Reportes");
         
-        // Estilo para botones de acción
+        // Estilo para botones de accion
         String estiloBoton = "-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 12 24; -fx-background-radius: 8; -fx-font-size: 14px; -fx-font-weight: bold;";
         btnNuevoPaciente.setStyle(estiloBoton);
         btnVerAgenda.setStyle(estiloBoton + " -fx-background-color: #27ae60;");
@@ -412,7 +412,7 @@ public class MainApplicationView {
         // Funcionalidad de botones
         btnNuevoPaciente.setOnAction(e -> {
             mostrarPacientes();
-            ToastNotification.showInfo(contentArea, "📋 Navegando a Gestión de Pacientes");
+            ToastNotification.showInfo(contentArea, "📋 Navegando a Gestion de Pacientes");
         });
         
         btnVerAgenda.setOnAction(e -> {
@@ -493,7 +493,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Obtiene el número de notificaciones no leídas
+     * Obtiene el numero de notificaciones no leidas
      */
     private String obtenerNotificacionesNoLeidas() {
         try {
@@ -521,13 +521,13 @@ public class MainApplicationView {
     }
 
     /**
-     * Crea una vista funcional de reportes básicos
+     * Crea una vista funcional de reportes basicos
      */
     private VBox crearVistaReportes() {
         VBox reportesView = new VBox(20);
         reportesView.setPadding(new Insets(20));
         
-        // Título
+        // Titulo
         Label titulo = new Label("📊 Reportes del Sistema");
         titulo.setFont(Font.font("System", FontWeight.BOLD, 24));
         titulo.setTextFill(Color.web("#2c3e50"));
@@ -540,7 +540,7 @@ public class MainApplicationView {
         resumenTitulo.setFont(Font.font("System", FontWeight.BOLD, 18));
         resumenTitulo.setTextFill(Color.web("#2c3e50"));
         
-        // Cards de métricas
+        // Cards de metricas
         HBox metricas = new HBox(15);
         metricas.getChildren().addAll(
             crearCardConDatos("👥 Total Pacientes", obtenerTotalPacientes(), "#3498db"),
@@ -564,7 +564,7 @@ public class MainApplicationView {
         
         Button btnReportePacientes = new Button("👥 Reporte de Pacientes");
         Button btnReporteSesiones = new Button("📅 Reporte de Sesiones");
-        Button btnReporteEstadisticas = new Button("📊 Estadísticas Generales");
+        Button btnReporteEstadisticas = new Button("📊 Estadisticas Generales");
         
         String estiloBotonReporte = "-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 15 25; -fx-background-radius: 8; -fx-font-size: 14px;";
         btnReportePacientes.setStyle(estiloBotonReporte);
@@ -578,9 +578,9 @@ public class MainApplicationView {
         
         botonesReportes.getChildren().addAll(btnReportePacientes, btnReporteSesiones, btnReporteEstadisticas);
         
-        // Área de resultados
+        // Area de resultados
         areaResultadosReportes = new javafx.scene.control.TextArea();
-        areaResultadosReportes.setPromptText("Los resultados de los reportes aparecerán aquí...");
+        areaResultadosReportes.setPromptText("Los resultados de los reportes apareceran aqui...");
         areaResultadosReportes.setPrefRowCount(15);
         areaResultadosReportes.setEditable(false);
         areaResultadosReportes.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 12px;");
@@ -595,12 +595,12 @@ public class MainApplicationView {
         VBox agendaView = new VBox(20);
         agendaView.setPadding(new Insets(20));
         
-        // Título
+        // Titulo
         Label titulo = new Label("📅 Mi Agenda Diaria");
         titulo.setFont(Font.font("System", FontWeight.BOLD, 24));
         titulo.setTextFill(Color.web("#2c3e50"));
         
-        // Información del usuario y fecha
+        // Informacion del usuario y fecha
         VBox infoBox = new VBox(10);
         infoBox.setStyle("-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);");
         
@@ -618,7 +618,7 @@ public class MainApplicationView {
         HBox selectorFecha = new HBox(15);
         selectorFecha.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         
-        Label lblFecha = new Label("Ver agenda del día:");
+        Label lblFecha = new Label("Ver agenda del dia:");
         lblFecha.setFont(Font.font("System", FontWeight.BOLD, 14));
         
         DatePicker fechaPicker = new DatePicker(java.time.LocalDate.now());
@@ -629,7 +629,7 @@ public class MainApplicationView {
         
         selectorFecha.getChildren().addAll(lblFecha, fechaPicker, btnCargarFecha);
         
-        // Área de sesiones
+        // Area de sesiones
         VBox sesionesBox = new VBox(15);
         sesionesBox.setStyle("-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);");
         
@@ -637,10 +637,10 @@ public class MainApplicationView {
         tituloSesiones.setFont(Font.font("System", FontWeight.BOLD, 18));
         tituloSesiones.setTextFill(Color.web("#2c3e50"));
         
-        // Área de contenido de sesiones
+        // Area de contenido de sesiones
         VBox contenidoSesiones = new VBox(10);
         
-        // Función para cargar sesiones
+        // Funcion para cargar sesiones
         Runnable cargarSesiones = () -> {
             java.time.LocalDate fechaSeleccionada = fechaPicker.getValue();
             cargarSesionesDelDia(contenidoSesiones, fechaSeleccionada);
@@ -649,7 +649,7 @@ public class MainApplicationView {
         // Cargar sesiones iniciales
         cargarSesiones.run();
         
-        // Evento del botón
+        // Evento del boton
         btnCargarFecha.setOnAction(e -> cargarSesiones.run());
         
         sesionesBox.getChildren().addAll(tituloSesiones, contenidoSesiones);
@@ -659,7 +659,7 @@ public class MainApplicationView {
     }
 
     private VBox crearVistaConfiguracion() {
-        return crearVistaPlaceholder("Configuración", "Configuraciones del sistema");
+        return crearVistaPlaceholder("Configuracion", "Configuraciones del sistema");
     }
 
     private VBox crearVistaAyuda() {
@@ -725,7 +725,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Métodos para obtener datos adicionales para reportes
+     * Metodos para obtener datos adicionales para reportes
      */
     private String obtenerPacientesActivos() {
         try {
@@ -772,7 +772,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Métodos para generar reportes
+     * Metodos para generar reportes
      */
     private void mostrarReportePacientes() {
         try {
@@ -801,8 +801,8 @@ public class MainApplicationView {
                     reporte.append("ID: ").append(p.getId()).append(" | ");
                     reporte.append("Nombre: ").append(p.getNombre()).append(" | ");
                     reporte.append("Documento: ").append(p.getDocumento()).append(" | ");
-                    reporte.append("Habitación: ").append(p.getHabitacion() != null ? p.getHabitacion() : "N/A").append("\n");
-                    reporte.append("Diagnóstico: ").append(p.getDiagnostico() != null ? p.getDiagnostico().substring(0, Math.min(50, p.getDiagnostico().length())) + "..." : "N/A").append("\n\n");
+                    reporte.append("Habitacion: ").append(p.getHabitacion() != null ? p.getHabitacion() : "N/A").append("\n");
+                    reporte.append("Diagnostico: ").append(p.getDiagnostico() != null ? p.getDiagnostico().substring(0, Math.min(50, p.getDiagnostico().length())) + "..." : "N/A").append("\n\n");
                 }
             }
             
@@ -825,7 +825,7 @@ public class MainApplicationView {
             
             StringBuilder reporte = new StringBuilder();
             reporte.append("=== REPORTE DE SESIONES DEL MES ===\n");
-            reporte.append("Período: ").append(inicioMes.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+            reporte.append("Periodo: ").append(inicioMes.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                    .append(" - ").append(finMes.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
             reporte.append("Generado: ").append(java.time.LocalDateTime.now().format(
                 java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n\n");
@@ -850,7 +850,7 @@ public class MainApplicationView {
                 reporte.append("Paciente: ").append(s.getPacienteId()).append(" | ");
                 reporte.append("Terapeuta: ").append(s.getTerapeuta()).append(" | ");
                 reporte.append("Tipo: ").append(s.getTipoTerapia()).append(" | ");
-                reporte.append("Duración: ").append(s.getDuracion()).append(" min\n");
+                reporte.append("Duracion: ").append(s.getDuracion()).append(" min\n");
             }
             
             areaResultadosReportes.setText(reporte.toString());
@@ -864,11 +864,11 @@ public class MainApplicationView {
     private void mostrarReporteEstadisticas() {
         try {
             StringBuilder reporte = new StringBuilder();
-            reporte.append("=== ESTADÍSTICAS GENERALES ===\n");
+            reporte.append("=== ESTADiSTICAS GENERALES ===\n");
             reporte.append("Generado: ").append(java.time.LocalDateTime.now().format(
                 java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n\n");
             
-            // Estadísticas de pacientes
+            // Estadisticas de pacientes
             com.sigcr.controllers.PacienteController pacienteController = 
                 new com.sigcr.controllers.PacienteController(conn, usuarioActual);
             java.util.List<com.sigcr.models.Paciente> pacientes = pacienteController.obtenerTodosPacientes();
@@ -879,7 +879,7 @@ public class MainApplicationView {
             reporte.append("- De alta: ").append(pacientes.stream().filter(p -> "Alta".equals(p.getEstado())).count()).append("\n");
             reporte.append("- De baja: ").append(pacientes.stream().filter(p -> "Baja".equals(p.getEstado())).count()).append("\n\n");
             
-            // Estadísticas de sesiones
+            // Estadisticas de sesiones
             com.sigcr.dao.SesionDAO sesionDAO = new com.sigcr.dao.SesionDAO(conn);
             java.time.LocalDate inicioMes = java.time.LocalDate.now().withDayOfMonth(1);
             java.time.LocalDate finMes = java.time.LocalDate.now().withDayOfMonth(
@@ -889,15 +889,15 @@ public class MainApplicationView {
                 
             reporte.append("SESIONES (MES ACTUAL):\n");
             reporte.append("- Total del mes: ").append(sesiones.size()).append("\n");
-            reporte.append("- Promedio por día: ").append(String.format("%.1f", 
+            reporte.append("- Promedio por dia: ").append(String.format("%.1f", 
                 sesiones.size() / (double) java.time.LocalDate.now().getDayOfMonth())).append("\n");
             
             if (!sesiones.isEmpty()) {
                 double duracionPromedio = sesiones.stream().mapToInt(com.sigcr.models.Sesion::getDuracion).average().orElse(0);
-                reporte.append("- Duración promedio: ").append(String.format("%.0f", duracionPromedio)).append(" minutos\n");
+                reporte.append("- Duracion promedio: ").append(String.format("%.0f", duracionPromedio)).append(" minutos\n");
             }
             
-            // Estadísticas de notificaciones
+            // Estadisticas de notificaciones
             com.sigcr.controllers.NotificacionController notifController = 
                 new com.sigcr.controllers.NotificacionController(conn, usuarioActual);
             java.util.List<com.sigcr.models.Notificacion> notificaciones = 
@@ -907,19 +907,19 @@ public class MainApplicationView {
                 
             reporte.append("\nNOTIFICACIONES:\n");
             reporte.append("- Total: ").append(notificaciones.size()).append("\n");
-            reporte.append("- No leídas: ").append(noLeidas.size()).append("\n");
-            reporte.append("- Leídas: ").append(notificaciones.size() - noLeidas.size()).append("\n");
+            reporte.append("- No leidas: ").append(noLeidas.size()).append("\n");
+            reporte.append("- Leidas: ").append(notificaciones.size() - noLeidas.size()).append("\n");
             
             areaResultadosReportes.setText(reporte.toString());
-            ToastNotification.showSuccess(contentArea, "📈 Estadísticas generadas");
+            ToastNotification.showSuccess(contentArea, "📈 Estadisticas generadas");
         } catch (Exception e) {
-            areaResultadosReportes.setText("Error al generar estadísticas: " + e.getMessage());
-            ToastNotification.showError(contentArea, "❌ Error al generar estadísticas");
+            areaResultadosReportes.setText("Error al generar estadisticas: " + e.getMessage());
+            ToastNotification.showError(contentArea, "❌ Error al generar estadisticas");
         }
     }
 
     /**
-     * Carga las sesiones del día seleccionado según el rol del usuario
+     * Carga las sesiones del dia seleccionado segun el rol del usuario
      */
     private void cargarSesionesDelDia(VBox contenidoSesiones, java.time.LocalDate fecha) {
         contenidoSesiones.getChildren().clear();
@@ -932,11 +932,11 @@ public class MainApplicationView {
         contenidoSesiones.getChildren().add(cargandoLabel);
         
         try {
-            // Debug: Mostrar información de la consulta
+            // Debug: Mostrar informacion de la consulta
             System.out.println("🔍 Debug Agenda:");
             System.out.println("  - Usuario: " + usuarioActual.getUsername() + " (" + usuarioActual.getRole() + ")");
             System.out.println("  - Fecha consultada: " + fecha);
-            System.out.println("  - Conexión DB: " + (conn != null ? "✅ Conectada" : "❌ Nula"));
+            System.out.println("  - Conexion DB: " + (conn != null ? "✅ Conectada" : "❌ Nula"));
             
             com.sigcr.dao.SesionDAO sesionDAO = new com.sigcr.dao.SesionDAO(conn);
             java.util.List<com.sigcr.models.Sesion> sesiones = 
@@ -949,7 +949,7 @@ public class MainApplicationView {
                 System.out.println("    • " + s.getFechaHora() + " - " + s.getTerapeuta() + " - " + s.getTipoTerapia());
             }
             
-            // Filtrar sesiones según el rol del usuario
+            // Filtrar sesiones segun el rol del usuario
             java.util.List<com.sigcr.models.Sesion> sesionesFiltradas = new java.util.ArrayList<>();
             
             if (usuarioActual.getRole().equals("TERAPEUTA") || usuarioActual.getRole().equals("ENFERMERIA")) {
@@ -959,9 +959,9 @@ public class MainApplicationView {
                     .collect(java.util.stream.Collectors.toList());
                 System.out.println("  - Sesiones filtradas para " + usuarioActual.getUsername() + ": " + sesionesFiltradas.size());
             } else {
-                // Médicos y administradores ven todas las sesiones
+                // Medicos y administradores ven todas las sesiones
                 sesionesFiltradas = sesiones;
-                System.out.println("  - Usuario admin/médico: mostrando todas las sesiones");
+                System.out.println("  - Usuario admin/medico: mostrando todas las sesiones");
             }
             
             // Limpiar indicador de carga
@@ -986,13 +986,13 @@ public class MainApplicationView {
                 // Ordenar sesiones por hora
                 sesionesFiltradas.sort((s1, s2) -> s1.getFechaHora().compareTo(s2.getFechaHora()));
                 
-                // Crear card para cada sesión
+                // Crear card para cada sesion
                 for (com.sigcr.models.Sesion sesion : sesionesFiltradas) {
                     VBox cardSesion = crearCardSesion(sesion);
                     contenidoSesiones.getChildren().add(cardSesion);
                 }
                 
-                // Resumen del día
+                // Resumen del dia
                 HBox resumen = new HBox(20);
                 resumen.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 8; -fx-alignment: center;");
                 
@@ -1037,7 +1037,7 @@ public class MainApplicationView {
     }
 
     /**
-     * Crea una card visual para mostrar información de una sesión
+     * Crea una card visual para mostrar informacion de una sesion
      */
     private VBox crearCardSesion(com.sigcr.models.Sesion sesion) {
         VBox card = new VBox(10);
@@ -1063,7 +1063,7 @@ public class MainApplicationView {
         
         encabezado.getChildren().addAll(lblHora, lblTipo, lblDuracion);
         
-        // Información del paciente y terapeuta
+        // Informacion del paciente y terapeuta
         VBox info = new VBox(5);
         
         Label lblPaciente = new Label("👤 Paciente ID: " + sesion.getPacienteId());
@@ -1088,13 +1088,13 @@ public class MainApplicationView {
     }
 
     /**
-     * Cierra la sesión y vuelve al login
+     * Cierra la sesion y vuelve al login
      */
     private void cerrarSesion() {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Cerrar Sesión");
-        confirmacion.setHeaderText("¿Está seguro de cerrar la sesión?");
-        confirmacion.setContentText("Se perderán los cambios no guardados.");
+        confirmacion.setTitle("Cerrar Sesion");
+        confirmacion.setHeaderText("¿Esta seguro de cerrar la sesion?");
+        confirmacion.setContentText("Se perderan los cambios no guardados.");
 
         if (confirmacion.showAndWait().get() == ButtonType.OK) {
             authController.cerrarSesion();
@@ -1102,7 +1102,7 @@ public class MainApplicationView {
             // Volver al login
             LoginView loginView = new LoginView(primaryStage);
             primaryStage.getScene().setRoot(loginView.getView());
-            primaryStage.setTitle("SIGCR - Sistema Integral Gestión Clínica Rehabilitación");
+            primaryStage.setTitle("SIGCR - Sistema Integral Gestion Clinica Rehabilitacion");
             primaryStage.setResizable(false);
             primaryStage.centerOnScreen();
         }

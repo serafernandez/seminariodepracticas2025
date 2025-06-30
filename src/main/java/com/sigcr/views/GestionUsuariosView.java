@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Vista completa para la gestión de usuarios del sistema SIGCR.
+ * Vista completa para la gestion de usuarios del sistema SIGCR.
  * Permite a los administradores crear, editar, desbloquear y gestionar
  * cuentas de usuario, implementando funcionalidades avanzadas del CU-03.
  */
@@ -45,7 +45,7 @@ public class GestionUsuariosView {
     private User usuarioSeleccionado = null;
 
     /**
-     * Constructor de la vista de gestión de usuarios
+     * Constructor de la vista de gestion de usuarios
      */
     public GestionUsuariosView(Connection conn, AuthController authController) {
         this.conn = conn;
@@ -55,7 +55,7 @@ public class GestionUsuariosView {
         
         // Verificar permisos de administrador
         if (!authController.esAdmin()) {
-            throw new SecurityException("Solo los administradores pueden acceder a la gestión de usuarios");
+            throw new SecurityException("Solo los administradores pueden acceder a la gestion de usuarios");
         }
         
         inicializarVista();
@@ -71,13 +71,13 @@ public class GestionUsuariosView {
         mainLayout = new VBox(15);
         mainLayout.setPadding(new Insets(20));
 
-        // Título y información de sesión
+        // Titulo y informacion de sesion
         VBox headerPanel = crearPanelHeader();
         
-        // Panel de estadísticas de seguridad
+        // Panel de estadisticas de seguridad
         VBox panelEstadisticas = crearPanelEstadisticas();
         
-        // Panel de gestión de usuarios
+        // Panel de gestion de usuarios
         HBox panelPrincipal = new HBox(20);
         
         // Panel izquierdo - Lista de usuarios
@@ -95,20 +95,20 @@ public class GestionUsuariosView {
     }
 
     /**
-     * Crea el panel de header con título e información de sesión
+     * Crea el panel de header con titulo e informacion de sesion
      */
     private VBox crearPanelHeader() {
         VBox panel = new VBox(10);
         panel.setAlignment(Pos.CENTER);
 
-        Label titulo = new Label("Gestión de Usuarios del Sistema");
+        Label titulo = new Label("Gestion de Usuarios del Sistema");
         titulo.setFont(Font.font("System", FontWeight.BOLD, 20));
         titulo.setStyle("-fx-text-fill: #2c3e50;");
 
         lblInfoSesion = new Label(authController.getInfoSesion());
         lblInfoSesion.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 12px;");
 
-        Button btnCerrarSesion = new Button("Cerrar Sesión");
+        Button btnCerrarSesion = new Button("Cerrar Sesion");
         btnCerrarSesion.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
         btnCerrarSesion.setOnAction(e -> cerrarSesion());
 
@@ -121,13 +121,13 @@ public class GestionUsuariosView {
     }
 
     /**
-     * Crea el panel de estadísticas de seguridad
+     * Crea el panel de estadisticas de seguridad
      */
     private VBox crearPanelEstadisticas() {
         VBox panel = new VBox(10);
         panel.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;");
 
-        Label lblTitulo = new Label("Estadísticas de Seguridad");
+        Label lblTitulo = new Label("Estadisticas de Seguridad");
         lblTitulo.setFont(Font.font("System", FontWeight.BOLD, 14));
 
         areaEstadisticas = new TextArea();
@@ -135,7 +135,7 @@ public class GestionUsuariosView {
         areaEstadisticas.setEditable(false);
         areaEstadisticas.setStyle("-fx-background-color: white;");
 
-        Button btnActualizar = new Button("Actualizar Estadísticas");
+        Button btnActualizar = new Button("Actualizar Estadisticas");
         btnActualizar.setOnAction(e -> cargarEstadisticas());
 
         panel.getChildren().addAll(lblTitulo, areaEstadisticas, btnActualizar);
@@ -171,7 +171,7 @@ public class GestionUsuariosView {
 
         tablaUsuarios.getColumns().addAll(colId, colUsername, colRol);
 
-        // Listener para selección
+        // Listener para seleccion
         tablaUsuarios.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 cargarUsuarioEnFormulario(newSelection);
@@ -351,7 +351,7 @@ public class GestionUsuariosView {
             }
 
             if (!password.equals(confirmPassword)) {
-                mostrarAdvertencia("Contraseñas no coinciden", "La confirmación de contraseña no coincide");
+                mostrarAdvertencia("Contraseñas no coinciden", "La confirmacion de contraseña no coincide");
                 return;
             }
 
@@ -372,7 +372,7 @@ public class GestionUsuariosView {
                 stmt.executeUpdate();
             }
 
-            mostrarInformacion("Éxito", "Usuario creado exitosamente");
+            mostrarInformacion("Exito", "Usuario creado exitosamente");
             limpiarFormulario();
             cargarUsuarios();
 
@@ -386,7 +386,7 @@ public class GestionUsuariosView {
      */
     private void actualizarUsuario() {
         if (usuarioSeleccionado == null) {
-            mostrarAdvertencia("Sin selección", "Seleccione un usuario para actualizar");
+            mostrarAdvertencia("Sin seleccion", "Seleccione un usuario para actualizar");
             return;
         }
 
@@ -405,7 +405,7 @@ public class GestionUsuariosView {
             if (!password.isEmpty()) {
                 // Actualizar con nueva contraseña
                 if (!password.equals(confirmPasswordField.getText())) {
-                    mostrarAdvertencia("Contraseñas no coinciden", "La confirmación de contraseña no coincide");
+                    mostrarAdvertencia("Contraseñas no coinciden", "La confirmacion de contraseña no coincide");
                     return;
                 }
                 
@@ -431,7 +431,7 @@ public class GestionUsuariosView {
                 }
             }
 
-            mostrarInformacion("Éxito", "Usuario actualizado exitosamente");
+            mostrarInformacion("Exito", "Usuario actualizado exitosamente");
             limpiarFormulario();
             cargarUsuarios();
 
@@ -441,24 +441,24 @@ public class GestionUsuariosView {
     }
 
     /**
-     * Elimina un usuario (con confirmación)
+     * Elimina un usuario (con confirmacion)
      */
     private void eliminarUsuario() {
         if (usuarioSeleccionado == null) {
-            mostrarAdvertencia("Sin selección", "Seleccione un usuario para eliminar");
+            mostrarAdvertencia("Sin seleccion", "Seleccione un usuario para eliminar");
             return;
         }
 
         // No permitir eliminar al usuario actual
         if (usuarioSeleccionado.getId() == authController.getUsuarioActual().getId()) {
-            mostrarAdvertencia("Operación no permitida", "No puede eliminar su propia cuenta");
+            mostrarAdvertencia("Operacion no permitida", "No puede eliminar su propia cuenta");
             return;
         }
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar eliminación");
-        confirmacion.setHeaderText("¿Está seguro de eliminar este usuario?");
-        confirmacion.setContentText("Esta acción no se puede deshacer");
+        confirmacion.setTitle("Confirmar eliminacion");
+        confirmacion.setHeaderText("¿Esta seguro de eliminar este usuario?");
+        confirmacion.setContentText("Esta accion no se puede deshacer");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
@@ -469,7 +469,7 @@ public class GestionUsuariosView {
                     stmt.executeUpdate();
                 }
 
-                mostrarInformacion("Éxito", "Usuario eliminado exitosamente");
+                mostrarInformacion("Exito", "Usuario eliminado exitosamente");
                 limpiarFormulario();
                 cargarUsuarios();
 
@@ -480,14 +480,14 @@ public class GestionUsuariosView {
     }
 
     /**
-     * Carga estadísticas de seguridad
+     * Carga estadisticas de seguridad
      */
     private void cargarEstadisticas() {
         try {
             String estadisticas = authController.getEstadisticasLogin();
             areaEstadisticas.setText(estadisticas);
         } catch (Exception e) {
-            areaEstadisticas.setText("Error al cargar estadísticas: " + e.getMessage());
+            areaEstadisticas.setText("Error al cargar estadisticas: " + e.getMessage());
         }
     }
 
@@ -504,7 +504,7 @@ public class GestionUsuariosView {
         resultado.ifPresent(username -> {
             try {
                 authController.desbloquearUsuario(username.trim().toLowerCase());
-                mostrarInformacion("Éxito", "Usuario desbloqueado: " + username);
+                mostrarInformacion("Exito", "Usuario desbloqueado: " + username);
                 cargarEstadisticas();
             } catch (Exception e) {
                 mostrarError("Error al desbloquear usuario", e.getMessage());
@@ -519,7 +519,7 @@ public class GestionUsuariosView {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Hashear contraseñas");
         confirmacion.setHeaderText("¿Hashear todas las contraseñas en texto plano?");
-        confirmacion.setContentText("Esta operación es irreversible");
+        confirmacion.setContentText("Esta operacion es irreversible");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
@@ -553,7 +553,7 @@ public class GestionUsuariosView {
     }
 
     /**
-     * Inicia actualización periódica de información de sesión
+     * Inicia actualizacion periodica de informacion de sesion
      */
     private void iniciarActualizacionPeriodica() {
         Thread actualizador = new Thread(() -> {
@@ -576,18 +576,18 @@ public class GestionUsuariosView {
     }
 
     /**
-     * Cierra la sesión y vuelve al login
+     * Cierra la sesion y vuelve al login
      */
     private void cerrarSesion() {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Cerrar Sesión");
-        confirmacion.setHeaderText("¿Está seguro de cerrar la sesión?");
+        confirmacion.setTitle("Cerrar Sesion");
+        confirmacion.setHeaderText("¿Esta seguro de cerrar la sesion?");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             authController.cerrarSesion();
-            // Aquí deberíamos volver a la vista de login
-            // Por simplicidad, solo cerramos la aplicación
+            // Aqui deberiamos volver a la vista de login
+            // Por simplicidad, solo cerramos la aplicacion
             javafx.application.Platform.exit();
         }
     }

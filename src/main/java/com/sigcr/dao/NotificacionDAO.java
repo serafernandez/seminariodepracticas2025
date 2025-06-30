@@ -1,15 +1,15 @@
 package com.sigcr.dao;
 
 import com.sigcr.models.Notificacion;
-import com.sigcr.models.Notificacion.TipoNotificacion;
-import com.sigcr.models.Notificacion.RolDestinatario;
+import com.sigcr.models.Notification.TipoNotificacion;
+import com.sigcr.models.Notification.RolDestinatario;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data Access Object completo para la gestión de notificaciones del sistema (CU-04).
+ * Data Access Object completo para la gestion de notificaciones del sistema (CU-04).
  * Maneja la persistencia y consultas de notificaciones con filtros por rol,
  * tipo, estado de lectura y fechas.
  */
@@ -21,9 +21,9 @@ public class NotificacionDAO {
     }
 
     /**
-     * Crea una nueva notificación en la base de datos
-     * @param notificacion Notificación a crear
-     * @throws SQLException si ocurre error en la operación
+     * Crea una nueva notificacion en la base de datos
+     * @param notificacion Notificacion a crear
+     * @throws SQLException si ocurre error en la operacion
      */
     public void crearNotificacion(Notificacion notificacion) throws SQLException {
         String sql = "INSERT INTO notificacion (paciente_id, mensaje, fecha_hora, leida, tipo, destinatario_rol) VALUES (?, ?, ?, ?, ?, ?)";
@@ -45,7 +45,7 @@ public class NotificacionDAO {
     }
 
     /**
-     * Obtiene todas las notificaciones de un paciente específico
+     * Obtiene todas las notificaciones de un paciente especifico
      * @param pacienteId ID del paciente
      * @return Lista de notificaciones del paciente
      * @throws SQLException si ocurre error en la consulta
@@ -56,7 +56,7 @@ public class NotificacionDAO {
     }
 
     /**
-     * Obtiene notificaciones dirigidas a un rol específico
+     * Obtiene notificaciones dirigidas a un rol especifico
      * @param rol Rol destinatario
      * @param incluirTodas Si incluir notificaciones dirigidas a "TODOS"
      * @return Lista de notificaciones para el rol
@@ -73,10 +73,10 @@ public class NotificacionDAO {
     }
 
     /**
-     * Obtiene notificaciones no leídas para un rol específico
+     * Obtiene notificaciones no leidas para un rol especifico
      * @param rol Rol destinatario
      * @param incluirTodas Si incluir notificaciones dirigidas a "TODOS"
-     * @return Lista de notificaciones no leídas
+     * @return Lista de notificaciones no leidas
      * @throws SQLException si ocurre error en la consulta
      */
     public List<Notificacion> obtenerNotificacionesNoLeidas(RolDestinatario rol, boolean incluirTodas) throws SQLException {
@@ -91,7 +91,7 @@ public class NotificacionDAO {
 
     /**
      * Obtiene notificaciones por tipo
-     * @param tipo Tipo de notificación
+     * @param tipo Tipo de notificacion
      * @return Lista de notificaciones del tipo especificado
      * @throws SQLException si ocurre error en la consulta
      */
@@ -117,9 +117,9 @@ public class NotificacionDAO {
     }
 
     /**
-     * Marca una notificación como leída
-     * @param notificacionId ID de la notificación
-     * @throws SQLException si ocurre error en la operación
+     * Marca una notificacion como leida
+     * @param notificacionId ID de la notificacion
+     * @throws SQLException si ocurre error en la operacion
      */
     public void marcarComoLeida(int notificacionId) throws SQLException {
         String sql = "UPDATE notificacion SET leida = TRUE WHERE id = ?";
@@ -130,10 +130,10 @@ public class NotificacionDAO {
     }
 
     /**
-     * Marca todas las notificaciones de un rol como leídas
+     * Marca todas las notificaciones de un rol como leidas
      * @param rol Rol destinatario
      * @param incluirTodas Si incluir notificaciones dirigidas a "TODOS"
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void marcarTodasComoLeidas(RolDestinatario rol, boolean incluirTodas) throws SQLException {
         String sql;
@@ -149,10 +149,10 @@ public class NotificacionDAO {
     }
 
     /**
-     * Cuenta las notificaciones no leídas para un rol
+     * Cuenta las notificaciones no leidas para un rol
      * @param rol Rol destinatario
      * @param incluirTodas Si incluir notificaciones dirigidas a "TODOS"
-     * @return Número de notificaciones no leídas
+     * @return Numero de notificaciones no leidas
      * @throws SQLException si ocurre error en la consulta
      */
     public int contarNotificacionesNoLeidas(RolDestinatario rol, boolean incluirTodas) throws SQLException {
@@ -173,10 +173,10 @@ public class NotificacionDAO {
     }
 
     /**
-     * Elimina notificaciones anteriores a una fecha específica
-     * @param fechaLimite Fecha límite (se eliminarán las anteriores)
-     * @return Número de notificaciones eliminadas
-     * @throws SQLException si ocurre error en la operación
+     * Elimina notificaciones anteriores a una fecha especifica
+     * @param fechaLimite Fecha limite (se eliminaran las anteriores)
+     * @return Numero de notificaciones eliminadas
+     * @throws SQLException si ocurre error en la operacion
      */
     public int limpiarNotificacionesAntiguas(LocalDateTime fechaLimite) throws SQLException {
         String sql = "DELETE FROM notificacion WHERE fecha_hora < ?";
@@ -187,9 +187,9 @@ public class NotificacionDAO {
     }
 
     /**
-     * Obtiene una notificación por ID
-     * @param id ID de la notificación
-     * @return Notificación o null si no existe
+     * Obtiene una notificacion por ID
+     * @param id ID de la notificacion
+     * @return Notificacion o null si no existe
      * @throws SQLException si ocurre error en la consulta
      */
     public Notificacion obtenerNotificacionPorId(int id) throws SQLException {
@@ -199,7 +199,7 @@ public class NotificacionDAO {
     }
 
     /**
-     * Método auxiliar para ejecutar consultas de notificaciones
+     * Metodo auxiliar para ejecutar consultas de notificaciones
      */
     private List<Notificacion> ejecutarConsultaNotificaciones(String sql, Object... parametros) throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -211,7 +211,7 @@ public class NotificacionDAO {
     }
 
     /**
-     * Método auxiliar para ejecutar consultas de notificaciones con PreparedStatement
+     * Metodo auxiliar para ejecutar consultas de notificaciones con PreparedStatement
      */
     private List<Notificacion> ejecutarConsultaNotificaciones(PreparedStatement stmt) throws SQLException {
         List<Notificacion> notificaciones = new ArrayList<>();

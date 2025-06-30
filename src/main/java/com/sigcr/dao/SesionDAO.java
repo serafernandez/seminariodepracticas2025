@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data Access Object para la gestión de sesiones terapéuticas.
+ * Data Access Object para la gestion de sesiones terapeuticas.
  * Maneja la persistencia de sesiones y consultas especializadas 
  * para cronogramas y reportes del sistema SIGCR.
  */
@@ -20,9 +20,9 @@ public class SesionDAO {
     }
 
     /**
-     * Crea una nueva sesión terapéutica en la base de datos
-     * @param sesion Objeto sesión a crear
-     * @throws SQLException si ocurre error en la operación
+     * Crea una nueva sesion terapeutica en la base de datos
+     * @param sesion Objeto sesion a crear
+     * @throws SQLException si ocurre error en la operacion
      */
     public void crearSesion(Sesion sesion) throws SQLException {
         String sql = "INSERT INTO sesion (paciente_id, terapeuta, tipo_terapia, fecha_hora, duracion) VALUES (?, ?, ?, ?, ?)";
@@ -37,10 +37,10 @@ public class SesionDAO {
     }
 
     /**
-     * Obtiene sesiones de un terapeuta específico para una fecha dada
+     * Obtiene sesiones de un terapeuta especifico para una fecha dada
      * Utilizado para consultar agenda diaria (CU-06)
      * @param terapeuta Nombre del profesional
-     * @param fecha Fecha de la agenda (solo ese día)
+     * @param fecha Fecha de la agenda (solo ese dia)
      * @return Lista de sesiones del terapeuta en esa fecha
      * @throws SQLException si ocurre error en la consulta
      */
@@ -66,8 +66,8 @@ public class SesionDAO {
     }
 
     /**
-     * Obtiene sesiones de un paciente específico en un rango de fechas
-     * Utilizado para generar reportes de evolución (CU-05)
+     * Obtiene sesiones de un paciente especifico en un rango de fechas
+     * Utilizado para generar reportes de evolucion (CU-05)
      * @param pacienteId ID del paciente
      * @param desde Fecha inicial del rango
      * @param hasta Fecha final del rango
@@ -97,7 +97,7 @@ public class SesionDAO {
     }
 
     /**
-     * Obtiene todas las sesiones de un paciente específico
+     * Obtiene todas las sesiones de un paciente especifico
      * @param pacienteId ID del paciente
      * @return Lista de todas las sesiones del paciente
      * @throws SQLException si ocurre error en la consulta
@@ -123,12 +123,12 @@ public class SesionDAO {
     }
 
     /**
-     * Elimina las sesiones de un paciente en un rango de fechas específico
+     * Elimina las sesiones de un paciente en un rango de fechas especifico
      * Utilizado para reemplazar cronogramas semanales (CU-02)
      * @param pacienteId ID del paciente
      * @param fechaDesde Fecha inicial del rango
      * @param fechaHasta Fecha final del rango
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void eliminarSesionesPorPacienteYRango(int pacienteId, LocalDate fechaDesde, LocalDate fechaHasta) throws SQLException {
         String sql = "DELETE FROM sesion WHERE paciente_id = ? AND DATE(fecha_hora) BETWEEN ? AND ?";
@@ -141,9 +141,9 @@ public class SesionDAO {
     }
 
     /**
-     * Actualiza una sesión existente
-     * @param sesion Sesión con datos actualizados
-     * @throws SQLException si ocurre error en la operación
+     * Actualiza una sesion existente
+     * @param sesion Sesion con datos actualizados
+     * @throws SQLException si ocurre error en la operacion
      */
     public void actualizarSesion(Sesion sesion) throws SQLException {
         String sql = "UPDATE sesion SET terapeuta=?, tipo_terapia=?, fecha_hora=?, duracion=?, observaciones=?, estado=? WHERE id=?";
@@ -160,8 +160,8 @@ public class SesionDAO {
     }
 
     /**
-     * Obtiene todas las sesiones en un rango de fechas específico
-     * Utilizado para reportes estadísticos generales (CU-05)
+     * Obtiene todas las sesiones en un rango de fechas especifico
+     * Utilizado para reportes estadisticos generales (CU-05)
      * @param desde Fecha inicial del rango
      * @param hasta Fecha final del rango
      * @return Lista de todas las sesiones en el rango especificado

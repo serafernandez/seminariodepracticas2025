@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Clase principal para iniciar la aplicación SIGCR.
+ * Clase principal para iniciar la aplicacion SIGCR.
  * Inicializa la vista de Login como primer punto de entrada.
  */
 public class Main extends Application {
@@ -16,7 +16,7 @@ public class Main extends Application {
         LoginView loginView = new LoginView(primaryStage);
         Scene scene = new Scene(loginView.getView());
         
-        primaryStage.setTitle("SIGCR - Sistema Integral Gestión Clínica Rehabilitación");
+        primaryStage.setTitle("SIGCR - Sistema Integral Gestion Clinica Rehabilitacion");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

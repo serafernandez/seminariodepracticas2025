@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 /**
  * Modelo que representa a un paciente del sistema SIGCR.
- * Contiene toda la información personal, médica y administrativa necesaria
- * para la gestión integral del paciente en el centro de rehabilitación.
+ * Contiene toda la informacion personal, medica y administrativa necesaria
+ * para la gestion integral del paciente en el centro de rehabilitacion.
  */
 public class Paciente {
     private int id;
@@ -28,7 +28,7 @@ public class Paciente {
         this.estado = estado;
     }
 
-    // Constructor para creación (sin ID)
+    // Constructor para creacion (sin ID)
     public Paciente(String nombre, String documento, LocalDate fechaNacimiento,
                    String diagnostico, String habitacion, String estado) {
         this(-1, nombre, documento, fechaNacimiento, diagnostico, habitacion, estado);
@@ -40,7 +40,7 @@ public class Paciente {
         this(nombre, documento, fechaNacimiento, diagnostico, habitacion, "Activo");
     }
 
-    // Constructor backward compatibility (para no romper código existente)
+    // Constructor backward compatibility (para no romper codigo existente)
     public Paciente(int id, String nombre, String documento, String diagnostico, String habitacion) {
         this(id, nombre, documento, null, diagnostico, habitacion, "Activo");
     }
@@ -107,8 +107,8 @@ public class Paciente {
     }
 
     /**
-     * Valida que los campos obligatorios del paciente estén completos
-     * @return true si todos los campos obligatorios están presentes
+     * Valida que los campos obligatorios del paciente esten completos
+     * @return true si todos los campos obligatorios estan presentes
      */
     public boolean validarCamposObligatorios() {
         return nombre != null && !nombre.trim().isEmpty() &&

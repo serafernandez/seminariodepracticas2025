@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Controlador que maneja toda la lógica de negocio para la generación de reportes de evolución (CU-05).
- * Coordina la creación de diferentes tipos de reportes con validaciones de permisos,
- * fechas y datos según el rol del usuario.
+ * Controlador que maneja toda la logica de negocio para la generacion de reportes de evolucion (CU-05).
+ * Coordina la creacion de diferentes tipos de reportes con validaciones de permisos,
+ * fechas y datos segun el rol del usuario.
  */
 public class ReporteController {
     
@@ -25,8 +25,8 @@ public class ReporteController {
 
     /**
      * Constructor del controlador de reportes
-     * @param conn Conexión a la base de datos
-     * @param usuarioActual Usuario que está realizando las operaciones
+     * @param conn Conexion a la base de datos
+     * @param usuarioActual Usuario que esta realizando las operaciones
      */
     public ReporteController(Connection conn, User usuarioActual) {
         this.reporteService = new ReporteService(conn);
@@ -35,51 +35,51 @@ public class ReporteController {
     }
 
     /**
-     * Genera un reporte de evolución básico para un paciente
+     * Genera un reporte de evolucion basico para un paciente
      * @param pacienteId ID del paciente
      * @param desde Fecha inicial del periodo
      * @param hasta Fecha final del periodo
      * @return Contenido del reporte como string
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
-     * @throws IllegalArgumentException si los parámetros son inválidos
+     * @throws IllegalArgumentException si los parametros son invalidos
      */
     public String generarReporteBasico(int pacienteId, LocalDate desde, LocalDate hasta) 
             throws SQLException, SecurityException, IllegalArgumentException {
         
-        // Validar permisos (MEDICO, ADMIN y TERAPEUTA pueden generar reportes básicos)
+        // Validar permisos (MEDICO, ADMIN y TERAPEUTA pueden generar reportes basicos)
         if (!usuarioActual.getRole().equals("MEDICO") && 
             !usuarioActual.getRole().equals("ADMIN") && 
             !usuarioActual.getRole().equals("TERAPEUTA")) {
             throw new SecurityException("No tiene permisos para generar reportes de pacientes");
         }
 
-        // Validar parámetros
+        // Validar parametros
         validarParametrosReporte(pacienteId, desde, hasta);
 
-        // Generar reporte básico usando el método existente
+        // Generar reporte basico usando el metodo existente
         return reporteService.generarReporteEvolucionCompleto(pacienteId, desde, hasta);
     }
 
     /**
-     * Genera un reporte completo de evolución para un paciente
+     * Genera un reporte completo de evolucion para un paciente
      * @param pacienteId ID del paciente
      * @param desde Fecha inicial del periodo
      * @param hasta Fecha final del periodo
      * @return Contenido del reporte completo como string
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
-     * @throws IllegalArgumentException si los parámetros son inválidos
+     * @throws IllegalArgumentException si los parametros son invalidos
      */
     public String generarReporteCompleto(int pacienteId, LocalDate desde, LocalDate hasta) 
             throws SQLException, SecurityException, IllegalArgumentException {
         
         // Validar permisos (solo MEDICO y ADMIN pueden generar reportes completos)
         if (!usuarioActual.getRole().equals("MEDICO") && !usuarioActual.getRole().equals("ADMIN")) {
-            throw new SecurityException("Solo médicos y administradores pueden generar reportes completos");
+            throw new SecurityException("Solo medicos y administradores pueden generar reportes completos");
         }
 
-        // Validar parámetros
+        // Validar parametros
         validarParametrosReporte(pacienteId, desde, hasta);
 
         // Generar reporte completo
@@ -87,30 +87,30 @@ public class ReporteController {
     }
 
     /**
-     * Genera un reporte resumido de múltiples pacientes
+     * Genera un reporte resumido de multiples pacientes
      * @param pacientesIds Lista de IDs de pacientes
      * @param desde Fecha inicial del periodo
      * @param hasta Fecha final del periodo
      * @return Contenido del reporte resumido como string
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
-     * @throws IllegalArgumentException si los parámetros son inválidos
+     * @throws IllegalArgumentException si los parametros son invalidos
      */
     public String generarReporteMultiplesPacientes(List<Integer> pacientesIds, LocalDate desde, LocalDate hasta) 
             throws SQLException, SecurityException, IllegalArgumentException {
         
         // Validar permisos (solo MEDICO y ADMIN)
         if (!usuarioActual.getRole().equals("MEDICO") && !usuarioActual.getRole().equals("ADMIN")) {
-            throw new SecurityException("Solo médicos y administradores pueden generar reportes de múltiples pacientes");
+            throw new SecurityException("Solo medicos y administradores pueden generar reportes de multiples pacientes");
         }
 
-        // Validar parámetros
+        // Validar parametros
         if (pacientesIds == null || pacientesIds.isEmpty()) {
             throw new IllegalArgumentException("Debe especificar al menos un paciente");
         }
 
         if (pacientesIds.size() > 50) {
-            throw new IllegalArgumentException("No se pueden generar reportes de más de 50 pacientes a la vez");
+            throw new IllegalArgumentException("No se pueden generar reportes de mas de 50 pacientes a la vez");
         }
 
         validarRangoFechas(desde, hasta);
@@ -128,20 +128,20 @@ public class ReporteController {
     }
 
     /**
-     * Genera un reporte estadístico por tipo de terapia
+     * Genera un reporte estadistico por tipo de terapia
      * @param desde Fecha inicial del periodo
      * @param hasta Fecha final del periodo
-     * @return Contenido del reporte estadístico como string
+     * @return Contenido del reporte estadistico como string
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
-     * @throws IllegalArgumentException si los parámetros son inválidos
+     * @throws IllegalArgumentException si los parametros son invalidos
      */
     public String generarReporteEstadisticoPorTerapia(LocalDate desde, LocalDate hasta) 
             throws SQLException, SecurityException, IllegalArgumentException {
         
-        // Validar permisos (solo ADMIN puede generar reportes estadísticos generales)
+        // Validar permisos (solo ADMIN puede generar reportes estadisticos generales)
         if (!usuarioActual.getRole().equals("ADMIN")) {
-            throw new SecurityException("Solo los administradores pueden generar reportes estadísticos por tipo de terapia");
+            throw new SecurityException("Solo los administradores pueden generar reportes estadisticos por tipo de terapia");
         }
 
         // Validar fechas
@@ -152,7 +152,7 @@ public class ReporteController {
     }
 
     /**
-     * Obtiene la lista de pacientes disponibles para reportes según el rol del usuario
+     * Obtiene la lista de pacientes disponibles para reportes segun el rol del usuario
      * @return Lista de pacientes que el usuario puede incluir en reportes
      * @throws SQLException si ocurre error en base de datos
      */
@@ -162,7 +162,7 @@ public class ReporteController {
             return pacienteDAO.getPacientesPorEstado("Activo");
         }
         
-        // TERAPEUTA puede ver todos los pacientes (para reportes básicos)
+        // TERAPEUTA puede ver todos los pacientes (para reportes basicos)
         if (usuarioActual.getRole().equals("TERAPEUTA")) {
             return pacienteDAO.getPacientesPorEstado("Activo");
         }
@@ -172,26 +172,26 @@ public class ReporteController {
     }
 
     /**
-     * Obtiene estadísticas rápidas para el dashboard
-     * @return Objeto con estadísticas resumidas
+     * Obtiene estadisticas rapidas para el dashboard
+     * @return Objeto con estadisticas resumidas
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
     public EstadisticasReporte obtenerEstadisticasRapidas() throws SQLException, SecurityException {
-        // Solo ADMIN y MEDICO pueden ver estadísticas generales
+        // Solo ADMIN y MEDICO pueden ver estadisticas generales
         if (!usuarioActual.getRole().equals("ADMIN") && !usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("No tiene permisos para ver estadísticas generales");
+            throw new SecurityException("No tiene permisos para ver estadisticas generales");
         }
 
         try {
-            // Estadísticas del último mes
+            // Estadisticas del ultimo mes
             LocalDate hasta = LocalDate.now();
             LocalDate desde = hasta.minusMonths(1);
             
             // Obtener pacientes activos
             List<Paciente> pacientesActivos = pacienteDAO.getPacientesPorEstado("Activo");
             
-            // Generar reporte estadístico rápido
+            // Generar reporte estadistico rapido
             String reporteEstadistico = reporteService.generarReporteEstadisticoPorTerapia(desde, hasta);
             
             return new EstadisticasReporte(
@@ -203,7 +203,7 @@ public class ReporteController {
             );
             
         } catch (Exception e) {
-            // Si hay error, devolver estadísticas básicas
+            // Si hay error, devolver estadisticas basicas
             List<Paciente> pacientesActivos = pacienteDAO.getPacientesPorEstado("Activo");
             return new EstadisticasReporte(
                 pacientesActivos.size(),
@@ -216,7 +216,7 @@ public class ReporteController {
     }
 
     /**
-     * Valida los parámetros comunes para reportes de paciente individual
+     * Valida los parametros comunes para reportes de paciente individual
      */
     private void validarParametrosReporte(int pacienteId, LocalDate desde, LocalDate hasta) 
             throws SQLException, IllegalArgumentException {
@@ -247,18 +247,18 @@ public class ReporteController {
             throw new IllegalArgumentException("La fecha de inicio no puede ser posterior a la fecha actual");
         }
 
-        // Limitar a máximo 1 año de diferencia
+        // Limitar a maximo 1 año de diferencia
         if (desde.isBefore(hasta.minusYears(1))) {
             throw new IllegalArgumentException("El rango de fechas no puede ser superior a 1 año");
         }
     }
 
     /**
-     * Extrae el número total de sesiones de un reporte estadístico
+     * Extrae el numero total de sesiones de un reporte estadistico
      */
     private int extraerNumeroSesiones(String reporteEstadistico) {
         try {
-            // Buscar línea "Total de sesiones: X"
+            // Buscar linea "Total de sesiones: X"
             String[] lineas = reporteEstadistico.split("\n");
             for (String linea : lineas) {
                 if (linea.contains("Total de sesiones:")) {
@@ -273,11 +273,11 @@ public class ReporteController {
     }
 
     /**
-     * Extrae el número de tipos de terapia diferentes de un reporte estadístico
+     * Extrae el numero de tipos de terapia diferentes de un reporte estadistico
      */
     private int extraerTiposTerapia(String reporteEstadistico) {
         try {
-            // Buscar línea "Tipos de terapia diferentes: X"
+            // Buscar linea "Tipos de terapia diferentes: X"
             String[] lineas = reporteEstadistico.split("\n");
             for (String linea : lineas) {
                 if (linea.contains("Tipos de terapia diferentes:")) {
@@ -314,14 +314,14 @@ public class ReporteController {
                 desde = hasta.minusMonths(6);
                 break;
             default:
-                desde = hasta.minusMonths(1); // Por defecto, último mes
+                desde = hasta.minusMonths(1); // Por defecto, ultimo mes
         }
         
         return new LocalDate[]{desde, hasta};
     }
 
     /**
-     * Formatea un reporte para exportación con metadatos adicionales
+     * Formatea un reporte para exportacion con metadatos adicionales
      * @param contenidoReporte Contenido original del reporte
      * @param tipoReporte Tipo de reporte generado
      * @return Reporte formateado con metadatos
@@ -329,29 +329,29 @@ public class ReporteController {
     public String formatearParaExportacion(String contenidoReporte, String tipoReporte) {
         StringBuilder reporteFormateado = new StringBuilder();
         
-        // Metadatos de exportación
-        reporteFormateado.append("SISTEMA INTEGRAL DE GESTIÓN PARA CLÍNICAS DE REHABILITACIÓN (SIGCR)\n");
+        // Metadatos de exportacion
+        reporteFormateado.append("SISTEMA INTEGRAL DE GESTION PARA CLiNICAS DE REHABILITACION (SIGCR)\n");
         reporteFormateado.append("=".repeat(80)).append("\n");
         reporteFormateado.append("Tipo de reporte: ").append(tipoReporte).append("\n");
         reporteFormateado.append("Generado por: ").append(usuarioActual.getUsername()).append(" (").append(usuarioActual.getRole()).append(")\n");
-        reporteFormateado.append("Fecha de generación: ").append(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
-        reporteFormateado.append("Hora de generación: ").append(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"))).append("\n");
+        reporteFormateado.append("Fecha de generacion: ").append(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
+        reporteFormateado.append("Hora de generacion: ").append(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"))).append("\n");
         reporteFormateado.append("=".repeat(80)).append("\n\n");
         
         // Contenido original del reporte
         reporteFormateado.append(contenidoReporte);
         
-        // Pie de página
+        // Pie de pagina
         reporteFormateado.append("\n").append("=".repeat(80)).append("\n");
-        reporteFormateado.append("Este reporte es confidencial y está destinado únicamente para uso médico profesional.\n");
-        reporteFormateado.append("Prohibida su reproducción o distribución sin autorización.\n");
+        reporteFormateado.append("Este reporte es confidencial y esta destinado unicamente para uso medico profesional.\n");
+        reporteFormateado.append("Prohibida su reproduccion o distribucion sin autorizacion.\n");
         reporteFormateado.append("=".repeat(80)).append("\n");
         
         return reporteFormateado.toString();
     }
 
     /**
-     * Clase interna para estadísticas rápidas
+     * Clase interna para estadisticas rapidas
      */
     public static class EstadisticasReporte {
         private final int totalPacientesActivos;
@@ -377,7 +377,7 @@ public class ReporteController {
         public LocalDate getPeriodoHasta() { return periodoHasta; }
         
         public String getResumen() {
-            return String.format("Pacientes activos: %d | Sesiones (último mes): %d | Tipos de terapia: %d", 
+            return String.format("Pacientes activos: %d | Sesiones (ultimo mes): %d | Tipos de terapia: %d", 
                                totalPacientesActivos, totalSesiones, tiposTerapiaDiferentes);
         }
     }

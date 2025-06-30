@@ -3,8 +3,8 @@ package com.sigcr.controllers;
 import com.sigcr.dao.NotificacionDAO;
 import com.sigcr.dao.PacienteDAO;
 import com.sigcr.models.Notificacion;
-import com.sigcr.models.Notificacion.TipoNotificacion;
-import com.sigcr.models.Notificacion.RolDestinatario;
+import com.sigcr.models.Notification.TipoNotificacion;
+import com.sigcr.models.Notification.RolDestinatario;
 import com.sigcr.models.Paciente;
 import com.sigcr.models.User;
 
@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Controlador que maneja toda la lógica de negocio para el sistema de notificaciones (CU-04).
- * Coordina la creación, consulta, marcado como leídas y gestión de notificaciones
- * según el rol del usuario y el contexto del sistema.
+ * Controlador que maneja toda la logica de negocio para el sistema de notificaciones (CU-04).
+ * Coordina la creacion, consulta, marcado como leidas y gestion de notificaciones
+ * segun el rol del usuario y el contexto del sistema.
  */
 public class NotificacionController {
     
@@ -27,8 +27,8 @@ public class NotificacionController {
 
     /**
      * Constructor del controlador de notificaciones
-     * @param conn Conexión a la base de datos
-     * @param usuarioActual Usuario que está realizando las operaciones
+     * @param conn Conexion a la base de datos
+     * @param usuarioActual Usuario que esta realizando las operaciones
      */
     public NotificacionController(Connection conn, User usuarioActual) {
         this.notificacionDAO = new NotificacionDAO(conn);
@@ -37,9 +37,9 @@ public class NotificacionController {
     }
 
     /**
-     * Crea una nueva notificación del sistema
-     * @param notificacion Notificación a crear
-     * @return true si se creó exitosamente
+     * Crea una nueva notificacion del sistema
+     * @param notificacion Notificacion a crear
+     * @return true si se creo exitosamente
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
@@ -48,12 +48,12 @@ public class NotificacionController {
         if (notificacion.getTipo() == TipoNotificacion.GENERAL && 
             !usuarioActual.getRole().equals("ADMIN") && 
             !usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("Solo administradores y médicos pueden crear notificaciones generales");
+            throw new SecurityException("Solo administradores y medicos pueden crear notificaciones generales");
         }
 
-        // Validar que el mensaje no esté vacío
+        // Validar que el mensaje no este vacio
         if (notificacion.getMensaje() == null || notificacion.getMensaje().trim().isEmpty()) {
-            throw new IllegalArgumentException("El mensaje de la notificación no puede estar vacío");
+            throw new IllegalArgumentException("El mensaje de la notificacion no puede estar vacio");
         }
 
         // Si hay paciente asociado, verificar que existe
@@ -69,8 +69,8 @@ public class NotificacionController {
     }
 
     /**
-     * Obtiene las notificaciones para el usuario actual según su rol
-     * @param soloNoLeidas Si solo obtener las no leídas
+     * Obtiene las notificaciones para el usuario actual segun su rol
+     * @param soloNoLeidas Si solo obtener las no leidas
      * @return Lista de notificaciones
      * @throws SQLException si ocurre error en base de datos
      */
@@ -102,7 +102,7 @@ public class NotificacionController {
     }
 
     /**
-     * Obtiene notificaciones de un paciente específico
+     * Obtiene notificaciones de un paciente especifico
      * @param pacienteId ID del paciente
      * @return Lista de notificaciones del paciente
      * @throws SQLException si ocurre error en base de datos
@@ -115,34 +115,34 @@ public class NotificacionController {
             throw new IllegalArgumentException("El paciente especificado no existe");
         }
 
-        // Solo ADMIN y MEDICO pueden ver notificaciones específicas de pacientes
+        // Solo ADMIN y MEDICO pueden ver notificaciones especificas de pacientes
         if (!usuarioActual.getRole().equals("ADMIN") && !usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("Solo administradores y médicos pueden consultar notificaciones por paciente");
+            throw new SecurityException("Solo administradores y medicos pueden consultar notificaciones por paciente");
         }
 
         return notificacionDAO.obtenerNotificacionesPorPaciente(pacienteId);
     }
 
     /**
-     * Marca una notificación como leída
-     * @param notificacionId ID de la notificación
-     * @return true si se marcó exitosamente
+     * Marca una notificacion como leida
+     * @param notificacionId ID de la notificacion
+     * @return true si se marco exitosamente
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
     public boolean marcarComoLeida(int notificacionId) throws SQLException, SecurityException {
-        // Obtener la notificación para validar permisos
+        // Obtener la notificacion para validar permisos
         Notificacion notificacion = notificacionDAO.obtenerNotificacionPorId(notificacionId);
         if (notificacion == null) {
-            throw new IllegalArgumentException("La notificación especificada no existe");
+            throw new IllegalArgumentException("La notificacion especificada no existe");
         }
 
-        // Verificar que el usuario tiene permiso para marcar esta notificación
+        // Verificar que el usuario tiene permiso para marcar esta notificacion
         RolDestinatario rolUsuario = convertirStringARol(usuarioActual.getRole());
         if (notificacion.getDestinatarioRol() != RolDestinatario.TODOS && 
             notificacion.getDestinatarioRol() != rolUsuario && 
             !usuarioActual.getRole().equals("ADMIN")) {
-            throw new SecurityException("No tiene permisos para marcar esta notificación como leída");
+            throw new SecurityException("No tiene permisos para marcar esta notificacion como leida");
         }
 
         notificacionDAO.marcarComoLeida(notificacionId);
@@ -150,7 +150,7 @@ public class NotificacionController {
     }
 
     /**
-     * Marca todas las notificaciones del usuario actual como leídas
+     * Marca todas las notificaciones del usuario actual como leidas
      * @return true si se marcaron exitosamente
      * @throws SQLException si ocurre error en base de datos
      */
@@ -161,8 +161,8 @@ public class NotificacionController {
     }
 
     /**
-     * Cuenta las notificaciones no leídas para el usuario actual
-     * @return Número de notificaciones no leídas
+     * Cuenta las notificaciones no leidas para el usuario actual
+     * @return Numero de notificaciones no leidas
      * @throws SQLException si ocurre error en base de datos
      */
     public int contarNotificacionesNoLeidas() throws SQLException {
@@ -172,14 +172,14 @@ public class NotificacionController {
 
     /**
      * Obtiene notificaciones por tipo (solo para ADMIN y MEDICO)
-     * @param tipo Tipo de notificación
+     * @param tipo Tipo de notificacion
      * @return Lista de notificaciones del tipo
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no tiene permisos
      */
     public List<Notificacion> obtenerNotificacionesPorTipo(TipoNotificacion tipo) throws SQLException, SecurityException {
         if (!usuarioActual.getRole().equals("ADMIN") && !usuarioActual.getRole().equals("MEDICO")) {
-            throw new SecurityException("Solo administradores y médicos pueden filtrar notificaciones por tipo");
+            throw new SecurityException("Solo administradores y medicos pueden filtrar notificaciones por tipo");
         }
 
         return notificacionDAO.obtenerNotificacionesPorTipo(tipo);
@@ -207,8 +207,8 @@ public class NotificacionController {
 
     /**
      * Limpia notificaciones antiguas (solo para ADMIN)
-     * @param diasAntiguedad Días de antigüedad a partir de los cuales eliminar
-     * @return Número de notificaciones eliminadas
+     * @param diasAntiguedad Dias de antigüedad a partir de los cuales eliminar
+     * @return Numero de notificaciones eliminadas
      * @throws SQLException si ocurre error en base de datos
      * @throws SecurityException si el usuario no es administrador
      */
@@ -218,7 +218,7 @@ public class NotificacionController {
         }
 
         if (diasAntiguedad < 1) {
-            throw new IllegalArgumentException("Los días de antigüedad deben ser al menos 1");
+            throw new IllegalArgumentException("Los dias de antigüedad deben ser al menos 1");
         }
 
         LocalDateTime fechaLimite = LocalDateTime.now().minusDays(diasAntiguedad);
@@ -226,15 +226,15 @@ public class NotificacionController {
     }
 
     /**
-     * Crea notificaciones automáticas del sistema (para uso interno)
-     * Estos métodos son llamados desde otros controladores
+     * Crea notificaciones automaticas del sistema (para uso interno)
+     * Estos metodos son llamados desde otros controladores
      */
     
     /**
-     * Crea notificación de paciente creado
+     * Crea notificacion de paciente creado
      */
     public void notificarPacienteCreado(int pacienteId, String nombrePaciente) throws SQLException {
-        String mensaje = String.format("Nuevo paciente registrado: %s. Requiere asignación de plan terapéutico.", nombrePaciente);
+        String mensaje = String.format("Nuevo paciente registrado: %s. Requiere asignacion de plan terapeutico.", nombrePaciente);
         Notificacion notificacion = new Notificacion(
             pacienteId, 
             mensaje, 
@@ -245,7 +245,7 @@ public class NotificacionController {
     }
 
     /**
-     * Crea notificación de paciente actualizado
+     * Crea notificacion de paciente actualizado
      */
     public void notificarPacienteActualizado(int pacienteId, String nombrePaciente, String cambiosRealizados) throws SQLException {
         String mensaje = String.format("Paciente %s actualizado. Cambios: %s", nombrePaciente, cambiosRealizados);
@@ -259,7 +259,7 @@ public class NotificacionController {
     }
 
     /**
-     * Crea notificación de paciente dado de baja
+     * Crea notificacion de paciente dado de baja
      */
     public void notificarPacienteDadoDeBaja(int pacienteId, String nombrePaciente) throws SQLException {
         String mensaje = String.format("Paciente %s dado de baja. Cancelar sesiones pendientes.", nombrePaciente);
@@ -273,7 +273,7 @@ public class NotificacionController {
     }
 
     /**
-     * Crea notificación de cambio en cronograma
+     * Crea notificacion de cambio en cronograma
      */
     public void notificarCambioCronograma(int pacienteId, String nombrePaciente, List<String> terapeutasAfectados) throws SQLException {
         String terapeutas = String.join(", ", terapeutasAfectados);
@@ -288,7 +288,7 @@ public class NotificacionController {
     }
 
     /**
-     * Crea notificación de plan de tratamiento creado
+     * Crea notificacion de plan de tratamiento creado
      */
     public void notificarPlanCreado(int pacienteId, String nombrePaciente, int horasSemanales) throws SQLException {
         String mensaje = String.format("Plan de tratamiento creado para %s. Total: %d horas semanales.", nombrePaciente, horasSemanales);

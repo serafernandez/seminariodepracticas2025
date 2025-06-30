@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Vista completa para la gestión integral de pacientes (CU-01).
+ * Vista completa para la gestion integral de pacientes (CU-01).
  * Permite crear, buscar, actualizar y dar de baja pacientes con validaciones
- * y control de acceso según el rol del usuario.
+ * y control de acceso segun el rol del usuario.
  */
 public class PacienteView {
     
@@ -44,7 +44,7 @@ public class PacienteView {
 
     /**
      * Constructor de la vista de pacientes
-     * @param conn Conexión a la base de datos
+     * @param conn Conexion a la base de datos
      * @param usuarioActual Usuario autenticado
      */
     public PacienteView(Connection conn, User usuarioActual) {
@@ -66,11 +66,11 @@ public class PacienteView {
         contentLayout = new VBox(15);
         contentLayout.setPadding(new Insets(20));
 
-        // Título mejorado
-        Label titulo = new Label("Gestión de Pacientes");
+        // Titulo mejorado
+        Label titulo = new Label("Gestion de Pacientes");
         titulo.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        // Panel de búsqueda mejorado
+        // Panel de busqueda mejorado
         HBox panelBusqueda = crearPanelBusqueda();
 
         // Formulario de paciente mejorado
@@ -90,7 +90,7 @@ public class PacienteView {
     }
 
     /**
-     * Crea el panel de búsqueda de pacientes
+     * Crea el panel de busqueda de pacientes
      */
     private HBox crearPanelBusqueda() {
         HBox panel = new HBox(10);
@@ -103,7 +103,7 @@ public class PacienteView {
         criterioCombo.setValue("nombre");
 
         busquedaField = new TextField();
-        busquedaField.setPromptText("Ingrese término de búsqueda...");
+        busquedaField.setPromptText("Ingrese termino de busqueda...");
 
         Button btnBuscar = new Button("Buscar");
         btnBuscar.setOnAction(e -> realizarBusqueda());
@@ -140,7 +140,7 @@ public class PacienteView {
         // Documento
         grid.add(new Label("Documento*:"), 0, 1);
         documentoField = new TextField();
-        documentoField.setPromptText("Número de documento");
+        documentoField.setPromptText("Numero de documento");
         grid.add(documentoField, 1, 1);
 
         // Fecha de nacimiento
@@ -148,17 +148,17 @@ public class PacienteView {
         fechaNacimientoPicker = new DatePicker();
         grid.add(fechaNacimientoPicker, 1, 2);
 
-        // Diagnóstico
-        grid.add(new Label("Diagnóstico*:"), 0, 3);
+        // Diagnostico
+        grid.add(new Label("Diagnostico*:"), 0, 3);
         diagnosticoArea = new TextArea();
-        diagnosticoArea.setPromptText("Diagnóstico médico");
+        diagnosticoArea.setPromptText("Diagnostico medico");
         diagnosticoArea.setPrefRowCount(3);
         grid.add(diagnosticoArea, 1, 3);
 
-        // Habitación
-        grid.add(new Label("Habitación:"), 0, 4);
+        // Habitacion
+        grid.add(new Label("Habitacion:"), 0, 4);
         habitacionField = new TextField();
-        habitacionField.setPromptText("Número de habitación");
+        habitacionField.setPromptText("Numero de habitacion");
         grid.add(habitacionField, 1, 4);
 
         // Estado
@@ -188,11 +188,11 @@ public class PacienteView {
         colDocumento.setCellValueFactory(new PropertyValueFactory<>("documento"));
         colDocumento.setPrefWidth(100);
 
-        TableColumn<Paciente, String> colDiagnostico = new TableColumn<>("Diagnóstico");
+        TableColumn<Paciente, String> colDiagnostico = new TableColumn<>("Diagnostico");
         colDiagnostico.setCellValueFactory(new PropertyValueFactory<>("diagnostico"));
         colDiagnostico.setPrefWidth(200);
 
-        TableColumn<Paciente, String> colHabitacion = new TableColumn<>("Habitación");
+        TableColumn<Paciente, String> colHabitacion = new TableColumn<>("Habitacion");
         colHabitacion.setCellValueFactory(new PropertyValueFactory<>("habitacion"));
         colHabitacion.setPrefWidth(80);
 
@@ -202,7 +202,7 @@ public class PacienteView {
 
         tabla.getColumns().addAll(colNombre, colDocumento, colDiagnostico, colHabitacion, colEstado);
 
-        // Listener para selección en tabla
+        // Listener para seleccion en tabla
         tabla.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 cargarPacienteEnFormulario(newSelection);
@@ -214,7 +214,7 @@ public class PacienteView {
     }
 
     /**
-     * Crea el panel de botones de acción
+     * Crea el panel de botones de accion
      */
     private HBox crearPanelBotones() {
         HBox panel = new HBox(10);
@@ -288,7 +288,7 @@ public class PacienteView {
     }
 
     /**
-     * Realiza búsqueda de pacientes según criterio
+     * Realiza busqueda de pacientes segun criterio
      */
     private void realizarBusqueda() {
         String criterio = criterioCombo.getValue();
@@ -304,7 +304,7 @@ public class PacienteView {
             listaPacientes.clear();
             listaPacientes.addAll(resultados);
         } catch (Exception e) {
-            mostrarError("Error en búsqueda", e.getMessage());
+            mostrarError("Error en busqueda", e.getMessage());
         }
     }
 
@@ -339,7 +339,7 @@ public class PacienteView {
             paciente.setId(pacienteSeleccionado.getId());
             
             if (pacienteController.actualizarPaciente(paciente)) {
-                mostrarInformacion("Éxito", "Paciente actualizado correctamente");
+                mostrarInformacion("Exito", "Paciente actualizado correctamente");
                 cargarPacientes();
             }
         } catch (Exception e) {
@@ -356,17 +356,17 @@ public class PacienteView {
             return;
         }
 
-        // Confirmación
+        // Confirmacion
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmar baja");
-        confirmacion.setHeaderText("¿Está seguro de dar de baja al paciente?");
-        confirmacion.setContentText("Esta acción cambiará el estado del paciente a 'Baja' y generará notificaciones.");
+        confirmacion.setHeaderText("¿Esta seguro de dar de baja al paciente?");
+        confirmacion.setContentText("Esta accion cambiara el estado del paciente a 'Baja' y generara notificaciones.");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             try {
                 if (pacienteController.darDeBajaPaciente(pacienteSeleccionado.getId())) {
-                    mostrarInformacion("Éxito", "Paciente dado de baja correctamente");
+                    mostrarInformacion("Exito", "Paciente dado de baja correctamente");
                     limpiarFormulario();
                     cargarPacientes();
                 }
@@ -402,7 +402,7 @@ public class PacienteView {
     }
 
     /**
-     * Muestra mensaje de información
+     * Muestra mensaje de informacion
      */
     private void mostrarInformacion(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

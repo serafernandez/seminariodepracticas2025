@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Servicio completo para la generación de reportes de evolución de pacientes (CU-05).
- * Proporciona diferentes tipos de reportes con estadísticas detalladas
- * sobre el progreso terapéutico y cumplimiento de planes de tratamiento.
+ * Servicio completo para la generacion de reportes de evolucion de pacientes (CU-05).
+ * Proporciona diferentes tipos de reportes con estadisticas detalladas
+ * sobre el progreso terapeutico y cumplimiento de planes de tratamiento.
  */
 public class ReporteService {
     private SesionDAO sesionDAO;
@@ -31,7 +31,7 @@ public class ReporteService {
     }
 
     /**
-     * Genera un reporte completo de evolución de un paciente
+     * Genera un reporte completo de evolucion de un paciente
      * @param pacienteId ID del paciente
      * @param desde Fecha inicial del periodo
      * @param hasta Fecha final del periodo
@@ -39,7 +39,7 @@ public class ReporteService {
      * @throws SQLException si ocurre error en consultas
      */
     public String generarReporteEvolucionCompleto(int pacienteId, LocalDate desde, LocalDate hasta) throws SQLException {
-        // Obtener datos básicos
+        // Obtener datos basicos
         Paciente paciente = pacienteDAO.getPaciente(pacienteId);
         if (paciente == null) {
             throw new IllegalArgumentException("Paciente no encontrado");
@@ -53,10 +53,10 @@ public class ReporteService {
         
         // Encabezado
         reporte.append("=".repeat(80)).append("\n");
-        reporte.append("REPORTE DE EVOLUCIÓN DEL PACIENTE - SISTEMA SIGCR\n");
+        reporte.append("REPORTE DE EVOLUCION DEL PACIENTE - SISTEMA SIGCR\n");
         reporte.append("=".repeat(80)).append("\n\n");
         
-        // Información del paciente
+        // Informacion del paciente
         generarSeccionPaciente(reporte, paciente);
         
         // Periodo del reporte
@@ -70,13 +70,13 @@ public class ReporteService {
             generarSeccionPlanTratamiento(reporte, planActual);
         }
         
-        // Estadísticas de sesiones
+        // Estadisticas de sesiones
         generarEstadisticasSesiones(reporte, sesiones);
         
         // Detalle de sesiones por tipo de terapia
         generarDetallePorTipoTerapia(reporte, sesiones);
         
-        // Evolución temporal
+        // Evolucion temporal
         generarEvolucionTemporal(reporte, sesiones);
         
         // Conclusiones y recomendaciones
@@ -86,7 +86,7 @@ public class ReporteService {
     }
 
     /**
-     * Genera reporte resumido de múltiples pacientes
+     * Genera reporte resumido de multiples pacientes
      * @param pacientesIds Lista de IDs de pacientes
      * @param desde Fecha inicial
      * @param hasta Fecha final
@@ -98,7 +98,7 @@ public class ReporteService {
         StringBuilder reporte = new StringBuilder();
         
         reporte.append("=".repeat(80)).append("\n");
-        reporte.append("REPORTE RESUMIDO DE MÚLTIPLES PACIENTES - SISTEMA SIGCR\n");
+        reporte.append("REPORTE RESUMIDO DE MULTIPLES PACIENTES - SISTEMA SIGCR\n");
         reporte.append("=".repeat(80)).append("\n\n");
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -135,17 +135,17 @@ public class ReporteService {
     }
 
     /**
-     * Genera reporte estadístico por tipo de terapia
+     * Genera reporte estadistico por tipo de terapia
      * @param desde Fecha inicial
      * @param hasta Fecha final
-     * @return Reporte estadístico
+     * @return Reporte estadistico
      * @throws SQLException si ocurre error en consultas
      */
     public String generarReporteEstadisticoPorTerapia(LocalDate desde, LocalDate hasta) throws SQLException {
         StringBuilder reporte = new StringBuilder();
         
         reporte.append("=".repeat(80)).append("\n");
-        reporte.append("REPORTE ESTADÍSTICO POR TIPO DE TERAPIA - SISTEMA SIGCR\n");
+        reporte.append("REPORTE ESTADiSTICO POR TIPO DE TERAPIA - SISTEMA SIGCR\n");
         reporte.append("=".repeat(80)).append("\n\n");
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -160,11 +160,11 @@ public class ReporteService {
             return reporte.toString();
         }
         
-        // Estadísticas por tipo de terapia
+        // Estadisticas por tipo de terapia
         Map<String, List<Sesion>> sesionesPorTipo = todasLasSesiones.stream()
             .collect(Collectors.groupingBy(Sesion::getTipoTerapia));
         
-        reporte.append("ESTADÍSTICAS POR TIPO DE TERAPIA:\n");
+        reporte.append("ESTADiSTICAS POR TIPO DE TERAPIA:\n");
         reporte.append("-".repeat(50)).append("\n");
         
         for (Map.Entry<String, List<Sesion>> entry : sesionesPorTipo.entrySet()) {
@@ -174,12 +174,12 @@ public class ReporteService {
             reporte.append("\n").append(tipoTerapia.toUpperCase()).append(":\n");
             reporte.append("  Total de sesiones: ").append(sesiones.size()).append("\n");
             
-            // Duración promedio
+            // Duracion promedio
             double duracionPromedio = sesiones.stream()
                 .mapToInt(Sesion::getDuracion)
                 .average()
                 .orElse(0.0);
-            reporte.append("  Duración promedio: ").append(String.format("%.1f", duracionPromedio)).append(" minutos\n");
+            reporte.append("  Duracion promedio: ").append(String.format("%.1f", duracionPromedio)).append(" minutos\n");
             
             // Total de minutos
             int totalMinutos = sesiones.stream()
@@ -187,14 +187,14 @@ public class ReporteService {
                 .sum();
             reporte.append("  Total de minutos: ").append(totalMinutos).append(" (").append(String.format("%.1f", totalMinutos/60.0)).append(" horas)\n");
             
-            // Pacientes únicos
+            // Pacientes unicos
             long pacientesUnicos = sesiones.stream()
                 .mapToInt(Sesion::getPacienteId)
                 .distinct()
                 .count();
-            reporte.append("  Pacientes únicos atendidos: ").append(pacientesUnicos).append("\n");
+            reporte.append("  Pacientes unicos atendidos: ").append(pacientesUnicos).append("\n");
             
-            // Terapeutas únicos
+            // Terapeutas unicos
             long terapeutasUnicos = sesiones.stream()
                 .map(Sesion::getTerapeuta)
                 .distinct()
@@ -218,25 +218,25 @@ public class ReporteService {
     }
 
     /**
-     * Genera información básica del paciente para el reporte
+     * Genera informacion basica del paciente para el reporte
      */
     private void generarSeccionPaciente(StringBuilder reporte, Paciente paciente) {
-        reporte.append("INFORMACIÓN DEL PACIENTE:\n");
+        reporte.append("INFORMACION DEL PACIENTE:\n");
         reporte.append("-".repeat(30)).append("\n");
         reporte.append("Nombre: ").append(paciente.getNombre()).append("\n");
         reporte.append("Documento: ").append(paciente.getDocumento()).append("\n");
         if (paciente.getFechaNacimiento() != null) {
             reporte.append("Fecha de nacimiento: ").append(paciente.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
         }
-        reporte.append("Diagnóstico: ").append(paciente.getDiagnostico()).append("\n");
+        reporte.append("Diagnostico: ").append(paciente.getDiagnostico()).append("\n");
         if (paciente.getHabitacion() != null) {
-            reporte.append("Habitación: ").append(paciente.getHabitacion()).append("\n");
+            reporte.append("Habitacion: ").append(paciente.getHabitacion()).append("\n");
         }
         reporte.append("Estado: ").append(paciente.getEstado()).append("\n\n");
     }
 
     /**
-     * Genera información del plan de tratamiento
+     * Genera informacion del plan de tratamiento
      */
     private void generarSeccionPlanTratamiento(StringBuilder reporte, PlanTratamiento plan) throws SQLException {
         reporte.append("PLAN DE TRATAMIENTO ACTUAL:\n");
@@ -261,10 +261,10 @@ public class ReporteService {
     }
 
     /**
-     * Genera estadísticas generales de las sesiones
+     * Genera estadisticas generales de las sesiones
      */
     private void generarEstadisticasSesiones(StringBuilder reporte, List<Sesion> sesiones) {
-        reporte.append("ESTADÍSTICAS GENERALES DE SESIONES:\n");
+        reporte.append("ESTADiSTICAS GENERALES DE SESIONES:\n");
         reporte.append("-".repeat(40)).append("\n");
         reporte.append("Total de sesiones: ").append(sesiones.size()).append("\n");
         
@@ -273,23 +273,23 @@ public class ReporteService {
             return;
         }
         
-        // Sesiones por estado - usando estado genérico ya que Sesion no tiene getEstado()
+        // Sesiones por estado - usando estado generico ya que Sesion no tiene getEstado()
         Map<String, Long> sesionesPorEstado = Map.of("Programadas", (long) sesiones.size());
         
         reporte.append("Sesiones por estado:\n");
         sesionesPorEstado.forEach((estado, cantidad) -> 
             reporte.append("  - ").append(estado).append(": ").append(cantidad).append("\n"));
         
-        // Duración total y promedio
+        // Duracion total y promedio
         int duracionTotal = sesiones.stream().mapToInt(Sesion::getDuracion).sum();
         double duracionPromedio = sesiones.stream().mapToInt(Sesion::getDuracion).average().orElse(0);
         
-        reporte.append("Duración total: ").append(duracionTotal).append(" minutos (").append(String.format("%.1f", duracionTotal/60.0)).append(" horas)\n");
-        reporte.append("Duración promedio por sesión: ").append(String.format("%.1f", duracionPromedio)).append(" minutos\n");
+        reporte.append("Duracion total: ").append(duracionTotal).append(" minutos (").append(String.format("%.1f", duracionTotal/60.0)).append(" horas)\n");
+        reporte.append("Duracion promedio por sesion: ").append(String.format("%.1f", duracionPromedio)).append(" minutos\n");
         
-        // Terapeutas únicos
+        // Terapeutas unicos
         long terapeutasUnicos = sesiones.stream().map(Sesion::getTerapeuta).distinct().count();
-        reporte.append("Número de terapeutas involucrados: ").append(terapeutasUnicos).append("\n\n");
+        reporte.append("Numero de terapeutas involucrados: ").append(terapeutasUnicos).append("\n\n");
     }
 
     /**
@@ -309,10 +309,10 @@ public class ReporteService {
             List<Sesion> sesionesDelTipo = entry.getValue();
             
             reporte.append("\n").append(tipoTerapia).append(":\n");
-            reporte.append("  Número de sesiones: ").append(sesionesDelTipo.size()).append("\n");
+            reporte.append("  Numero de sesiones: ").append(sesionesDelTipo.size()).append("\n");
             
             int duracionTotal = sesionesDelTipo.stream().mapToInt(Sesion::getDuracion).sum();
-            reporte.append("  Duración total: ").append(duracionTotal).append(" minutos\n");
+            reporte.append("  Duracion total: ").append(duracionTotal).append(" minutos\n");
             
             // Terapeutas para este tipo
             List<String> terapeutas = sesionesDelTipo.stream()
@@ -325,12 +325,12 @@ public class ReporteService {
     }
 
     /**
-     * Genera análisis de evolución temporal
+     * Genera analisis de evolucion temporal
      */
     private void generarEvolucionTemporal(StringBuilder reporte, List<Sesion> sesiones) {
         if (sesiones.isEmpty()) return;
         
-        reporte.append("EVOLUCIÓN TEMPORAL:\n");
+        reporte.append("EVOLUCION TEMPORAL:\n");
         reporte.append("-".repeat(25)).append("\n");
         
         // Agrupar por semana
@@ -340,7 +340,7 @@ public class ReporteService {
                 return "Semana del " + fecha.minusDays(fecha.getDayOfWeek().getValue() - 1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }));
         
-        reporte.append("Distribución por semanas:\n");
+        reporte.append("Distribucion por semanas:\n");
         sesionesPorSemana.entrySet().stream()
             .sorted(Map.Entry.comparingByKey())
             .forEach(entry -> {
@@ -366,13 +366,13 @@ public class ReporteService {
             reporte.append("- No se realizaron sesiones en el periodo evaluado.\n");
             reporte.append("- Se recomienda revisar el cronograma y asegurar el cumplimiento del plan.\n");
         } else {
-            // Análisis de cumplimiento
+            // Analisis de cumplimiento
             if (plan != null) {
                 Map<String, Integer> horasRequeridasPlan = plan.getHorasSemanalesPorTipo();
                 Map<String, List<Sesion>> sesionesPorTipo = sesiones.stream()
                     .collect(Collectors.groupingBy(Sesion::getTipoTerapia));
                 
-                reporte.append("Análisis de cumplimiento del plan:\n");
+                reporte.append("Analisis de cumplimiento del plan:\n");
                 for (Map.Entry<String, Integer> entry : horasRequeridasPlan.entrySet()) {
                     String tipo = entry.getKey();
                     int horasRequeridasTipo = entry.getValue();
@@ -396,7 +396,7 @@ public class ReporteService {
             // Recomendaciones generales
             reporte.append("\nRecomendaciones:\n");
             reporte.append("- Continuar con el seguimiento regular del paciente.\n");
-            reporte.append("- Mantener la comunicación entre el equipo terapéutico.\n");
+            reporte.append("- Mantener la comunicacion entre el equipo terapeutico.\n");
             reporte.append("- Evaluar la efectividad de las terapias implementadas.\n");
         }
         

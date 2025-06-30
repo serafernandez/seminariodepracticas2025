@@ -24,7 +24,7 @@
         fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
 
-    -- Tabla de sesiones terapéuticas
+    -- Tabla de sesiones terapeuticas
     CREATE TABLE IF NOT EXISTS sesion (
         id INT AUTO_INCREMENT PRIMARY KEY,
         paciente_id INT NOT NULL,
@@ -74,7 +74,7 @@
     );
 
     -- INSERTS INICIALES
-    -- Usuarios (contraseñas en texto plano para facilitar testing - en producción deberían estar hasheadas)
+    -- Usuarios (contraseñas en texto plano para facilitar testing - en produccion deberian estar hasheadas)
     INSERT INTO
         usuario (username, password, rol)
     VALUES
@@ -98,7 +98,7 @@
             'Maria Rodriguez',
             '12345678',
             '1980-06-10',
-            'ACV isquémico con hemiparesia derecha. Requiere fisioterapia y terapia ocupacional intensiva.',
+            'ACV isquemico con hemiparesia derecha. Requiere fisioterapia y terapia ocupacional intensiva.',
             '101',
             'Activo'
         ),
@@ -106,12 +106,12 @@
             'Juan Perez',
             '23456789',
             '1975-09-15',
-            'Lesión medular incompleta T12. Programa de rehabilitación integral.',
+            'Lesion medular incompleta T12. Programa de rehabilitacion integral.',
             '102',
             'Activo'
         ),
         (
-            'Carmen Sánchez',
+            'Carmen Sanchez',
             '34567890',
             '1992-12-01',
             'Fractura de cadera con complicaciones. Requiere fortalecimiento muscular.',
@@ -122,12 +122,12 @@
             'Roberto Martinez',
             '45678901',
             '1985-03-20',
-            'Traumatismo craneoencefálico. Rehabilitación cognitiva y motora.',
+            'Traumatismo craneoencefalico. Rehabilitacion cognitiva y motora.',
             '203',
             'Alta'
         );
 
-    -- Sesiones de ejemplo con fechas dinámicas
+    -- Sesiones de ejemplo con fechas dinamicas
     INSERT INTO
         sesion (
             paciente_id,
@@ -154,16 +154,16 @@
             'Terapia Ocupacional',
             CONCAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), ' 11:00:00'),
             45,
-            'Actividades de vida diaria, coordinación motora fina',
+            'Actividades de vida diaria, coordinacion motora fina',
             'Programada'
         ),
         (
             2,
             'luz.terapeuta',
-            'Psicología',
+            'Psicologia',
             CONCAT(CURDATE(), ' 14:00:00'),
             30,
-            'Sesión de adaptación psicológica',
+            'Sesion de adaptacion psicologica',
             'Programada'
         ),
         (
@@ -178,16 +178,16 @@
         (
             2,
             'pablo.enfermero',
-            'Enfermería',
+            'Enfermeria',
             CONCAT(CURDATE(), ' 16:00:00'),
             30,
-            'Control de signos vitales y medicación',
+            'Control de signos vitales y medicacion',
             'Programada'
         ),
         (
             3,
             'pablo.enfermero',
-            'Enfermería',
+            'Enfermeria',
             CONCAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), ' 15:30:00'),
             30,
             'Curaciones y cuidados generales',
@@ -199,7 +199,7 @@
             'Hidroterapia',
             CONCAT(DATE_ADD(CURDATE(), INTERVAL 3 DAY), ' 10:00:00'),
             45,
-            'Ejercicios en piscina terapéutica',
+            'Ejercicios en piscina terapeutica',
             'Programada'
         ),
         (
@@ -208,7 +208,7 @@
             'Terapia Ocupacional',
             CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), ' 10:00:00'),
             45,
-            'Sesión completada exitosamente',
+            'Sesion completada exitosamente',
             'Realizada'
         );
 
@@ -221,21 +221,21 @@
             '2025-01-01',
             '2025-04-01',
             'Activo',
-            'Plan integral para recuperación post-ACV. Enfoque en movilidad y autonomía.'
+            'Plan integral para recuperacion post-ACV. Enfoque en movilidad y autonomia.'
         ),
         (
             2,
             '2025-01-15',
             '2025-07-15',
             'Activo',
-            'Rehabilitación de lesión medular. Trabajo intensivo de fortalecimiento.'
+            'Rehabilitacion de lesion medular. Trabajo intensivo de fortalecimiento.'
         ),
         (
             3,
             '2025-02-01',
             '2025-05-01',
             'Activo',
-            'Recuperación post-fractura de cadera. Progresión gradual de carga.'
+            'Recuperacion post-fractura de cadera. Progresion gradual de carga.'
         );
 
     -- Detalles de planes (horas semanales por tipo de terapia)
@@ -245,15 +245,15 @@
         -- Plan de Maria Rodriguez (ACV)
         (1, 'Fisioterapia', 4),
         (1, 'Terapia Ocupacional', 3),
-        (1, 'Psicología', 2),
+        (1, 'Psicologia', 2),
         
-        -- Plan de Juan Perez (Lesión medular)
+        -- Plan de Juan Perez (Lesion medular)
         (2, 'Fisioterapia', 5),
         (2, 'Terapia Ocupacional', 3),
-        (2, 'Psicología', 2),
+        (2, 'Psicologia', 2),
         (2, 'Hidroterapia', 2),
         
-        -- Plan de Carmen Sánchez (Fractura cadera)
+        -- Plan de Carmen Sanchez (Fractura cadera)
         (3, 'Fisioterapia', 3),
         (3, 'Terapia Ocupacional', 2);
 
@@ -263,28 +263,28 @@
     VALUES
         (
             1,
-            'Nuevo paciente Maria Rodriguez registrado. Requiere asignación de plan terapéutico.',
+            'Nuevo paciente Maria Rodriguez registrado. Requiere asignacion de plan terapeutico.',
             'PACIENTE_CREADO',
             'MEDICO',
             FALSE
         ),
         (
             1,
-            'Plan de tratamiento creado para Maria Rodriguez. Total: 9 horas semanales. Tipos: Fisioterapia, Terapia Ocupacional, Psicología',
+            'Plan de tratamiento creado para Maria Rodriguez. Total: 9 horas semanales. Tipos: Fisioterapia, Terapia Ocupacional, Psicologia',
             'PLAN_CREADO',
             'TERAPEUTA',
             FALSE
         ),
         (
             2,
-            'El Dr. Juarez modificó el cronograma de Juan Perez para la próxima semana.',
+            'El Dr. Juarez modifico el cronograma de Juan Perez para la proxima semana.',
             'CRONOGRAMA_CAMBIO',
             'TERAPEUTA',
             FALSE
         ),
         (
             3,
-            'Paciente Carmen Sánchez: Diagnóstico actualizado. Revisar plan de tratamiento.',
+            'Paciente Carmen Sanchez: Diagnostico actualizado. Revisar plan de tratamiento.',
             'PACIENTE_ACTUALIZADO',
             'MEDICO',
             TRUE
@@ -297,7 +297,7 @@
             FALSE
         );
 
-    -- Crear índices para mejorar rendimiento
+    -- Crear indices para mejorar rendimiento
     CREATE INDEX idx_paciente_documento ON paciente(documento);
     CREATE INDEX idx_paciente_estado ON paciente(estado);
     CREATE INDEX idx_sesion_fecha ON sesion(fecha_hora);
@@ -309,7 +309,7 @@
     CREATE INDEX idx_notificacion_leida ON notificacion(leida);
     CREATE INDEX idx_notificacion_tipo ON notificacion(tipo);
 
-    -- Consultas de verificación para testing
+    -- Consultas de verificacion para testing
     -- SELECT 'Pacientes activos:', COUNT(*) FROM paciente WHERE estado = 'Activo';
     -- SELECT 'Sesiones programadas:', COUNT(*) FROM sesion WHERE estado = 'Programada';
     -- SELECT 'Planes activos:', COUNT(*) FROM plan_tratamiento WHERE estado = 'Activo';

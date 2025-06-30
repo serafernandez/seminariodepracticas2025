@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data Access Object para la gestión de pacientes en base de datos.
+ * Data Access Object para la gestion de pacientes en base de datos.
  * Implementa operaciones CRUD completas y consultas especializadas
  * necesarias para el mantenimiento integral de pacientes (CU-01).
  */
@@ -21,7 +21,7 @@ public class PacienteDAO {
     /**
      * Crea un nuevo paciente en la base de datos
      * @param paciente Objeto paciente a crear
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void createPaciente(Paciente paciente) throws SQLException {
         String sql = "INSERT INTO paciente (nombre, documento, fecha_nacimiento, diagnostico, habitacion, estado) VALUES (?, ?, ?, ?, ?, ?)";
@@ -69,7 +69,7 @@ public class PacienteDAO {
     /**
      * Actualiza los datos de un paciente existente
      * @param paciente Objeto paciente con datos actualizados
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void updatePaciente(Paciente paciente) throws SQLException {
         String sql = "UPDATE paciente SET nombre=?, documento=?, fecha_nacimiento=?, diagnostico=?, habitacion=?, estado=? WHERE id=?";
@@ -86,9 +86,9 @@ public class PacienteDAO {
     }
 
     /**
-     * Elimina físicamente un paciente de la base de datos
+     * Elimina fisicamente un paciente de la base de datos
      * @param id ID del paciente a eliminar
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void deletePaciente(int id) throws SQLException {
         String sql = "DELETE FROM paciente WHERE id=?";
@@ -99,9 +99,9 @@ public class PacienteDAO {
     }
 
     /**
-     * Da de baja lógica a un paciente (cambia estado a 'Baja')
+     * Da de baja logica a un paciente (cambia estado a 'Baja')
      * @param id ID del paciente
-     * @throws SQLException si ocurre error en la operación
+     * @throws SQLException si ocurre error en la operacion
      */
     public void darDeBajaPaciente(int id) throws SQLException {
         String sql = "UPDATE paciente SET estado='Baja' WHERE id=?";
@@ -136,9 +136,9 @@ public class PacienteDAO {
     }
 
     /**
-     * Busca pacientes por nombre (búsqueda parcial)
+     * Busca pacientes por nombre (busqueda parcial)
      * @param nombre Nombre o parte del nombre a buscar
-     * @return Lista de pacientes que coinciden con la búsqueda
+     * @return Lista de pacientes que coinciden con la busqueda
      * @throws SQLException si ocurre error en la consulta
      */
     public List<Paciente> buscarPacientesPorNombre(String nombre) throws SQLException {

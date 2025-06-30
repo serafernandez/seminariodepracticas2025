@@ -6,8 +6,8 @@ import java.util.Map;
 
 /**
  * Gestor centralizado de sesiones para el sistema SIGCR.
- * Implementa el patrón Singleton para mantener una única instancia
- * de sesión activa en toda la aplicación (CU-03).
+ * Implementa el patron Singleton para mantener una unica instancia
+ * de sesion activa en toda la aplicacion (CU-03).
  */
 public class SessionManager {
     
@@ -18,7 +18,7 @@ public class SessionManager {
     private Map<String, Object> atributosSesion;
     private boolean sesionActiva;
     
-    // Configuración de sesión
+    // Configuracion de sesion
     private static final int TIMEOUT_MINUTOS = 30; // 30 minutos de inactividad
     private static final int MAX_INTENTOS_LOGIN = 3;
     
@@ -27,7 +27,7 @@ public class SessionManager {
     private Map<String, LocalDateTime> tiempoBloqueo;
 
     /**
-     * Constructor privado para patrón Singleton
+     * Constructor privado para patron Singleton
      */
     private SessionManager() {
         this.atributosSesion = new HashMap<>();
@@ -37,7 +37,7 @@ public class SessionManager {
     }
 
     /**
-     * Obtiene la instancia única del SessionManager
+     * Obtiene la instancia unica del SessionManager
      * @return Instancia del SessionManager
      */
     public static synchronized SessionManager getInstance() {
@@ -48,7 +48,7 @@ public class SessionManager {
     }
 
     /**
-     * Inicia una nueva sesión para el usuario
+     * Inicia una nueva sesion para el usuario
      * @param usuario Usuario autenticado
      */
     public void iniciarSesion(User usuario) {
@@ -62,17 +62,17 @@ public class SessionManager {
         intentosFallidos.remove(usuario.getUsername());
         tiempoBloqueo.remove(usuario.getUsername());
         
-        System.out.println("Sesión iniciada para usuario: " + usuario.getUsername() + 
+        System.out.println("Sesion iniciada para usuario: " + usuario.getUsername() + 
                           " con rol: " + usuario.getRole() + " a las " + inicioSesion);
     }
 
     /**
-     * Cierra la sesión actual
+     * Cierra la sesion actual
      */
     public void cerrarSesion() {
         if (usuarioActual != null) {
-            System.out.println("Sesión cerrada para usuario: " + usuarioActual.getUsername() + 
-                              " duración: " + java.time.Duration.between(inicioSesion, LocalDateTime.now()).toMinutes() + " minutos");
+            System.out.println("Sesion cerrada para usuario: " + usuarioActual.getUsername() + 
+                              " duracion: " + java.time.Duration.between(inicioSesion, LocalDateTime.now()).toMinutes() + " minutos");
         }
         
         this.usuarioActual = null;
@@ -83,7 +83,7 @@ public class SessionManager {
     }
 
     /**
-     * Actualiza la última actividad del usuario
+     * Actualiza la ultima actividad del usuario
      */
     public void actualizarActividad() {
         if (sesionActiva) {
@@ -92,8 +92,8 @@ public class SessionManager {
     }
 
     /**
-     * Verifica si la sesión está activa y no ha expirado
-     * @return true si la sesión es válida
+     * Verifica si la sesion esta activa y no ha expirado
+     * @return true si la sesion es valida
      */
     public boolean esSesionValida() {
         if (!sesionActiva || usuarioActual == null || ultimaActividad == null) {
@@ -104,7 +104,7 @@ public class SessionManager {
         LocalDateTime expiracion = ultimaActividad.plusMinutes(TIMEOUT_MINUTOS);
         
         if (ahora.isAfter(expiracion)) {
-            System.out.println("Sesión expirada por inactividad para usuario: " + usuarioActual.getUsername());
+            System.out.println("Sesion expirada por inactividad para usuario: " + usuarioActual.getUsername());
             cerrarSesion();
             return false;
         }
@@ -114,7 +114,7 @@ public class SessionManager {
 
     /**
      * Obtiene el usuario actualmente autenticado
-     * @return Usuario actual o null si no hay sesión activa
+     * @return Usuario actual o null si no hay sesion activa
      */
     public User getUsuarioActual() {
         if (esSesionValida()) {
@@ -125,7 +125,7 @@ public class SessionManager {
     }
 
     /**
-     * Verifica si el usuario actual tiene un rol específico
+     * Verifica si el usuario actual tiene un rol especifico
      * @param rol Rol a verificar
      * @return true si el usuario tiene el rol especificado
      */
@@ -143,8 +143,8 @@ public class SessionManager {
     }
 
     /**
-     * Verifica si el usuario actual es médico
-     * @return true si es médico
+     * Verifica si el usuario actual es medico
+     * @return true si es medico
      */
     public boolean esMedico() {
         return tieneRol("MEDICO");
@@ -159,8 +159,8 @@ public class SessionManager {
     }
 
     /**
-     * Verifica si el usuario actual es personal de enfermería
-     * @return true si es enfermería
+     * Verifica si el usuario actual es personal de enfermeria
+     * @return true si es enfermeria
      */
     public boolean esEnfermeria() {
         return tieneRol("ENFERMERIA");
@@ -169,7 +169,7 @@ public class SessionManager {
     /**
      * Registra un intento fallido de login
      * @param username Nombre de usuario
-     * @return true si el usuario está bloqueado
+     * @return true si el usuario esta bloqueado
      */
     public boolean registrarIntentoFallido(String username) {
         int intentos = intentosFallidos.getOrDefault(username, 0) + 1;
@@ -186,9 +186,9 @@ public class SessionManager {
     }
 
     /**
-     * Verifica si un usuario está bloqueado
+     * Verifica si un usuario esta bloqueado
      * @param username Nombre de usuario
-     * @return true si está bloqueado
+     * @return true si esta bloqueado
      */
     public boolean estaUsuarioBloqueado(String username) {
         LocalDateTime bloqueo = tiempoBloqueo.get(username);
@@ -205,9 +205,9 @@ public class SessionManager {
     }
 
     /**
-     * Obtiene el número de intentos fallidos para un usuario
+     * Obtiene el numero de intentos fallidos para un usuario
      * @param username Nombre de usuario
-     * @return Número de intentos fallidos
+     * @return Numero de intentos fallidos
      */
     public int getIntentosFallidos(String username) {
         return intentosFallidos.getOrDefault(username, 0);
@@ -216,7 +216,7 @@ public class SessionManager {
     /**
      * Obtiene el tiempo restante de bloqueo para un usuario
      * @param username Nombre de usuario
-     * @return Minutos restantes de bloqueo, 0 si no está bloqueado
+     * @return Minutos restantes de bloqueo, 0 si no esta bloqueado
      */
     public long getMinutosBloqueoRestantes(String username) {
         LocalDateTime bloqueo = tiempoBloqueo.get(username);
@@ -227,7 +227,7 @@ public class SessionManager {
     }
 
     /**
-     * Establece un atributo de sesión
+     * Establece un atributo de sesion
      * @param clave Clave del atributo
      * @param valor Valor del atributo
      */
@@ -238,7 +238,7 @@ public class SessionManager {
     }
 
     /**
-     * Obtiene un atributo de sesión
+     * Obtiene un atributo de sesion
      * @param clave Clave del atributo
      * @return Valor del atributo o null si no existe
      */
@@ -250,18 +250,18 @@ public class SessionManager {
     }
 
     /**
-     * Obtiene información de la sesión actual
-     * @return String con información de la sesión
+     * Obtiene informacion de la sesion actual
+     * @return String con informacion de la sesion
      */
     public String getInfoSesion() {
         if (!esSesionValida()) {
-            return "No hay sesión activa";
+            return "No hay sesion activa";
         }
         
         long minutosSesion = java.time.Duration.between(inicioSesion, LocalDateTime.now()).toMinutes();
         long minutosInactividad = java.time.Duration.between(ultimaActividad, LocalDateTime.now()).toMinutes();
         
-        return String.format("Usuario: %s | Rol: %s | Sesión: %d min | Inactividad: %d min", 
+        return String.format("Usuario: %s | Rol: %s | Sesion: %d min | Inactividad: %d min", 
                            usuarioActual.getUsername(), 
                            usuarioActual.getRole(), 
                            minutosSesion, 
@@ -278,16 +278,16 @@ public class SessionManager {
     }
 
     /**
-     * Obtiene el número de usuarios con intentos fallidos
-     * @return Número de usuarios con intentos fallidos
+     * Obtiene el numero de usuarios con intentos fallidos
+     * @return Numero de usuarios con intentos fallidos
      */
     public int getNumeroUsuariosConIntentosFallidos() {
         return intentosFallidos.size();
     }
 
     /**
-     * Obtiene el número de usuarios bloqueados
-     * @return Número de usuarios bloqueados
+     * Obtiene el numero de usuarios bloqueados
+     * @return Numero de usuarios bloqueados
      */
     public int getNumeroUsuariosBloqueados() {
         return tiempoBloqueo.size();
